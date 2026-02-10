@@ -1,0 +1,616 @@
+From 736f7794f272f9d9e4b60e9f3a7f32f40518addf Mon Sep 17 00:00:00 2001
+From: Valentin David <me@valentindavid.com>
+Date: Sun, 16 Nov 2025 10:24:28 +0100
+Subject: [PATCH] Automatically generate keys
+
+---
+ .gitlab-ci/scripts/global-before-script.sh    |   7 +-
+ .gitlab-ci/scripts/publish-sysupdate-to-s3.sh |   1 +
+ elements/gnomeos-deps/efitools.bst            |  56 +++++-----
+ elements/gnomeos-deps/shim.bst                |   4 +-
+ elements/gnomeos/debug/layer.bst              |   8 +-
+ elements/gnomeos/devel/layer.bst              |   8 +-
+ elements/gnomeos/fwupd-efi-signed.bst         |   8 +-
+ .../gnomeos/import-deployment-pub-key.bst     |   4 +-
+ elements/gnomeos/initramfs/signed-modules.bst |   8 +-
+ .../initramfs/signed-nvidia-modules.bst       |   8 +-
+ elements/gnomeos/linux-module-cert.bst        |   4 +-
+ elements/gnomeos/nvidia-modules/layer.bst     |   8 +-
+ elements/gnomeos/nvidia-runtime/layer.bst     |   8 +-
+ elements/gnomeos/public-keys.bst              |   8 +-
+ .../gnomeos/replace-signed-systemd-boot.bst   |   8 +-
+ elements/gnomeos/signed-boot-common.bst       |   8 +-
+ elements/gnomeos/signed-boot.bst              |  24 ++---
+ elements/gnomeos/snapd/layer.bst              |   8 +-
+ project.conf                                  |  32 ++++++
+ source-plugins/generated.py                   | 102 ++++++++++++++++++
+ utils/enable-local-repo.sh                    |   2 +
+ utils/run-secure-vm.sh                        |   2 +-
+ utils/run-sysupdate-repo.sh                   |   1 +
+ 23 files changed, 234 insertions(+), 93 deletions(-)
+ create mode 100644 source-plugins/generated.py
+
+diff --git a/.gitlab-ci/scripts/global-before-script.sh b/.gitlab-ci/scripts/global-before-script.sh
+index 8aee56ea95..b3c37ab28b 100644
+--- a/.gitlab-ci/scripts/global-before-script.sh
++++ b/.gitlab-ci/scripts/global-before-script.sh
+@@ -14,10 +14,10 @@ mkdir -p logs
+ 
+ # Setup certificates and image version for sysupdate
+ if [ "${CI_COMMIT_REF_PROTECTED-}" != true ] || [ "${CI_PIPELINE_SOURCE-}" = "schedule" ]; then
+-    make -C files/boot-keys generate-keys IMPORT_MODE=snakeoil
++    export KEY_MODE=snakeoil
+     export PUSH_SOURCE=1
+ else
+-    make -C files/boot-keys generate-keys IMPORT_MODE=import
++    export KEY_MODE=import
+ fi
+ 
+ ./.gitlab-ci/scripts/generate-buildtream-conf.sh nopush >.gitlab-ci/buildstream-nopush.conf
+@@ -57,3 +57,6 @@ echo "commit: '${commit}'" >> include/image-version.yml
+ echo "commit-date-pretty: '${commit_date_pretty}'" >> include/image-version.yml
+ 
+ cat include/image-version.yml
++
++export BST="${BST} -o key_mode ${KEY_MODE}"
++export BST_NO_PUSH="${BST_NO_PUSH} -o key_mode ${KEY_MODE}"
+diff --git a/.gitlab-ci/scripts/publish-sysupdate-to-s3.sh b/.gitlab-ci/scripts/publish-sysupdate-to-s3.sh
+index a7496db29e..78f026dab1 100755
+--- a/.gitlab-ci/scripts/publish-sysupdate-to-s3.sh
++++ b/.gitlab-ci/scripts/publish-sysupdate-to-s3.sh
+@@ -24,6 +24,7 @@ if [ -n "${target_dir}" ] && [ -n "${IMAGE_VERSION}" ]; then
+         --recursive --exclude "*" --include "SHA256SUMS.version.*"
+ 
+     cat update-images/SHA256SUMS.version.* > update-images/SHA256SUMS
++    make -C files/boot-keys generate-keys IMPORT_MODE=import
+     gpg --homedir=files/boot-keys/private-key \
+         --output "update-images/SHA256SUMS.gpg" \
+         --detach-sig "update-images/SHA256SUMS"
+diff --git a/elements/gnomeos-deps/efitools.bst b/elements/gnomeos-deps/efitools.bst
+index 6090ce1339..bc4f817592 100644
+--- a/elements/gnomeos-deps/efitools.bst
++++ b/elements/gnomeos-deps/efitools.bst
+@@ -7,37 +7,37 @@ sources:
+   ref: v1.9.2-0-g392836a46ce3c92b55dc88a1aebbcfdfc5dcddce
+ - kind: patch
+   path: patches/efitools/aarch64-on-newer-gnu-efi.patch
+-- kind: local
+-  path: files/boot-keys/PK.key
+-- kind: local
+-  path: files/boot-keys/PK.crt
+-- kind: local
+-  path: files/boot-keys/PK_MIC.key
+-- kind: local
+-  path: files/boot-keys/PK_MIC.crt
+-- kind: local
+-  path: files/boot-keys/KEK.key
+-- kind: local
+-  path: files/boot-keys/KEK.crt
+-- kind: local
+-  path: files/boot-keys/KEK_MIC.key
+-- kind: local
+-  path: files/boot-keys/KEK_MIC.crt
+-- kind: local
+-  path: files/boot-keys/DB.key
+-- kind: local
+-  path: files/boot-keys/DB.crt
+-- kind: local
+-  path: files/boot-keys/extra-kek
++- kind: generated
++  path: PK.key
++- kind: generated
++  path: PK.crt
++- kind: generated
++  path: PK_MIC.key
++- kind: generated
++  path: PK_MIC.crt
++- kind: generated
++  path: KEK.key
++- kind: generated
++  path: KEK.crt
++- kind: generated
++  path: KEK_MIC.key
++- kind: generated
++  path: KEK_MIC.crt
++- kind: generated
++  path: DB.key
++- kind: generated
++  path: DB.crt
++- kind: generated
++  path: extra-kek
+   directory: extra-kek
+-- kind: local
+-  path: files/boot-keys/extra-db
++- kind: generated
++  path: extra-db
+   directory: extra-db
+-- kind: local
+-  path: files/boot-keys/extra-kek-mic
++- kind: generated
++  path: extra-kek-mic
+   directory: extra-kek-mic
+-- kind: local
+-  path: files/boot-keys/extra-db-mic
++- kind: generated
++  path: extra-db-mic
+   directory: extra-db-mic
+ 
+ build-depends:
+diff --git a/elements/gnomeos-deps/shim.bst b/elements/gnomeos-deps/shim.bst
+index 597a355cf8..16cffcf102 100644
+--- a/elements/gnomeos-deps/shim.bst
++++ b/elements/gnomeos-deps/shim.bst
+@@ -13,8 +13,8 @@ sources:
+   path: gnu-efi
+   url: github:rhboot/gnu-efi.git
+   ref: 328951d3dcb5ff97f5a7c7a362b006626fada000
+-- kind: local
+-  path: files/boot-keys/VENDOR.crt
++- kind: generated
++  path: VENDOR.crt
+   directory: boot-keys
+ 
+ build-depends:
+diff --git a/elements/gnomeos/debug/layer.bst b/elements/gnomeos/debug/layer.bst
+index 509f0e2c6b..d40d6be27f 100644
+--- a/elements/gnomeos/debug/layer.bst
++++ b/elements/gnomeos/debug/layer.bst
+@@ -10,10 +10,10 @@ build-depends:
+     location: '/sysroot-debug'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/SYSEXT.key
+-- kind: local
+-  path: files/boot-keys/SYSEXT.crt
++- kind: generated
++  path: SYSEXT.key
++- kind: generated
++  path: SYSEXT.crt
+ 
+ variables:
+   repart-seed: 0dc2e590-c162-4ed3-992f-75ddb3fdbb65
+diff --git a/elements/gnomeos/devel/layer.bst b/elements/gnomeos/devel/layer.bst
+index a757f5eb36..510953dd67 100644
+--- a/elements/gnomeos/devel/layer.bst
++++ b/elements/gnomeos/devel/layer.bst
+@@ -15,10 +15,10 @@ build-depends:
+     location: '/sysroot-devel'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/SYSEXT.key
+-- kind: local
+-  path: files/boot-keys/SYSEXT.crt
++- kind: generated
++  path: SYSEXT.key
++- kind: generated
++  path: SYSEXT.crt
+ 
+ variables:
+   sysroot-seed: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+diff --git a/elements/gnomeos/fwupd-efi-signed.bst b/elements/gnomeos/fwupd-efi-signed.bst
+index e1c852e065..4d99bf99b1 100644
+--- a/elements/gnomeos/fwupd-efi-signed.bst
++++ b/elements/gnomeos/fwupd-efi-signed.bst
+@@ -25,7 +25,7 @@ config:
+     install -Dm644 -t "%{install-root}%{libexecdir}/fwupd/efi" "fwupd%{efi-arch}.efi.signed"
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/VENDOR.key
+-- kind: local
+-  path: files/boot-keys/VENDOR.crt
++- kind: generated
++  path: VENDOR.key
++- kind: generated
++  path: VENDOR.crt
+diff --git a/elements/gnomeos/import-deployment-pub-key.bst b/elements/gnomeos/import-deployment-pub-key.bst
+index 9139516589..81b661aed7 100644
+--- a/elements/gnomeos/import-deployment-pub-key.bst
++++ b/elements/gnomeos/import-deployment-pub-key.bst
+@@ -1,8 +1,8 @@
+ kind: import
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/import-pubring.pgp
++- kind: generated
++  path: import-pubring.pgp
+ 
+ runtime-depends:
+ - freedesktop-sdk.bst:components/systemd.bst
+diff --git a/elements/gnomeos/initramfs/signed-modules.bst b/elements/gnomeos/initramfs/signed-modules.bst
+index ebdfa7cb1a..a6cfc6bc64 100644
+--- a/elements/gnomeos/initramfs/signed-modules.bst
++++ b/elements/gnomeos/initramfs/signed-modules.bst
+@@ -30,7 +30,7 @@ variables:
+   strip-binaries: ''
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/MODULES.key
+-- kind: local
+-  path: files/boot-keys/modules/linux-module-cert.crt
++- kind: generated
++  path: MODULES.key
++- kind: generated
++  path: modules/linux-module-cert.crt
+diff --git a/elements/gnomeos/initramfs/signed-nvidia-modules.bst b/elements/gnomeos/initramfs/signed-nvidia-modules.bst
+index 50370193df..b6ace990ee 100644
+--- a/elements/gnomeos/initramfs/signed-nvidia-modules.bst
++++ b/elements/gnomeos/initramfs/signed-nvidia-modules.bst
+@@ -33,7 +33,7 @@ config:
+     cp -rT /usr/lib/firmware '%{install-root}%{indep-libdir}/firmware'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/MODULES.key
+-- kind: local
+-  path: files/boot-keys/modules/linux-module-cert.crt
++- kind: generated
++  path: MODULES.key
++- kind: generated
++  path: modules/linux-module-cert.crt
+diff --git a/elements/gnomeos/linux-module-cert.bst b/elements/gnomeos/linux-module-cert.bst
+index d740dfeb8b..1dc663e152 100644
+--- a/elements/gnomeos/linux-module-cert.bst
++++ b/elements/gnomeos/linux-module-cert.bst
+@@ -4,5 +4,5 @@ config:
+   target: /keys
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/modules
++- kind: generated
++  path: modules
+diff --git a/elements/gnomeos/nvidia-modules/layer.bst b/elements/gnomeos/nvidia-modules/layer.bst
+index c460e95dc1..b57145fbb6 100644
+--- a/elements/gnomeos/nvidia-modules/layer.bst
++++ b/elements/gnomeos/nvidia-modules/layer.bst
+@@ -10,10 +10,10 @@ build-depends:
+     location: '/sysroot-nvidia-modules'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/SYSEXT.key
+-- kind: local
+-  path: files/boot-keys/SYSEXT.crt
++- kind: generated
++  path: SYSEXT.key
++- kind: generated
++  path: SYSEXT.crt
+ 
+ variables:
+   repart-seed: a19b0f25-42ac-4c92-8921-d8d4079ec140
+diff --git a/elements/gnomeos/nvidia-runtime/layer.bst b/elements/gnomeos/nvidia-runtime/layer.bst
+index 1af4cb2401..4d56c39338 100644
+--- a/elements/gnomeos/nvidia-runtime/layer.bst
++++ b/elements/gnomeos/nvidia-runtime/layer.bst
+@@ -15,10 +15,10 @@ build-depends:
+     location: '/sysroot-nvidia-runtime'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/SYSEXT.key
+-- kind: local
+-  path: files/boot-keys/SYSEXT.crt
++- kind: generated
++  path: SYSEXT.key
++- kind: generated
++  path: SYSEXT.crt
+ 
+ variables:
+   sysroot-seed: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+diff --git a/elements/gnomeos/public-keys.bst b/elements/gnomeos/public-keys.bst
+index 73c4a03886..de4751af1f 100644
+--- a/elements/gnomeos/public-keys.bst
++++ b/elements/gnomeos/public-keys.bst
+@@ -1,10 +1,10 @@
+ kind: manual
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/tpm2-pcr-public.pem
+-- kind: local
+-  path: files/boot-keys/fstab-tpm2-pcr-public.pem
++- kind: generated
++  path: tpm2-pcr-public.pem
++- kind: generated
++  path: fstab-tpm2-pcr-public.pem
+ 
+ build-depends:
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+diff --git a/elements/gnomeos/replace-signed-systemd-boot.bst b/elements/gnomeos/replace-signed-systemd-boot.bst
+index 0ef2f7b2cf..ac061b46b8 100644
+--- a/elements/gnomeos/replace-signed-systemd-boot.bst
++++ b/elements/gnomeos/replace-signed-systemd-boot.bst
+@@ -29,7 +29,7 @@ public:
+     - "%{indep-libdir}/systemd/boot/efi/systemd-boot%{efi-arch}.efi"
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/VENDOR.key
+-- kind: local
+-  path: files/boot-keys/VENDOR.crt
++- kind: generated
++  path: VENDOR.key
++- kind: generated
++  path: VENDOR.crt
+diff --git a/elements/gnomeos/signed-boot-common.bst b/elements/gnomeos/signed-boot-common.bst
+index a30e75a374..40eee8493c 100644
+--- a/elements/gnomeos/signed-boot-common.bst
++++ b/elements/gnomeos/signed-boot-common.bst
+@@ -46,7 +46,7 @@ config:
+     esac
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/DB.key
+-- kind: local
+-  path: files/boot-keys/DB.crt
++- kind: generated
++  path: DB.key
++- kind: generated
++  path: DB.crt
+diff --git a/elements/gnomeos/signed-boot.bst b/elements/gnomeos/signed-boot.bst
+index faa519180e..2a7f886000 100644
+--- a/elements/gnomeos/signed-boot.bst
++++ b/elements/gnomeos/signed-boot.bst
+@@ -120,15 +120,15 @@ config:
+       "${MICROCODE[@]}" "${DEVICETREES[@]}"
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/VENDOR.key
+-- kind: local
+-  path: files/boot-keys/VENDOR.crt
+-- kind: local
+-  path: files/boot-keys/tpm2-pcr-public.pem
+-- kind: local
+-  path: files/boot-keys/tpm2-pcr-private.pem
+-- kind: local
+-  path: files/boot-keys/fstab-tpm2-pcr-public.pem
+-- kind: local
+-  path: files/boot-keys/fstab-tpm2-pcr-private.pem
++- kind: generated
++  path: VENDOR.key
++- kind: generated
++  path: VENDOR.crt
++- kind: generated
++  path: tpm2-pcr-public.pem
++- kind: generated
++  path: tpm2-pcr-private.pem
++- kind: generated
++  path: fstab-tpm2-pcr-public.pem
++- kind: generated
++  path: fstab-tpm2-pcr-private.pem
+diff --git a/elements/gnomeos/snapd/layer.bst b/elements/gnomeos/snapd/layer.bst
+index a16924ed63..1ee112fd9a 100644
+--- a/elements/gnomeos/snapd/layer.bst
++++ b/elements/gnomeos/snapd/layer.bst
+@@ -15,10 +15,10 @@ build-depends:
+     location: '/sysroot-snapd'
+ 
+ sources:
+-- kind: local
+-  path: files/boot-keys/SYSEXT.key
+-- kind: local
+-  path: files/boot-keys/SYSEXT.crt
++- kind: generated
++  path: SYSEXT.key
++- kind: generated
++  path: SYSEXT.crt
+ 
+ variables:
+   sysroot-seed: df2427db-01ec-4c99-96b1-be3edb3cd9f6
+diff --git a/project.conf b/project.conf
+index adac2a1ef..1c6a896a4 100644
+--- a/project.conf
++++ b/project.conf
+@@ -57,6 +57,17 @@ options:
+     type: bool
+     description: Enable x86_64-v3 (EXPERIMENTAL)
+     default: false
++  key_mode:
++    type: enum
++    description: How to import keys
++    variable: key_mode
++    default: snakeoil
++    values:
++    - snakeoil
++    - import
++    - local
++    - custom
++
+   channel:
+     type: enum
+     description: Version channel of the OS
+@@ -136,6 +147,22 @@ sources:
+       git-mirrors:
+         https://github.com/: "github:"
+         https://gitlab.gnome.org/GNOME/: "gnome:"
++  generated:
++    config:
++      template: files/boot-keys
++      (?):
++      - key_mode == 'snakeoil':
++          name: snakeoil
++          args: ['IMPORT_MODE=snakeoil']
++      - key_mode == 'import':
++          name: import
++          args: ['IMPORT_MODE=import']
++      - key_mode == 'local':
++          name: local
++          args: ['IMPORT_MODE=local']
++      - key_mode == 'custom':
++          name: custom
++          args: []
+ 
+ split-rules:
+   devel:
+@@ -226,3 +253,8 @@ plugins:
+   elements:
+   - collect_initial_scripts
+   - cargo
++
++- origin: local
++  path: source-plugins
++  sources:
++  - generated
+diff --git a/source-plugins/generated.py b/source-plugins/generated.py
+new file mode 100644
+index 0000000000..cd3d4dcb63
+--- /dev/null
++++ b/source-plugins/generated.py
+@@ -0,0 +1,102 @@
++# This is a modified version of https://github.com/apache/buildstream/blob/master/src/buildstream/plugins/sources/local.py
++
++import os
++import shutil
++import subprocess
++import tempfile
++import threading
++from buildstream import Source, SourceError, Directory, SourceInfoMedium, SourceVersionType
++
++_lock = threading.Lock()
++
++class GeneratedSource(Source):
++
++    BST_MIN_VERSION = "2.0"
++    BST_STAGE_VIRTUAL_DIRECTORY = True
++
++    __digest = None
++
++    def configure(self, node):
++        node.validate_keys(["template", "name", "args", "path", *Source.COMMON_CONFIG_KEYS])
++        name = node.get_str("name")
++        self.directory = os.path.expanduser(f"~/.config/buildstream-generate/{name}")
++        self.args = node.get_str_list("args", default=[])
++        self.template_path = self.node_get_project_path(node.get_scalar("template"))
++        self.template_fullpath = os.path.join(self.get_project_directory(), self.template_path)
++
++        self.path = node.get_str("path")
++        self.fullpath = os.path.join(self.directory, self.path)
++
++    def _ensure_initialized(self):
++        if os.path.isdir(self.directory):
++            return
++        with _lock:
++            if os.path.isdir(self.directory):
++                return
++            os.makedirs(os.path.dirname(self.directory), exist_ok=True)
++            with tempfile.TemporaryDirectory(dir=os.path.dirname(self.directory), delete=False) as tmpdir:
++                try:
++                    shutil.copytree(self.template_fullpath, tmpdir, dirs_exist_ok=True)
++                    subprocess.check_call(["make"] + self.args, cwd=tmpdir)
++                except:
++                    shutil.rmtree(tmpdir)
++                    raise
++                os.rename(tmpdir, self.directory)
++
++    def preflight(self):
++        self._ensure_initialized()
++
++    def is_resolved(self):
++        return True
++
++    def is_cached(self):
++        return True
++
++    def get_unique_key(self):
++        self.__ensure_digest()
++        return self.__digest.hash
++
++    def load_ref(self, node):
++        pass
++
++    def get_ref(self):
++        return None
++
++    def fetch(self):
++        pass
++
++    def stage_directory(self, directory):
++        assert isinstance(directory, Directory)
++        assert self.__digest is not None
++        with self._cache_directory(digest=self.__digest) as cached_directory:
++            directory.import_files(cached_directory, collect_result=False)
++
++    def init_workspace_directory(self, directory):
++        self.__do_stage(directory)
++
++    def collect_source_info(self):
++        self.__ensure_digest()
++        version = "{}/{}".format(self.__digest.hash, self.__digest.size_bytes)
++        return [self.create_source_info(self.path, SourceInfoMedium.LOCAL, SourceVersionType.CAS_DIGEST, version)]
++
++    def __ensure_digest(self):
++        if not self.__digest:
++            with self._cache_directory() as directory:
++                self.__do_stage(directory)
++                self.__digest = directory._get_digest()
++
++
++    def __do_stage(self, directory):
++        with self.timed_activity("Staging local files into CAS"):
++            if os.path.isdir(self.fullpath) and not os.path.islink(self.fullpath):
++                result = directory.import_files(self.fullpath)
++            else:
++                result = directory.import_single_file(self.fullpath)
++
++            if result.overwritten or result.ignored:
++                raise SourceError(
++                    "Failed to stage source: files clash with existing directory", reason="ensure-stage-dir-fail"
++                )
++
++def setup():
++    return GeneratedSource
+diff --git a/utils/enable-local-repo.sh b/utils/enable-local-repo.sh
+index a40c1c1645..48514416f2 100755
+--- a/utils/enable-local-repo.sh
++++ b/utils/enable-local-repo.sh
+@@ -106,6 +106,8 @@ clean() {
+     rm -f /etc/sysupdate.d/*-gnomeos-*.transfer.d/local.conf
+ }
+ 
++make -C files/boot-keys IMPORT_MODE=snakeoil
++
+ if [ "${clean+set}" = set ]; then
+     clean
+ else
+diff --git a/utils/run-secure-vm.sh b/utils/run-secure-vm.sh
+index ff146dfaa3..90f910048b 100755
+--- a/utils/run-secure-vm.sh
++++ b/utils/run-secure-vm.sh
+@@ -272,7 +272,6 @@ if [ "${rebuild_iso+set}" = set ] || (! [ -f "${STATE_DIR}/disk.iso" ] && [ "${l
+     if [ "${buildid+set}" = set ]; then
+         cp "${STATE_DIR}/builds/gnome_os_${buildid}.iso" "${checkout}/disk.iso"
+     else
+-        make -C files/boot-keys generate-keys
+         "${BST}" "${BST_OPTIONS[@]}" build "${IMAGE_ELEMENT}"
+         "${BST}" "${BST_OPTIONS[@]}" artifact checkout "${IMAGE_ELEMENT}" --directory "${checkout}"
+     fi
+@@ -385,6 +384,7 @@ tmpfiles="$(mktemp -d --tmpdir="${STATE_DIR}" tmpfiles.XXXXXXXXXX)"
+ cleanup_dirs+=("${tmpfiles}")
+ 
+ if [ "${local_updates+set}" = set ]; then
++    make -C files/boot-keys IMPORT_MODE=snakeoil
+     cat <<EOF >"${tmpfiles}"/tmpfiles-import-pubring.conf
+ f~ /etc/systemd/import-pubring.pgp 0644 root root - $(base64 -w0 files/boot-keys/import-pubring.pgp)
+ EOF
+diff --git a/utils/run-sysupdate-repo.sh b/utils/run-sysupdate-repo.sh
+index 95f4415e42..1bb1bebf0f 100755
+--- a/utils/run-sysupdate-repo.sh
++++ b/utils/run-sysupdate-repo.sh
+@@ -113,6 +113,7 @@ fi
+ "${BST}" "${BST_OPTIONS[@]}" build "${image}"
+ 
+ "${BST}" "${BST_OPTIONS[@]}" artifact checkout "${image}" --directory "${checkout}"
++make -C files/boot-keys IMPORT_MODE=snakeoil
+ gpg --homedir=files/boot-keys/private-key --output  "${checkout}/SHA256SUMS.gpg" --detach-sig "${checkout}/SHA256SUMS"
+ 
+ if [ "${next_version+set}" = set ]; then
+-- 
+GitLab
+
