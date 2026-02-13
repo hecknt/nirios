@@ -9,7 +9,8 @@ Requirements:
   - [ ] material-symbols-variable
   - [ ] qt6ct (needs qt6-svg) (maybe qt6ct-kde patches?)
   - [ ] matugen
-  - [ ] quickshell
+  - [x] quickshell
+    - [x] cli11
     - [x] libdrm (freedesktop-sdk)
     - [x] libglvnd (freedesktop-sdk)
     - [x] pipewire (freedesktop-sdk)
@@ -17,7 +18,7 @@ Requirements:
     - [x] pam (freedesktop-sdk)
     - [x] wayland (freedesktop-sdk)
     - [x] hicolor-icon-theme (freedesktop-sdk)
-    - [ ] jemalloc
+    - [x] jemalloc
     - [x] qt6-base
       - [x] qt6-svg
       - [x] qt6-declarative
