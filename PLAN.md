@@ -18,12 +18,12 @@ Requirements:
     - [x] wayland (freedesktop-sdk)
     - [x] hicolor-icon-theme (freedesktop-sdk)
     - [ ] jemalloc
-    - [ ] qt6-base
-      - [ ] qt6-svg
-      - [ ] qt6-declarative
-        - [ ] qt6-languageserver
-        - [ ] qt6-shadertools
-      - [ ] qt6-wayland
+    - [x] qt6-base
+      - [x] qt6-svg
+      - [x] qt6-declarative
+        - [x] qt6-languageserver
+        - [x] qt6-shadertools
+      - [x] qt6-wayland
 
 Optional:
   - [x] wl-clipboard (gnome-build-meta)
