@@ -2,7 +2,7 @@ kind: script
 
 build-depends:
   - freedesktop-sdk.bst:components/fakecap.bst
-  - core/build-oci-rs.bst
+  - freedesktop-sdk.bst:components/oci-builder.bst
   - freedesktop-sdk.bst:components/glib.bst
   - freedesktop-sdk.bst:vm/prepare-image.bst
   - freedesktop-sdk.bst:oci/layers/platform-init-script.bst
