@@ -6,7 +6,6 @@ sources:
   track: v*
   ref: v25.11-0-gb35bcae35b3f9665043c335e55ed5828af77db85
 - kind: cargo2
-
   ref:
   - kind: registry
     name: accesskit
