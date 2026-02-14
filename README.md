@@ -11,6 +11,7 @@ This image includes the following base components:
 - Freedesktop SDK (Base OS)
 - Bootc (Atomic OS Updater)
 - Niri (Compositor)
+- DankMaterialShell (Basically turns Niri into a desktop environment)
 - Homebrew (Packages on a user level)
 - Flatpak
 - Distrobox
@@ -18,5 +19,4 @@ This image includes the following base components:
 Some other things that are planned in the near-term
 
 - [ ] xdg-desktop-portal-gnome (This is why gnome-build-meta is included, should be a 1 line addition)
-- [x] DankMaterialShell (Basically turns Niri into a desktop environment)
 - [ ] Github CI (I want to build the OS on Github and then upload it to GHCR)
