@@ -2,7 +2,7 @@ default:
     @just --choose
 
 # oci/bluefin.bst
-image_name := env("BUILD_IMAGE_NAME", "nirios")
+image_name := env("BUILD_IMAGE_NAME", "zirconium-hawaii")
 image_tag := env("BUILD_IMAGE_TAG", "latest")
 base_dir := env("BUILD_BASE_DIR", ".")
 filesystem := env("BUILD_FILESYSTEM", "btrfs")

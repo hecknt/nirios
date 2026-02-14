@@ -52,9 +52,9 @@ config:
         config:
           Labels:
             'com.github.containers.toolbox': 'true'
-            'org.opencontainers.image.source': 'https://github.com/hecknt/nirios/'
-            'org.opencontainers.image.url': 'https://github.com/hecknt/nirios/'
+            'org.opencontainers.image.source': 'https://github.com/zirconium-dev/zirconium-hawaii/'
+            'org.opencontainers.image.url': 'https://github.com/zirconium-dev/zirconium-hawaii/'
             'containers.bootc': '1'
         index-annotations:
-          'org.opencontainers.image.ref.name': 'ghcr.io/hecknt/nirios:latest'
+          'org.opencontainers.image.ref.name': 'ghcr.io/zirconium-dev/zirconium-hawaii:latest'
       EOF

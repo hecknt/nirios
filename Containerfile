@@ -1,3 +1,3 @@
-FROM ghcr.io/hecknt/nirios:latest
+FROM ghcr.io/zirconium-dev/zirconium-hawaii:latest
 
 RUN bootc container lint
