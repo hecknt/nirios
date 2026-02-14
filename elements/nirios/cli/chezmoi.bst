@@ -1,14 +1,22 @@
 kind: manual
 
 # go modules killed my family so i'm downloading the binary instead like a stupid chud
+# the apk is statically linked so it's a good option. arm64 doesn't have a musl binary directly, but the apk has a
+# binary built just for us :D
 sources:
-- kind: remote
-  url: github:twpayne/chezmoi/releases/download/v2.69.4/chezmoi-linux-amd64-musl
-  ref: 62bc10ef3b19e84c52c182528e1f806ac2d2fc3bf6bcfc20669f0f4e7b47697d
 - kind: git_repo
   url: github:twpayne/chezmoi.git
   track: v*
   ref: v2.69.4-0-gc4c669c9f2f329233a85802014d26fba3c58a4a4
+- kind: tar
+  base-dir: "usr/bin"
+  (?):
+  - arch == "aarch64":
+      url: github:twpayne/chezmoi/releases/download/v2.69.4/chezmoi_2.69.4_linux_arm64.apk
+      ref: a18478bf2e2728188ee291cd1ad91d1fc5fa27bafb0e5ab47b480171554cefed
+  - arch == "x86_64":
+      url: github:twpayne/chezmoi/releases/download/v2.69.4/chezmoi_2.69.4_linux_amd64.apk
+      ref: bcaaff407cb9018eed22222c3cd18dc15cc4c59cd591bfd8084bf430501b55d4
 
 build-depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
@@ -26,7 +34,7 @@ config:
     install -Dm0755 ./completions/chezmoi.zsh "%{install-root}%{datadir}/zsh/site-functions/_chezmoi"
     install -Dm0755 ./completions/chezmoi.fish "%{install-root}%{datadir}/fish/vendor_completions.d/chezmoi.fish"
 
-    install -Dm0755 ./chezmoi-linux-amd64-musl "%{install-root}%{bindir}/chezmoi"
+    install -Dm0755 ./chezmoi "%{install-root}%{bindir}/chezmoi"
   - |
     %{install-extra}
 
