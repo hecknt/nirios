@@ -1,3 +1,3 @@
 FROM ghcr.io/hecknt/nirios:latest
 
-RUN bootc container lint || true
+RUN bootc container lint
