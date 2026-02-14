@@ -1,10 +1,25 @@
-default: build
+default:
+    @just --choose
 
 # oci/bluefin.bst
 image_name := env("BUILD_IMAGE_NAME", "nirios")
 image_tag := env("BUILD_IMAGE_TAG", "latest")
 base_dir := env("BUILD_BASE_DIR", ".")
 filesystem := env("BUILD_FILESYSTEM", "btrfs")
+vendor := "Zirconium"
+
+generate-keys $vendor=vendor:
+    #!/usr/bin/env bash
+    set -xeu
+    for f in extra-db extra-kek modules; do
+        [ ! -d "{{base_dir}}/files/boot-keys/${f}" ] && mkdir -p "{{base_dir}}/files/boot-keys/${f}"
+    done
+
+    for f in PK KEK DB VENDOR linux-module-cert; do
+        [ ! -f "{{base_dir}}/files/boot-keys/${f}.key" ] && [ ! -f "{{base_dir}}/files/boot-keys/${f}.crt" ] && \
+            openssl req -new -x509 -newkey rsa:2048 -subj "/CN=${vendor} ${f} key/" -keyout "files/boot-keys/${f}.key" -out "files/boot-keys/${f}.crt" -days 3650 -nodes -sha256
+    done
+    cp files/boot-keys/linux-module-cert.crt files/boot-keys/modules/linux-module-cert.crt
 
 build *ARGS:
     #!/usr/bin/env bash

@@ -8,3 +8,17 @@
 *.img
 *.raw
 *.tar
+
+files/boot-keys/DB.crt
+files/boot-keys/DB.key
+files/boot-keys/KEK.crt
+files/boot-keys/KEK.key
+files/boot-keys/PK.crt
+files/boot-keys/PK.key
+files/boot-keys/VENDOR.crt
+files/boot-keys/VENDOR.key
+files/boot-keys/extra-db/
+files/boot-keys/extra-kek/
+files/boot-keys/linux-module-cert.crt
+files/boot-keys/linux-module-cert.key
+files/boot-keys/modules/linux-module-cert.crt
