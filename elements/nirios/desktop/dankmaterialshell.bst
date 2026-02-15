@@ -344,6 +344,11 @@ variables:
   make-args: build
 
 config:
+  configure-commands:
+  - |
+    # Modify dms-greeter to use /usr/share/quickshell/dms instead of /usr/share/quickshell/dms-greeter, since we are not
+    # going to install dms into /usr/share/quickshell/dms-greeter.
+    sed -i 's/^DMS_PATH="dms-greeter"$/DMS_PATH="dms"/;s/default: dms-greeter)$/default: dms)/' quickshell/Modules/Greetd/assets/dms-greeter
   install-commands:
   - |
     install -dm0755 "%{install-root}%{datadir}/bash-completion/completions"
@@ -359,5 +364,9 @@ config:
     cp -r "quickshell/./" "%{install-root}%{datadir}/quickshell/dms"
     install -Dpm0644 -t "%{install-root}%{prefix}/lib/pam.d/" quickshell/assets/pam/*
     install -Dm0644 -t "%{install-root}%{prefix}/lib/systemd/user/" assets/systemd/dms.service
+
+    # dms-greeter
+    install -Dm0755 "quickshell/Modules/Greetd/assets/dms-greeter" -t "%{install-root}%{bindir}"
+    install -Dm0755 "quickshell/systemd/tmpfiles-dms-greeter.conf" "%{install-root}%{indep-libdir}/tmpfiles.d/dms-greeter.conf"
   - |
     %{install-extra}
