@@ -173,21 +173,21 @@ sources:
     sha: 55b672471b4e9f9e95499ea597ff64941a309b2cdbffcc46f2cc5e2d971fd335
   - kind: git
     commit: e9008489375044022e90d26656960725a76f4620
-    repo: https://github.com/containers/composefs-rs
+    repo: github:containers/composefs-rs
     query:
       rev: e9008489375044022e90d26656960725a76f4620
     name: composefs
     version: 0.3.0
   - kind: git
     commit: e9008489375044022e90d26656960725a76f4620
-    repo: https://github.com/containers/composefs-rs
+    repo: github:containers/composefs-rs
     query:
       rev: e9008489375044022e90d26656960725a76f4620
     name: composefs-boot
     version: 0.3.0
   - kind: git
     commit: e9008489375044022e90d26656960725a76f4620
-    repo: https://github.com/containers/composefs-rs
+    repo: github:containers/composefs-rs
     query:
       rev: e9008489375044022e90d26656960725a76f4620
     name: composefs-oci

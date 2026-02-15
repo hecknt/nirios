@@ -53,6 +53,7 @@ aliases:
   videolan_pub: https://download.videolan.org/pub/
   webkitgtk: https://webkitgtk.org/releases/
   invisible-mirror-archives: https://invisible-mirror.net/archives/
+  golang-proxy: https://proxy.golang.org/
 
   # git aliases go here
   codeberg: https://codeberg.org/
@@ -61,6 +62,7 @@ aliases:
   gitlab: https://gitlab.com/
   gnome: https://gitlab.gnome.org/GNOME/
   gnome_gitlab: https://gitlab.gnome.org/
+  archlinux_gitlab: https://gitlab.archlinux.org/
   kernel: https://git.kernel.org/pub/scm/
   lovelyhq: https://dev.lovelyhq.com/
   matrix: https://gitlab.matrix.org/
@@ -73,3 +75,4 @@ aliases:
   savannah: https://git.savannah.gnu.org/git/
   qt: https://code.qt.io/qt/
   outfoxxed: https://git.outfoxxed.me/
+  sourcehut: https://git.sr.ht/
