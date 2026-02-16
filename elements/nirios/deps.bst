@@ -47,6 +47,7 @@ depends:
   - nirios/desktop/foot.bst
   - nirios/cli/chezmoi.bst
   - core/greetd.bst
+  - core/xdg-terminal-exec.bst
   - config/pam/archlinux-pam-configs.bst
   - config/greetd/service.bst
   - config/greetd/dms.bst
