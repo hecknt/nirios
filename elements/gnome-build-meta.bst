@@ -15,6 +15,8 @@ config:
 
     # Replace the element so the OCI image generates Bluefin's os-release file
     oci/os-release.bst: oci/os-release.bst
+    # fuck you gnomeos, i want nmtui!!!!!!
+    core-deps/NetworkManager.bst: freedesktop-sdk.bst:components/networkmanager.bst
 
     plugins/buildstream-plugins.bst: plugins/buildstream-plugins.bst
     plugins/buildstream-plugins-community.bst: plugins/buildstream-plugins-community.bst
