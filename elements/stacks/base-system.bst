@@ -10,7 +10,6 @@ depends:
   - freedesktop-sdk.bst:components/systemd.bst
   - freedesktop-sdk.bst:components/dbus.bst
   - freedesktop-sdk.bst:components/dracut.bst
-  - freedesktop-sdk.bst:components/os-release.bst
   - freedesktop-sdk.bst:components/shadow.bst
   - freedesktop-sdk.bst:components/procps.bst
   - freedesktop-sdk.bst:components/tzdata.bst
@@ -49,6 +48,7 @@ depends:
   - gnome-build-meta.bst:gnomeos-deps/toolbox.bst
   - gnome-build-meta.bst:gnomeos-deps/just.bst
 
+  - core/os-release.bst
   - cli/brew.bst
   - cli/brew-tarball.bst
 
