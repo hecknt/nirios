@@ -13,8 +13,6 @@ config:
     # This along with the patches is required and has to match what gnome-build-meta is using
     freedesktop-sdk.bst: freedesktop-sdk.bst
 
-    # Replace the element so the OCI image generates Bluefin's os-release file
-    oci/os-release.bst: oci/os-release.bst
     # fuck you gnomeos, i want nmtui!!!!!!
     core-deps/NetworkManager.bst: freedesktop-sdk.bst:components/networkmanager.bst
 
