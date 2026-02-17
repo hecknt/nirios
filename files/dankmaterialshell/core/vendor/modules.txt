@@ -80,7 +80,7 @@ github.com/charmbracelet/x/term
 # github.com/clipperhouse/displaywidth v0.10.0
 ## explicit; go 1.18
 github.com/clipperhouse/displaywidth
-# github.com/clipperhouse/uax29/v2 v2.6.0
+# github.com/clipperhouse/uax29/v2 v2.7.0
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
 # github.com/cloudflare/circl v1.6.3
@@ -137,7 +137,7 @@ github.com/go-git/go-billy/v6/helper/polyfill
 github.com/go-git/go-billy/v6/memfs
 github.com/go-git/go-billy/v6/osfs
 github.com/go-git/go-billy/v6/util
-# github.com/go-git/go-git/v6 v6.0.0-20260210102253-e4d10f0e569a
+# github.com/go-git/go-git/v6 v6.0.0-20260216160506-e6a3f881772f
 ## explicit; go 1.24.0
 github.com/go-git/go-git/v6
 github.com/go-git/go-git/v6/config
@@ -207,7 +207,7 @@ github.com/holoplot/go-evdev
 # github.com/inconshreveable/mousetrap v1.1.0
 ## explicit; go 1.18
 github.com/inconshreveable/mousetrap
-# github.com/kevinburke/ssh_config v1.4.0
+# github.com/kevinburke/ssh_config v1.6.0
 ## explicit; go 1.18
 github.com/kevinburke/ssh_config
 # github.com/klauspost/cpuid/v2 v2.3.0
@@ -323,7 +323,7 @@ golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/agent
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 golang.org/x/crypto/ssh/knownhosts
-# golang.org/x/exp v0.0.0-20260211191109-2735e65f0518
+# golang.org/x/exp v0.0.0-20260212183809-81e46e3db34a
 ## explicit; go 1.25.0
 golang.org/x/exp/constraints
 golang.org/x/exp/slices
