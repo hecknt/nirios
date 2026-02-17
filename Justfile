@@ -24,8 +24,8 @@ build *ARGS:
     #!/usr/bin/env bash
     set -eu
 
-    bst build oci/nirios.bst
-    bst artifact checkout --tar - oci/nirios.bst | pkexec podman load
+    bst build oci/zirconium.bst
+    bst artifact checkout --tar - oci/zirconium.bst | pkexec podman load
 
 build-containerfile $image_name=image_name:
     sudo podman build --squash-all -t "${image_name}:latest" .

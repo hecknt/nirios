@@ -7,7 +7,7 @@ sources:
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 - core/greetd.bst
-- nirios/desktop/dankmaterialshell.bst
+- desktop/dankmaterialshell.bst
 
 variables:
   strip-binaries: ''

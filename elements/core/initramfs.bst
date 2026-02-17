@@ -2,7 +2,7 @@ kind: script
 
 build-depends:
   - freedesktop-sdk.bst:components/fakecap.bst
-  - nirios/deps.bst
+  - stacks/zirconium.bst
   - freedesktop-sdk.bst:vm/prepare-image.bst
   - core/bootc.bst
 
@@ -26,6 +26,7 @@ config:
     - |
       mkdir -p "%{install-root}/$(find /usr/lib/modules -maxdepth 1 -type d | grep -v -E "*.img" | tail -n 1)"
       mkdir -p "%{install-root}/usr/lib/dracut/dracut.conf.d"
+      # FIXME: this sucks
       printf "systemdsystemconfdir=/etc/systemd/system\nsystemdsystemunitdir=/usr/lib/systemd/system\n" | tee "%{install-root}/usr/lib/dracut/dracut.conf.d/30-bootcrew-fix-bootc-module.conf" && \
         printf 'reproducible=yes\nhostonly=no\ncompress=zstd\nadd_dracutmodules+=" ostree bootc "' | tee "%{install-root}/usr/lib/dracut/dracut.conf.d/30-bootcrew-bootc-container-build.conf" && \
       printf "systemdsystemconfdir=/etc/systemd/system\nsystemdsystemunitdir=/usr/lib/systemd/system\n" | tee "/usr/lib/dracut/dracut.conf.d/30-bootcrew-fix-bootc-module.conf" && \

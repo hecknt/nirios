@@ -15,9 +15,9 @@ build-depends:
 - freedesktop-sdk.bst:components/polkit.bst
 - freedesktop-sdk.bst:components/linux-pam.bst
 - freedesktop-sdk.bst:components/wayland-protocols.bst
-- nirios/deps/cli11.bst
-- nirios/deps/jemalloc.bst
-- nirios/deps/qt6-qtwayland.bst
+- deps/cli11.bst
+- deps/jemalloc.bst
+- deps/qt6-qtwayland.bst
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
@@ -27,8 +27,8 @@ depends:
 - freedesktop-sdk.bst:vm/mesa-default.bst
 - freedesktop-sdk.bst:components/mesa-headers.bst
 - freedesktop-sdk.bst:extensions/mesa/mesa.bst
-- nirios/deps/jemalloc.bst
-- nirios/deps/qt6-qtwayland.bst
+- deps/jemalloc.bst
+- deps/qt6-qtwayland.bst
 
 variables:
   strip-binaries: ""

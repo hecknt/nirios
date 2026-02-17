@@ -21,8 +21,8 @@ build-depends:
 - freedesktop-sdk.bst:components/wayland-protocols.bst
 - freedesktop-sdk.bst:components/libxkbcommon.bst
 - freedesktop-sdk.bst:components/sed.bst
-- nirios/deps/fcft.bst
-- nirios/deps/tllist.bst
+- deps/fcft.bst
+- deps/tllist.bst
 
 depends:
 - freedesktop-sdk.bst:bootstrap/ncurses.bst
@@ -30,7 +30,7 @@ depends:
 - freedesktop-sdk.bst:components/fontconfig.bst
 - freedesktop-sdk.bst:components/wayland.bst
 - freedesktop-sdk.bst:components/pixman.bst
-- nirios/deps/fcft.bst
+- deps/fcft.bst
 
 variables:
   meson-local: >-

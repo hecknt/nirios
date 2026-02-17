@@ -15,8 +15,8 @@ build-depends:
 - freedesktop-sdk.bst:components/freetype.bst
 - freedesktop-sdk.bst:components/harfbuzz.bst
 - freedesktop-sdk.bst:components/scdoc.bst
-- nirios/deps/tllist.bst
-- nirios/deps/utf8proc.bst
+- deps/tllist.bst
+- deps/utf8proc.bst
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
@@ -24,7 +24,7 @@ depends:
 - freedesktop-sdk.bst:components/pixman.bst
 - freedesktop-sdk.bst:components/freetype.bst
 - freedesktop-sdk.bst:components/harfbuzz.bst
-- nirios/deps/utf8proc.bst
+- deps/utf8proc.bst
 
 variables:
   meson-local: >-

@@ -6,7 +6,7 @@ Requirements:
   - [ ] inter-font
   - [ ] fira-code
   - [ ] material-symbols-variable
-  - [ ] qt6ct (needs qt6-svg) (maybe qt6ct-kde patches?)
+  - [ ] qt6ct (maybe qt6ct-kde patches?)
   - [x] matugen
   - [x] accountsservice (gnome-build-meta)
   - [x] quickshell
@@ -25,6 +25,7 @@ Requirements:
         - [x] qt6-languageserver
         - [x] qt6-shadertools
       - [x] qt6-wayland
+      - [ ] qt6-qtmultimedia
 
 Optional:
   - [x] dgop

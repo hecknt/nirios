@@ -17,17 +17,17 @@ build-depends:
 - freedesktop-sdk.bst:components/make.bst
 - freedesktop-sdk.bst:components/sed.bst
 - freedesktop-sdk.bst:components/zlib.bst
-- nirios/deps/qt6-qtbase.bst
-- nirios/deps/qt6-qtlanguageserver.bst
-- nirios/deps/qt6-qtshadertools.bst
-- nirios/deps/qt6-qtsvg.bst
+- deps/qt6-qtbase.bst
+- deps/qt6-qtlanguageserver.bst
+- deps/qt6-qtshadertools.bst
+- deps/qt6-qtsvg.bst
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 - freedesktop-sdk.bst:components/zlib.bst
-- nirios/deps/qt6-qtbase.bst
-- nirios/deps/qt6-qtshadertools.bst
-- nirios/deps/qt6-qtsvg.bst
+- deps/qt6-qtbase.bst
+- deps/qt6-qtshadertools.bst
+- deps/qt6-qtsvg.bst
 
 variables:
   cmake-local: >-

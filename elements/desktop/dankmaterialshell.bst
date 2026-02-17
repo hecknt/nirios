@@ -336,9 +336,9 @@ build-depends:
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 - gnome-build-meta.bst:core-deps/accountsservice.bst
-- nirios/desktop/quickshell.bst
-- nirios/desktop/matugen.bst
-- nirios/deps/dgop.bst
+- desktop/quickshell.bst
+- desktop/matugen.bst
+- deps/dgop.bst
 
 variables:
   make-args: build

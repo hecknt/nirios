@@ -1,7 +1,7 @@
 kind: stack
 
 depends:
-  - nirios/deps.bst
+  - stacks/zirconium.bst
   - core/initramfs.bst
 
 public:

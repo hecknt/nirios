@@ -5,12 +5,8 @@ build-depends:
   - freedesktop-sdk.bst:components/oci-builder.bst
   - freedesktop-sdk.bst:components/glib.bst
   - freedesktop-sdk.bst:vm/prepare-image.bst
-  - freedesktop-sdk.bst:oci/layers/platform-init-script.bst
-  - oci/layers/nirios-init-scripts.bst
-  - filename: freedesktop-sdk.bst:oci/platform-oci.bst
-    config:
-      location: /parent
-  - filename: oci/layers/nirios.bst
+  - oci/layers/zirconium-init-scripts.bst
+  - filename: oci/layers/zirconium.bst
     config:
       location: /layer
 
@@ -45,10 +41,8 @@ config:
       images:
       - os: linux
         architecture: "%{go-arch}"
-        parent:
-          image: /parent
         layer: /layer
-        comment: "Import NiriOS layer"
+        comment: "Import Zirconium layer"
         config:
           Labels:
             'com.github.containers.toolbox': 'true'

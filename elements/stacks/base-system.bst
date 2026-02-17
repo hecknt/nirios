@@ -1,5 +1,6 @@
 kind: stack
 
+# Basic functional system + cli utilities
 depends:
   - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
   - freedesktop-sdk.bst:components/util-linux-full.bst
@@ -19,7 +20,6 @@ depends:
   - freedesktop-sdk.bst:vm/config/journald.bst
   - freedesktop-sdk.bst:vm/config/networkd.bst
   - freedesktop-sdk.bst:vm/config/resolved.bst
-  - freedesktop-sdk.bst:vm/config/useradd-ostree.bst
   - freedesktop-sdk.bst:vm/config/systemd-homed-firstboot.bst
   - freedesktop-sdk.bst:vm/config/sudo.bst
   - freedesktop-sdk.bst:components/wpa-supplicant.bst
@@ -34,45 +34,21 @@ depends:
   - freedesktop-sdk.bst:components/man-db.bst
   - freedesktop-sdk.bst:components/man-pages.bst
   - freedesktop-sdk.bst:components/btrfs-progs.bst
+  - freedesktop-sdk.bst:components/xfsprogs.bst
+  - freedesktop-sdk.bst:components/erofs-utils.bst
   - freedesktop-sdk.bst:components/dosfstools.bst
   - freedesktop-sdk.bst:components/sudo.bst
   - freedesktop-sdk.bst:components/vim.bst
   - freedesktop-sdk.bst:components/polkit.bst
   - freedesktop-sdk.bst:components/steam-devices.bst
   - freedesktop-sdk.bst:extensions/codecs-extra/ffmpeg.bst
-
-  - nirios/desktop/niri.bst
-  - nirios/desktop/quickshell.bst
-  - nirios/desktop/dankmaterialshell.bst
-  - nirios/desktop/foot.bst
-  - nirios/cli/chezmoi.bst
-  - core/greetd.bst
-  - core/xdg-terminal-exec.bst
-  - config/pam/archlinux-pam-configs.bst
-  - config/greetd/service.bst
-  - config/greetd/dms.bst
-  - freedesktop-sdk.bst:components/xwayland.bst
-  - freedesktop-sdk.bst:components/flatpak.bst
-  - freedesktop-sdk.bst:components/pipewire-daemon.bst
-  - freedesktop-sdk.bst:vm/config/flathub.bst
-  - gnome-build-meta.bst:sdk/xwayland-satellite.bst
-  - gnome-build-meta.bst:core-deps/xdg-desktop-portal-gnome.bst
-  - gnome-build-meta.bst:core/nautilus.bst
-
-  - nirios/cli/brew.bst
-  - nirios/cli/brew-tarball.bst
-
-  - nirios/desktop/jetbrains-mono.bst
-  - nirios/desktop/jetbrains-mono-nerd-font.bst
-
   - freedesktop-sdk.bst:components/git-lfs.bst
   - freedesktop-sdk.bst:components/git.bst
-  - freedesktop-sdk.bst:components/podman.bst
-  - freedesktop-sdk.bst:components/containers-common.bst
-  - freedesktop-sdk.bst:components/skopeo.bst
-  - core/bootc.bst
-  - config/bootc.bst
+
   - gnome-build-meta.bst:gnomeos-deps/distrobox.bst
   - gnome-build-meta.bst:gnomeos-deps/toolbox.bst
   - gnome-build-meta.bst:gnomeos-deps/just.bst
-  - gnome-build-meta.bst:gnomeos-deps/wl-clipboard.bst
+
+  - cli/brew.bst
+  - cli/brew-tarball.bst
+

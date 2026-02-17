@@ -4,7 +4,7 @@ build-depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 
 runtime-depends:
-- nirios/cli/brew.bst
+- cli/brew.bst
 
 sources:
 - kind: remote

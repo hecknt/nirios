@@ -17,12 +17,12 @@ build-depends:
 - freedesktop-sdk.bst:components/make.bst
 - freedesktop-sdk.bst:components/sed.bst
 - freedesktop-sdk.bst:components/zlib.bst
-- nirios/deps/qt6-qtbase.bst
+- deps/qt6-qtbase.bst
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 - freedesktop-sdk.bst:components/zlib.bst
-- nirios/deps/qt6-qtbase.bst
+- deps/qt6-qtbase.bst
 
 variables:
   cmake-local: >-

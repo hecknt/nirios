@@ -1,8 +1,8 @@
 kind: compose
 
 build-depends:
-  - oci/layers/nirios-runtime.bst
-  - oci/layers/nirios-init-scripts.bst
+  - oci/layers/zirconium-runtime.bst
+  - oci/layers/zirconium-init-scripts.bst
   - freedesktop-sdk.bst:components/gcc.bst
 
 config:
