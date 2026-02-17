@@ -6,3 +6,8 @@ depends:
   - stacks/homebrew.bst
   - stacks/ffmpeg.bst
   - stacks/desktop.bst
+
+  # zirconium bullshit
+  - zirconium/assets.bst
+  - zirconium/common.bst
+  - zirconium/zdots.bst

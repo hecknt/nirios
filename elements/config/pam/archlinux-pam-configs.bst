@@ -2,6 +2,11 @@
 # https://gitlab.archlinux.org/archlinux/packaging/packages/pambase
 kind: manual
 
+public:
+  bst:
+    overlap-whitelist:
+      - /etc/pam.d/*
+
 sources:
 - kind: git_repo
   url: archlinux_gitlab:archlinux/packaging/packages/pambase
