@@ -3,8 +3,8 @@ kind: make
 sources:
 - kind: git_repo
   url: github:bootc-dev/bootc.git
-  track: v*
-  ref: v1.12.1-0-g9bb976d540fcf405c830af4503ff64bbab2c7266
+  track: main
+  ref: v1.12.1-88-g6ac06b772d77c2743b016852cf364be46462aae8
 - kind: cargo2
   ref:
   - kind: registry
@@ -116,6 +116,14 @@ sources:
     version: 3.4.5
     sha: 68d8ad5cfac469e58e632590f033d45c66415ef7a8aa801409884818036706f5
   - kind: registry
+    name: cargo-platform
+    version: 0.3.2
+    sha: 87a0c0e6148f11f01f32650a2ea02d532b2ad4e81d8bd41e6e565b5adc5e6082
+  - kind: registry
+    name: cargo_metadata
+    version: 0.23.1
+    sha: ef987d17b0a113becdd19d3d0022d04d7ef41f9efe4f3fb63ac44ba61df3ade9
+  - kind: registry
     name: cc
     version: 1.2.51
     sha: 7a0aeaff4ff1a90589618835a598e545176939b97874f7abc7851caa0618f203
@@ -131,6 +139,10 @@ sources:
     name: cfg_aliases
     version: 0.2.1
     sha: 613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724
+  - kind: registry
+    name: chacha20
+    version: 0.10.0
+    sha: 6f8d983286843e49675a4b7a2d174efe136dc93a18d69130dd18198a6c167601
   - kind: registry
     name: chrono
     version: 0.4.42
@@ -172,24 +184,24 @@ sources:
     version: 1.0.0
     sha: 55b672471b4e9f9e95499ea597ff64941a309b2cdbffcc46f2cc5e2d971fd335
   - kind: git
-    commit: e9008489375044022e90d26656960725a76f4620
-    repo: github:containers/composefs-rs
+    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+    repo: https://github.com/containers/composefs-rs
     query:
-      rev: e9008489375044022e90d26656960725a76f4620
+      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
     name: composefs
     version: 0.3.0
   - kind: git
-    commit: e9008489375044022e90d26656960725a76f4620
-    repo: github:containers/composefs-rs
+    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+    repo: https://github.com/containers/composefs-rs
     query:
-      rev: e9008489375044022e90d26656960725a76f4620
+      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
     name: composefs-boot
     version: 0.3.0
   - kind: git
-    commit: e9008489375044022e90d26656960725a76f4620
-    repo: github:containers/composefs-rs
+    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+    repo: https://github.com/containers/composefs-rs
     query:
-      rev: e9008489375044022e90d26656960725a76f4620
+      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
     name: composefs-oci
     version: 0.3.0
   - kind: registry
@@ -218,8 +230,8 @@ sources:
     sha: 1d57c2eccfb16dbac1f4e61e206105db5820c9d26c3c472bc17c774259ef7744
   - kind: registry
     name: containers-image-proxy
-    version: 0.9.0
-    sha: 08ca6531917f9b250bf6a1af43603b2e083c192565774451411f9bf4f8bf8f2b
+    version: 0.9.2
+    sha: f4efbec7ca93c60462005402029839fcc8958eb5239bab1dd09f6d3e5165911a
   - kind: registry
     name: convert_case
     version: 0.10.0
@@ -232,6 +244,10 @@ sources:
     name: cpufeatures
     version: 0.2.17
     sha: 59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280
+  - kind: registry
+    name: cpufeatures
+    version: 0.3.0
+    sha: 8b2a41393f66f16b0823bb79094d54ac5fbd34ab292ddafb9a0456ac9f87d201
   - kind: registry
     name: crc32fast
     version: 1.5.0
@@ -353,6 +369,10 @@ sources:
     version: 1.0.7
     sha: 3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1
   - kind: registry
+    name: foldhash
+    version: 0.1.5
+    sha: d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2
+  - kind: registry
     name: foreign-types
     version: 0.3.2
     sha: f6f339eb8adc052cd2ca78910fda869aefa38d22d5cb648e6485e4d3fc06f3b1
@@ -413,6 +433,10 @@ sources:
     version: 0.3.4
     sha: 899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd
   - kind: registry
+    name: getrandom
+    version: 0.4.1
+    sha: 139ef39800118c7683f2fd3c98c1b23c09ae076556b435f8e9064ae108aaeeec
+  - kind: registry
     name: getset
     version: 0.1.6
     sha: 9cf0fc11e47561d47397154977bc219f4cf809b2974facc3ccb3b89e2436f912
@@ -450,6 +474,10 @@ sources:
     sha: 88bee3fdb16eb087e08c38ea50f796c75085659c8a70b6928a8c9f3c7449beb5
   - kind: registry
     name: hashbrown
+    version: 0.15.5
+    sha: 9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1
+  - kind: registry
+    name: hashbrown
     version: 0.16.1
     sha: 841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100
   - kind: registry
@@ -472,6 +500,10 @@ sources:
     name: iana-time-zone-haiku
     version: 0.1.2
     sha: f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f
+  - kind: registry
+    name: id-arena
+    version: 2.3.0
+    sha: 3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954
   - kind: registry
     name: ident_case
     version: 1.0.1
@@ -532,6 +564,10 @@ sources:
     name: lazy_static
     version: 1.5.0
     sha: bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe
+  - kind: registry
+    name: leb128fmt
+    version: 0.1.0
+    sha: 09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2
   - kind: registry
     name: libc
     version: 0.2.180
@@ -717,6 +753,10 @@ sources:
     version: 0.2.21
     sha: 85eae3c4ed2f50dcfe72643da4befc30deadb458a9b590d720cde2f2b1e97da9
   - kind: registry
+    name: prettyplease
+    version: 0.2.37
+    sha: 479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b
+  - kind: registry
     name: proc-macro-crate
     version: 3.4.0
     sha: 219cb19e96be00ab2e37d6e299658a0cfa83e52429179969b0f0121b4ac46983
@@ -754,6 +794,10 @@ sources:
     sha: 69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f
   - kind: registry
     name: rand
+    version: 0.10.0
+    sha: bc266eb313df6c5c09c1c7b1fbe2510961e5bcd3add930c1e31f7ed9da0feff8
+  - kind: registry
+    name: rand
     version: 0.8.5
     sha: 34af8d1a0e25924bc5b7c43c079c942339d8f0a8b57c39049bef581b46327404
   - kind: registry
@@ -768,6 +812,10 @@ sources:
     name: rand_chacha
     version: 0.9.0
     sha: d3022b5f1df60f26e1ffddd6c66e8aa15de382ae63b3a0c1bfc0e4d3e3f325cb
+  - kind: registry
+    name: rand_core
+    version: 0.10.0
+    sha: 0c8d0fd677905edcbeedbf2edb6494d676f0e98d54d5cf9bda0b061cb8fb8aba
   - kind: registry
     name: rand_core
     version: 0.6.4
@@ -1133,6 +1181,10 @@ sources:
     version: 1.0.1+wasi-0.2.4
     sha: 0562428422c63773dad2c345a1882263bbf4d65cf3f42e90921f787ef5ad58e7
   - kind: registry
+    name: wasip3
+    version: 0.4.0+wasi-0.3.0-rc-2026-01-06
+    sha: 5428f8bf88ea5ddc08faddef2ac4a67e390b88186c703ce6dbd955e1c145aca5
+  - kind: registry
     name: wasm-bindgen
     version: 0.2.106
     sha: 0d759f433fa64a2d763d1340820e46e111a7a5ab75f993d1852d70b03dbb80fd
@@ -1148,6 +1200,18 @@ sources:
     name: wasm-bindgen-shared
     version: 0.2.106
     sha: cbc538057e648b67f72a982e708d485b2efa771e1ac05fec311f9f63e5800db4
+  - kind: registry
+    name: wasm-encoder
+    version: 0.244.0
+    sha: 990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319
+  - kind: registry
+    name: wasm-metadata
+    version: 0.244.0
+    sha: bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909
+  - kind: registry
+    name: wasmparser
+    version: 0.244.0
+    sha: 47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe
   - kind: registry
     name: web-time
     version: 1.1.0
@@ -1292,6 +1356,30 @@ sources:
     name: wit-bindgen
     version: 0.46.0
     sha: f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59
+  - kind: registry
+    name: wit-bindgen
+    version: 0.51.0
+    sha: d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5
+  - kind: registry
+    name: wit-bindgen-core
+    version: 0.51.0
+    sha: ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc
+  - kind: registry
+    name: wit-bindgen-rust
+    version: 0.51.0
+    sha: b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21
+  - kind: registry
+    name: wit-bindgen-rust-macro
+    version: 0.51.0
+    sha: 0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a
+  - kind: registry
+    name: wit-component
+    version: 0.244.0
+    sha: 9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2
+  - kind: registry
+    name: wit-parser
+    version: 0.244.0
+    sha: ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736
   - kind: registry
     name: xattr
     version: 1.6.1
