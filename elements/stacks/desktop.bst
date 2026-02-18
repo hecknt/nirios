@@ -19,6 +19,7 @@ depends:
   - gnome-build-meta.bst:gnomeos-deps/wl-clipboard.bst
   - gnome-build-meta.bst:sdk/xwayland-satellite.bst
   - gnome-build-meta.bst:core-deps/xdg-desktop-portal-gnome.bst
+  - gnome-build-meta.bst:core-deps/xdg-desktop-portal-gtk.bst
   - gnome-build-meta.bst:core/gnome-keyring.bst
   - gnome-build-meta.bst:core/nautilus.bst
 
