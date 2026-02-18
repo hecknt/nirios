@@ -37,7 +37,6 @@ config:
     components/gtk3.bst: gnome-build-meta.bst:sdk/gtk+-3.bst
     components/libibus.bst: gnome-build-meta.bst:sdk/libibus.bst
     components/json-glib.bst: gnome-build-meta.bst:sdk/json-glib.bst
-    components/libnotify.bst: gnome-build-meta.bst:sdk/libnotify.bst
     components/librsvg.bst: gnome-build-meta.bst:sdk/librsvg.bst
     components/libsoup.bst: gnome-build-meta.bst:sdk/libsoup.bst
     components/pango.bst: gnome-build-meta.bst:sdk/pango.bst
