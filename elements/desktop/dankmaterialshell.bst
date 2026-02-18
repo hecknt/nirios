@@ -340,6 +340,8 @@ depends:
 - gnome-build-meta.bst:core-deps/accountsservice.bst
 - desktop/quickshell.bst
 - desktop/matugen.bst
+- desktop/ddcutil.bst
+- desktop/brightnessctl.bst
 - deps/dgop.bst
 
 variables:

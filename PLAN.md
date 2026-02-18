@@ -29,8 +29,8 @@ Requirements:
 
 Optional:
   - [x] dgop
+  - [x] ddcutil
+  - [x] brightnessctl
   - [ ] khal
   - [ ] cava
   - [ ] dsearch
-  - [ ] ddcutil
-  - [ ] brightnessctl
