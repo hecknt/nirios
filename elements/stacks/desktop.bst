@@ -21,5 +21,8 @@ depends:
   - gnome-build-meta.bst:core/gnome-keyring.bst
   - gnome-build-meta.bst:core/nautilus.bst
 
+  - freedesktop-sdk.bst:components/noto-emoji.bst
+  - gnome-build-meta.bst:sdk/cantarell-fonts.bst
   - desktop/fonts/jetbrains-mono.bst
   - desktop/fonts/jetbrains-mono-nerd-font.bst
+  - desktop/fonts/maple-mono.bst
