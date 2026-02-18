@@ -9,12 +9,14 @@ depends:
   - freedesktop-sdk.bst:components/wireless-regdb-bin.bst
   - freedesktop-sdk.bst:components/systemd.bst
   - freedesktop-sdk.bst:components/dbus.bst
+  - freedesktop-sdk.bst:components/lvm2.bst
   - freedesktop-sdk.bst:components/dracut.bst
   - freedesktop-sdk.bst:components/shadow.bst
   - freedesktop-sdk.bst:components/procps.bst
   - freedesktop-sdk.bst:components/tzdata.bst
   - freedesktop-sdk.bst:components/iproute2.bst
   - freedesktop-sdk.bst:components/iputils.bst
+  - freedesktop-sdk.bst:components/openssh.bst
   - freedesktop-sdk.bst:vm/base-filesystem.bst
   - freedesktop-sdk.bst:vm/config/journald.bst
   - freedesktop-sdk.bst:vm/config/networkd.bst
@@ -44,6 +46,7 @@ depends:
   - freedesktop-sdk.bst:components/git-lfs.bst
   - freedesktop-sdk.bst:components/git.bst
 
+  - gnome-build-meta.bst:core/gnome-keyring.bst
   - gnome-build-meta.bst:gnomeos-deps/distrobox.bst
   - gnome-build-meta.bst:gnomeos-deps/toolbox.bst
   - gnome-build-meta.bst:gnomeos-deps/just.bst
