@@ -7,6 +7,7 @@ depends:
   - desktop/foot.bst
   - cli/chezmoi.bst
   - core/greetd.bst
+  - core/xdg-utils.bst
   - desktop/xdg-terminal-exec.bst
   - config/pam/archlinux-pam-configs.bst
   - config/greetd/service.bst
