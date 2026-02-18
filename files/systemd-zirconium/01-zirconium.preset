@@ -1,9 +1,9 @@
+# This is the user preset.
+
 enable dms.service
 enable chezmoi-init.service
 enable chezmoi-update.timer
 enable foot-server.service
-# FIXME: remove this line when rechunker-group-fix is patched
-disable rechunker-group-fix.service
 # FIXME: add these
 # enable iio-niri.service
 # enable fcitx5.service

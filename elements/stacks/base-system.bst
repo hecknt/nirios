@@ -53,6 +53,7 @@ depends:
   - gnome-build-meta.bst:gnomeos-deps/just.bst
 
   - core/os-release.bst
+  - config/systemd/zirconium.bst
   - cli/brew.bst
   - cli/brew-tarball.bst
 

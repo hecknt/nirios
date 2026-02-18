@@ -16,4 +16,5 @@ variables:
 config:
   install-commands:
   - install -Dm644 01-zirconium.preset -t "%{install-root}%{indep-libdir}/systemd/user-preset"
+  - install -Dm644 10-zirconium.preset -t "%{install-root}%{indep-libdir}/systemd/system-preset"
   - "%{install-extra}"
