@@ -5,6 +5,7 @@ depends:
   - stacks/bootc.bst
   - stacks/homebrew.bst
   - stacks/ffmpeg.bst
+  - stacks/gstreamer.bst
   - stacks/desktop.bst
 
   # zirconium bullshit
