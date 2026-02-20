@@ -12,6 +12,8 @@ environment:
   DOCUMENTATION_URL: "https://github.com/zirconium-dev/zirconium-hawaii"
   SUPPORT_URL: "https://github.com/zirconium-dev/zirconium-hawaii/issues"
   ID: "zirconium-hawaii"
+  # This variable should be updated along with the version of Freedesktop-SDK.
+  VERSION: "25.08"
 
 config:
   build-commands:
@@ -19,8 +21,8 @@ config:
     - |
       cat >"%{install-root}%{indep-libdir}/os-release" <<EOF
       NAME="${NAME}"
-      PRETTY_NAME="${NAME}"
-      VERSION="latest"
+      PRETTY_NAME="${NAME} ${VERSION}"
+      VERSION="${VERSION}"
       ID="${ID}"
       ID_LIKE="org.freedesktop.platform"
       VERSION_CODENAME="Hawaii"
