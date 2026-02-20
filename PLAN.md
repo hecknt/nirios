@@ -14,4 +14,3 @@
 
 - [ ] qt6ct (maybe qt6ct-kde patches?)
 - [ ] khal
-- [ ] cava
