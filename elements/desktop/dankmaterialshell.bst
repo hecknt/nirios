@@ -344,6 +344,7 @@ depends:
 - desktop/brightnessctl.bst
 - deps/qt6-qtmultimedia.bst
 - deps/dgop.bst
+- cli/cava.bst
 
 variables:
   make-args: build BUILD_TIME=2011-11-10_15:00:00
