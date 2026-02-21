@@ -2,7 +2,7 @@ kind: make
 
 sources:
 - kind: tar
-  url: github_files:AvengeMedia/dgop/releases/download/v0.2.2/dgop-0.2.2.tar.gz
+  url: github_files:AvengeMedia/dgop/releases/download/v%{version}/dgop-%{version}.tar.gz
   ref: ea045df478ee8cd246e9f80b85ea616c4faec0fbf957dd6de81b37f686d07013
 
 build-depends:
@@ -14,7 +14,8 @@ depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 
 variables:
-  make-args: build
+  version: 0.2.2
+  make-args: build BUILD_TIME=2011-11-10_15:00:00 VERSION=v%{version}
 
 config:
   install-commands:
