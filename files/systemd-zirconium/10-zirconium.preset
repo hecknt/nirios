@@ -1,5 +1,6 @@
 # This is the system preset.
 
+enable uupd.timer
 enable rechunker-group-fix.service
 
 # Keeping systemd-networkd enabled with NetworkManger breaks systemd-timesyncd for some reason
