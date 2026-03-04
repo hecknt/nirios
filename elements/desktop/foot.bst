@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: codeberg:dnkl/foot.git
   track: "*"
-  ref: 1.25.0-0-gb44a62724cd51c7fecdfd9d1b41a3691b11a4c27
+  ref: 1.26.0-0-g739cf115e6bc014b895bf945afccb88be6971be0
 
 build-depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst

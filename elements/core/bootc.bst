@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: github:bootc-dev/bootc.git
   track: main
-  ref: v1.13.0-15-gc089dbbdcd417b8826ebe7efa671451da516dc23
+  ref: v1.13.0-33-g242b7565677a824980744ebe585211d1ce49a14d
 - kind: cargo2
   ref:
   - kind: registry
@@ -163,6 +163,13 @@ sources:
     name: cfg_aliases
     version: 0.2.1
     sha: 613afe47fcd5fac7ccf1db93babcb082c5994d996f20b8b159f2ad1658eb5724
+  - kind: git
+    commit: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    repo: https://github.com/composefs/composefs-rs
+    query:
+      rev: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    name: cfsctl
+    version: 0.3.0
   - kind: registry
     name: chacha20
     version: 0.10.0
@@ -208,24 +215,31 @@ sources:
     version: 1.0.0
     sha: 55b672471b4e9f9e95499ea597ff64941a309b2cdbffcc46f2cc5e2d971fd335
   - kind: git
-    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
-    repo: https://github.com/containers/composefs-rs
+    commit: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    repo: https://github.com/composefs/composefs-rs
     query:
-      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+      rev: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
     name: composefs
     version: 0.3.0
   - kind: git
-    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
-    repo: https://github.com/containers/composefs-rs
+    commit: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    repo: https://github.com/composefs/composefs-rs
     query:
-      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+      rev: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
     name: composefs-boot
     version: 0.3.0
   - kind: git
-    commit: 0c6134653d66ac42c43bac4e1298bfb626aeba87
-    repo: https://github.com/containers/composefs-rs
+    commit: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    repo: https://github.com/composefs/composefs-rs
     query:
-      rev: 0c6134653d66ac42c43bac4e1298bfb626aeba87
+      rev: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    name: composefs-ioctls
+    version: 0.3.0
+  - kind: git
+    commit: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
+    repo: https://github.com/composefs/composefs-rs
+    query:
+      rev: b928c6bd6c051e111d3efc3d25cdaf9159182ed0
     name: composefs-oci
     version: 0.3.0
   - kind: registry
@@ -349,9 +363,17 @@ sources:
     version: 1.0.0
     sha: 34aa73646ffb006b8f5147f3dc182bd4bcb190227ce861fc4a4844bf8e3cb2c0
   - kind: registry
+    name: env_filter
+    version: 1.0.0
+    sha: 7a1c3cc8e57274ec99de65301228b537f1e4eedc1b8e0f9411c6caac8ae7308f
+  - kind: registry
     name: env_home
     version: 0.1.0
     sha: c7f84e12ccf0a7ddc17a6c41c93326024c42920d7ee630d04950e6926645c0fe
+  - kind: registry
+    name: env_logger
+    version: 0.11.9
+    sha: b2daee4ea451f429a58296525ddf28b45a3b64f1acf6587e2067437bb11e218d
   - kind: registry
     name: env_logger
     version: 0.8.4
@@ -1056,6 +1078,10 @@ sources:
     name: tempfile
     version: 3.24.0
     sha: 655da9c7eb6305c55742045d5a8d2037996d61d8de95806335c7c86ce0f82e9c
+  - kind: registry
+    name: terminal_size
+    version: 0.4.3
+    sha: 60b8cb979cb11c32ce1603f8137b22262a9d131aaa5c37b5678025f22b8becd0
   - kind: registry
     name: thiserror
     version: 1.0.69
