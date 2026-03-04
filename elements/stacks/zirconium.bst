@@ -2,6 +2,7 @@ kind: stack
 
 depends:
   - stacks/base-system.bst
+  - stacks/firewalld.bst
   - stacks/bootc.bst
   - stacks/homebrew.bst
   - stacks/ffmpeg.bst
