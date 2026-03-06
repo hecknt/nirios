@@ -29,6 +29,7 @@ depends:
   - gnome-build-meta.bst:core/gvfs-daemon.bst
 
   - freedesktop-sdk.bst:components/noto-emoji.bst
+  - gnome-build-meta.bst:gnomeos-deps/noto-cjk.bst
   - gnome-build-meta.bst:sdk/cantarell-fonts.bst
   - gnome-build-meta.bst:sdk/adwaita-fonts.bst
   - desktop/fonts/jetbrains-mono.bst
