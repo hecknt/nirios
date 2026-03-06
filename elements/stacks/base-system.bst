@@ -72,4 +72,5 @@ depends:
   - config/systemd/zirconium.bst
   - cli/brew.bst
   - cli/brew-tarball.bst
+  - cli/lsb-release.bst
 
