@@ -44,6 +44,7 @@ depends:
   - freedesktop-sdk.bst:components/tpm2-tools.bst
   - freedesktop-sdk.bst:components/tpm2-pkcs11.bst
   - freedesktop-sdk.bst:components/libfido2.bst
+  - freedesktop-sdk.bst:components/pcsc-lite.bst
   - freedesktop-sdk.bst:components/btrfs-progs.bst
   - freedesktop-sdk.bst:components/xfsprogs.bst
   - freedesktop-sdk.bst:components/erofs-utils.bst
