@@ -1,3 +1,6 @@
+[general]
+service = "greetd-spawn"
+
 [terminal]
 vt = 1
 

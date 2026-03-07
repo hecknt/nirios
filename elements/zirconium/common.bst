@@ -39,6 +39,10 @@ config:
     install -Dm0644 system_files/etc/xdg/* -t "%{install-root}%{sysconfdir}/xdg"
     cp -r "system_files/etc/containers" "%{install-root}%{sysconfdir}/containers"
 
+    # pam stuff
+    install -Dm0644 system_files/usr/share/greetd/greetd-spawn.pam_env.conf -t "%{install-root}%{prefix}/share/greetd"
+    install -Dm0644 system_files/usr/lib/pam.d/greetd-spawn -t "%{install-root}%{indep-libdir}/pam.d"
+
     # systemd services
     install -Dm0644 system_files/usr/lib/systemd/system/rechunker-group-fix.service -t "%{install-root}%{indep-libdir}/systemd/system"
     install -Dm0644 system_files/usr/lib/systemd/user/chezmoi-*.{service,timer} -t "%{install-root}%{indep-libdir}/systemd/user"
