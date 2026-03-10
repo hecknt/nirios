@@ -57,6 +57,7 @@ depends:
   - freedesktop-sdk.bst:components/polkit.bst
   - freedesktop-sdk.bst:components/steam-devices.bst
   - freedesktop-sdk.bst:extensions/codecs-extra/ffmpeg.bst
+  - freedesktop-sdk.bst:extensions/platform-vaapi-intel/intel-media-driver.bst
   - freedesktop-sdk.bst:components/git-lfs.bst
   - freedesktop-sdk.bst:components/git.bst
   - freedesktop-sdk.bst:components/unzip.bst
