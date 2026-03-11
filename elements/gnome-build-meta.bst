@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: gnome:gnome-build-meta.git
   track: master
-  ref: 49-branchpoint-522-g9adf71876fb8f1601291d1b42c9ebfc5a96eabae
+  ref: 49-branchpoint-524-gbf6dcf39396112d2304df129fc8b9b4660c226fd
 
 config:
   overrides:
