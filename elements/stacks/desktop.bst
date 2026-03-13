@@ -9,6 +9,7 @@ depends:
   - cli/chezmoi.bst
   - core/greetd.bst
   - core/xdg-utils.bst
+  - desktop/iio-niri.bst
   - desktop/xdg-terminal-exec.bst
   - config/pam/archlinux-pam-configs.bst
   - config/pam/greetd.bst
