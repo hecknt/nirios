@@ -29,6 +29,7 @@ config:
 
     # executables!
     install -Dm0755 mkosi.extra/usr/bin/* -t "%{install-root}%{bindir}"
+    install -Dm0755 mkosi.profiles/bootc-ostree/mkosi.extra/usr/bin/* -t "%{install-root}%{bindir}"
 
     # blehhh
     install -Dm0644 mkosi.extra/usr/share/flatpak/preinstall.d/*.preinstall -t "%{install-root}%{prefix}/share/flatpak/preinstall.d"
