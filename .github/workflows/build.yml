@@ -3,7 +3,7 @@ name: Build container image
 
 on:
   push:
-    branches: [main, alatiera/cas]
+    branches: [main]
     paths-ignore: ["**/README.md"]
   pull_request:
     branches: [main]
@@ -154,7 +154,6 @@ jobs:
 
       # FIXME: remove this, replace it with something that pulls a specific key
       - name: Generate necessary keys
-        # if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           just generate-keys
 
@@ -163,7 +162,6 @@ jobs:
           df -h
 
       - name: Buildstream build
-        # if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           source venv/bin/activate
           bst build oci/zirconium/image.bst
