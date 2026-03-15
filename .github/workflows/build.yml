@@ -58,7 +58,7 @@ jobs:
               [%{elapsed}][%{key}][%{element}] %{action} %{message}
           EOF
 
-          if [[ -n "$CASD_CLIENT_CERT" ]] && [[ -n "$CASD_CLIENT_ΚΕΥ" ]]; then
+          if [[ -n "$CASD_CLIENT_CERT" ]] && [[ -n "$CASD_CLIENT_KEY" ]]; then
 
             # Setup certificate for pushing to the cache
             echo "$CASD_CLIENT_CERT" > client.crt
