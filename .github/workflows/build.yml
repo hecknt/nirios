@@ -61,8 +61,9 @@ jobs:
           if [[ -n "$CASD_CLIENT_CERT" ]] && [[ -n "$CASD_CLIENT_KEY" ]]; then
 
             # Setup certificate for pushing to the cache
-            echo "$CASD_CLIENT_CERT" > client.crt
-            echo "$CASD_CLIENT_KEY" >  client.key
+            mkdir -p ~/.config/hawaii
+            echo "$CASD_CLIENT_CERT" > ~/.config/hawaii/client.crt
+            echo "$CASD_CLIENT_KEY" >  ~/.config/hawaii/client.key
 
             cat >>  ~/.config/buildstream.conf <<'EOF'
           artifacts:
@@ -75,8 +76,8 @@ jobs:
                 retry-delay: 1000
                 request-timeout: 180
               auth:
-                client-key: client.key
-                client-cert: client.crt
+                client-key: ~/.config/hawaii/client.key
+                client-cert: ~/.config/hawaii/client.crt
 
           source-caches:
             servers:
@@ -88,8 +89,8 @@ jobs:
                 retry-delay: 1000
                 request-timeout: 180
               auth:
-                client-key: client.key
-                client-cert: client.crt
+                client-key: ~/.config/hawaii/client.key
+                client-cert: ~/.config/hawaii/client.crt
 
           cache:
             storage-service:
@@ -100,8 +101,8 @@ jobs:
                 retry-delay: 1000
                 request-timeout: 180
               auth:
-                client-key: client.key
-                client-cert: client.crt
+                client-key: ~/.config/hawaii/client.key
+                client-cert: ~/.config/hawaii/client.crt
 
           remote-execution:
             execution-service:
@@ -112,8 +113,8 @@ jobs:
                 retry-delay: 1000
                 request-timeout: 180
               auth:
-                client-key: client.key
-                client-cert: client.crt
+                client-key: ~/.config/hawaii/client.key
+                client-cert: ~/.config/hawaii/client.crt
             action-cache-service:
               url: https://cache.projectbluefin.io:11002
               connection-config:
@@ -122,8 +123,8 @@ jobs:
                 retry-delay: 1000
                 request-timeout: 180
               auth:
-                client-key: client.key
-                client-cert: client.crt
+                client-key: ~/.config/hawaii/client.key
+                client-cert: ~/.config/hawaii/client.crt
           EOF
 
           fi
@@ -153,7 +154,6 @@ jobs:
 
       # FIXME: remove this, replace it with something that pulls a specific key
       - name: Generate necessary keys
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           just generate-keys
 
@@ -162,7 +162,6 @@ jobs:
           df -h
 
       - name: Buildstream build
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         run: |
           source venv/bin/activate
           bst build oci/zirconium/image.bst
@@ -177,6 +176,11 @@ jobs:
         run: |
           source venv/bin/activate
           bst artifact checkout --tar - oci/zirconium/image.bst | podman load
+
+      # Delete casd token 
+      - name: Delete token
+        if: always()
+        run: rm -f ~/.config/hawaii/client.key
 
         # This generates a timestamp like what is defined on the ArtifactHub documentation
         # E.G: 2022-02-08T15:38:15Z'
