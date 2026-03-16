@@ -3,7 +3,9 @@ kind: cmake
 sources:
 - kind: git_repo
   url: kde:frameworks/kimageformats.git
-  track: v6.*.*
+  # We're tracking v6.23.0 here because extra-cmake-modules in fdSDK 25.08.8 is just a little bit too old for v6.24.0.
+  # track: v6.*.*
+  track: v6.23.0
   exclude:
   - "*-beta*"
   - "*-rc*"
