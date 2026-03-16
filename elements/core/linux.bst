@@ -5,35 +5,35 @@ sources:
 - kind: remote
   (?):
   - arch == "aarch64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/aarch64/kernel-core-6.19.6-300.fc44.aarch64.rpm
-      ref: d1dd9380db7dbbed8c1c559303210ed2af83541a6ae6ea32c18227e1ae3f46ff
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/aarch64/kernel-core-6.19.8-300.fc44.aarch64.rpm
+      ref: da21c34ece9940ccb133fbfcd53dbbc2551d59db40f841503a7ad1240b9b27e4
   - arch == "x86_64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/x86_64/kernel-core-6.19.6-300.fc44.x86_64.rpm
-      ref: f836984169e9abca97c704185661d03f565d107dc4816653446c429f04d6ffaa
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/x86_64/kernel-core-6.19.8-300.fc44.x86_64.rpm
+      ref: e447c68cb91c46c8c4b51790839990c364eb45a2afbfdf0aae09dbec3feecccd
 - kind: remote
   (?):
   - arch == "aarch64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/aarch64/kernel-modules-6.19.6-300.fc44.aarch64.rpm
-      ref: 2a4f29454fb150d91e8e96f87c1ccb720e5edeb4e1ea70cf0104849647bf347a
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/aarch64/kernel-modules-6.19.8-300.fc44.aarch64.rpm
+      ref: 4db59a1f87fa8da6b9ee4ff882c5ca62b8a3cdd1cae466fa46892aee96506911
   - arch == "x86_64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/x86_64/kernel-modules-6.19.6-300.fc44.x86_64.rpm
-      ref: 94c7b7c234f81695b8326f0bed4700efc2260a074d4a92b64f7dbe305c928232
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/x86_64/kernel-modules-6.19.8-300.fc44.x86_64.rpm
+      ref: cab56730508b29e02d51a8c8856b8800c157a1fee0d1431dc839d668e8f7076e
 - kind: remote
   (?):
   - arch == "aarch64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/aarch64/kernel-modules-core-6.19.6-300.fc44.aarch64.rpm
-      ref: 13981b8a2e8c8fa93f4ba54f1d33864a7471b73bd9892953ccdf68338928c614
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/aarch64/kernel-modules-core-6.19.8-300.fc44.aarch64.rpm
+      ref: b8c3602455aaf6b2662c3337d8f2ba50f09d774370d4e1336995da57fcf2eff3
   - arch == "x86_64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/x86_64/kernel-modules-core-6.19.6-300.fc44.x86_64.rpm
-      ref: e687957f7193b8514e220c4f4b43f153a247954066eb11bb7446d90bc55daacb
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/x86_64/kernel-modules-core-6.19.8-300.fc44.x86_64.rpm
+      ref: 14b7fb1861915f804d0507002b1ab8c7d86d08a86de733d2c84c721cf31308b1
 - kind: remote
   (?):
   - arch == "aarch64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/aarch64/kernel-modules-extra-6.19.6-300.fc44.aarch64.rpm
-      ref: 7c0bf0315c8df2c79645992cb5b9d678c72c1ecbdaab17a31b8f87fdb2ee8517
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/aarch64/kernel-modules-extra-6.19.8-300.fc44.aarch64.rpm
+      ref: d6196da47c0e7c97727c028913def263fa651f9777e6843461aefbc6d68ba6c1
   - arch == "x86_64":
-      url: kojipkgs-fedora:packages/kernel/6.19.6/300.fc44/x86_64/kernel-modules-extra-6.19.6-300.fc44.x86_64.rpm
-      ref: 95c3a6fff8504b2be294f92bb72242f201823ae05c0741eab094d25e15fccbab
+      url: kojipkgs-fedora:packages/kernel/6.19.8/300.fc44/x86_64/kernel-modules-extra-6.19.8-300.fc44.x86_64.rpm
+      ref: 44664afea2918b184277dca315541001e3501c4382809f34f6c1572df16f5ff2
 
 build-depends:
 - freedesktop-sdk.bst:components/cpio.bst
