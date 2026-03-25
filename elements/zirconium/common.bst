@@ -26,24 +26,24 @@ variables:
 config:
   install-commands:
   - |
-    install -dm0755 "%{install-root}%{prefix}/share/zirconium"
-    cp -r mkosi.extra/usr/share/zirconium/./ "%{install-root}%{prefix}/share/zirconium/"
+    install -dm0755 "%{install-root}%{datadir}/zirconium"
+    cp -r mkosi.extra/usr/share/zirconium/./ "%{install-root}%{datadir}/zirconium/"
 
     # executables!
     install -Dm0755 mkosi.extra/usr/bin/* -t "%{install-root}%{bindir}"
     install -Dm0755 mkosi.profiles/bootc-ostree/mkosi.extra/usr/bin/* -t "%{install-root}%{bindir}"
 
     # blehhh
-    install -Dm0644 mkosi.extra/usr/share/flatpak/preinstall.d/*.preinstall -t "%{install-root}%{prefix}/share/flatpak/preinstall.d"
-    install -Dm0644 mkosi.extra/usr/share/fish/vendor_conf.d/*.fish -t "%{install-root}%{prefix}/share/fish/vendor_conf.d"
-    install -Dm0644 mkosi.extra/usr/share/pki/containers/*.pub -t "%{install-root}%{prefix}/share/pki/containers"
-    install -Dm0644 cosign.pub "%{install-root}%{prefix}/share/pki/containers/zirconium.pub"
+    install -Dm0644 mkosi.extra/usr/share/flatpak/preinstall.d/*.preinstall -t "%{install-root}%{datadir}/flatpak/preinstall.d"
+    install -Dm0644 mkosi.extra/usr/share/fish/vendor_conf.d/*.fish -t "%{install-root}%{datadir}/fish/vendor_conf.d"
+    install -Dm0644 mkosi.extra/usr/share/pki/containers/*.pub -t "%{install-root}%{datadir}/pki/containers"
+    install -Dm0644 cosign.pub "%{install-root}%{datadir}/pki/containers/zirconium.pub"
     install -Dm0644 mkosi.extra/etc/profile.d/*.sh -t "%{install-root}%{sysconfdir}/profile.d"
     install -Dm0644 mkosi.extra/etc/xdg/* -t "%{install-root}%{sysconfdir}/xdg"
     cp -r "mkosi.extra/etc/containers" "%{install-root}%{sysconfdir}/containers"
 
     # pam stuff
-    install -Dm0644 mkosi.extra/usr/share/greetd/greetd-spawn.pam_env.conf -t "%{install-root}%{prefix}/share/greetd"
+    install -Dm0644 mkosi.extra/usr/share/greetd/greetd-spawn.pam_env.conf -t "%{install-root}%{datadir}/greetd"
     install -Dm0644 mkosi.extra/usr/lib/pam.d/greetd-spawn -t "%{install-root}%{indep-libdir}/pam.d"
 
     # systemd services / tmpfiles

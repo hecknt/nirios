@@ -21,10 +21,10 @@ variables:
 config:
   install-commands:
   - |
-    install -dm0755 "%{install-root}%{prefix}/share/ublue-os"
+    install -dm0755 "%{install-root}%{datadir}/ublue-os"
 
     install -Dm0755 system_files/shared/usr/bin/luks* -t "%{install-root}%{bindir}"
-    cp -ra system_files/shared/usr/share/ublue-os/just "%{install-root}%{prefix}/share/ublue-os/just"
+    cp -ra system_files/shared/usr/share/ublue-os/just "%{install-root}%{datadir}/ublue-os/just"
   - |
     %{install-extra}
 

@@ -13,5 +13,5 @@ variables:
 
 config:
   install-commands:
-  - install -Dm644 adwaita.theme "%{install-root}%{prefix}/share/icons/default/index.theme"
+  - install -Dm644 adwaita.theme "%{install-root}%{datadir}/icons/default/index.theme"
   - "%{install-extra}"

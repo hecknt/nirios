@@ -16,8 +16,8 @@ variables:
 config:
   install-commands:
   - |
-    install -dm0755 "%{install-root}%{prefix}/share/zirconium"
-    cp -r $(pwd) "%{install-root}%{prefix}/share/zirconium/zdots"
+    install -dm0755 "%{install-root}%{datadir}/zirconium"
+    cp -r $(pwd) "%{install-root}%{datadir}/zirconium/zdots"
   - |
     %{install-extra}
 

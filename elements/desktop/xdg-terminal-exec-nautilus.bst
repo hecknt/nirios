@@ -19,6 +19,6 @@ variables:
 config:
   install-commands:
   - |
-    install -Dm0644 xdg-terminal-exec-nautilus.py -t %{install-root}%{prefix}/share/nautilus-python/extensions
+    install -Dm0644 xdg-terminal-exec-nautilus.py -t %{install-root}%{datadir}/nautilus-python/extensions
   - |
     %{install-extra}
