@@ -37,6 +37,9 @@ depends:
   - gnome-build-meta.bst:sdk/pinentry.bst
 
   - freedesktop-sdk.bst:components/noto-emoji.bst
+  - freedesktop-sdk.bst:components/tex-gyre-fonts.bst
+  - freedesktop-sdk.bst:components/google-crosextra-caladea.bst
+  - freedesktop-sdk.bst:components/google-crosextra-carlito.bst
   - gnome-build-meta.bst:gnomeos-deps/noto-cjk.bst
   - gnome-build-meta.bst:sdk/cantarell-fonts.bst
   - gnome-build-meta.bst:sdk/adwaita-fonts.bst
