@@ -4,6 +4,7 @@ public:
   bst:
     overlap-whitelist:
     - /etc/containers/policy.json
+    - /usr/share/xdg-terminal-exec/xdg-terminals.list
 
 # This is pulling from zirconium-dev/zirconium for various services and shell configurations.
 sources:
@@ -38,9 +39,9 @@ config:
     install -Dm0644 mkosi.extra/usr/share/fish/vendor_conf.d/*.fish -t "%{install-root}%{datadir}/fish/vendor_conf.d"
     install -Dm0644 mkosi.extra/usr/share/pki/containers/*.pub -t "%{install-root}%{datadir}/pki/containers"
     install -Dm0644 cosign.pub "%{install-root}%{datadir}/pki/containers/zirconium.pub"
-    install -Dm0644 mkosi.extra/etc/profile.d/*.sh -t "%{install-root}%{sysconfdir}/profile.d"
-    install -Dm0644 mkosi.extra/etc/xdg/* -t "%{install-root}%{sysconfdir}/xdg"
-    cp -r "mkosi.extra/etc/containers" "%{install-root}%{sysconfdir}/containers"
+    install -Dm0644 mkosi.extra/usr/share/factory/etc/profile.d/*.sh -t "%{install-root}%{sysconfdir}/profile.d"
+    install -Dm0644 mkosi.extra/usr/share/xdg-terminal-exec/xdg-terminals.list -t "%{install-root}%{datadir}/xdg-terminal-exec"
+    cp -r "mkosi.extra/usr/share/factory/etc/containers" "%{install-root}%{sysconfdir}/containers"
 
     # pam stuff
     install -Dm0644 mkosi.extra/usr/share/greetd/greetd-spawn.pam_env.conf -t "%{install-root}%{datadir}/greetd"

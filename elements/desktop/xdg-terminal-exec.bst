@@ -20,3 +20,10 @@ variables:
     prefix="%{prefix}"
   make-install-args: >-
     prefix="%{install-root}%{prefix}" install
+
+config:
+  install-commands:
+  - |
+    make %{make-install-args}
+    mkdir -p "%{install-root}%{docdir}/xdg-terminal-exec"
+    mv "%{install-root}%{datadir}/xdg-terminal-exec/xdg-terminals.list" "%{install-root}%{docdir}/xdg-terminal-exec"
