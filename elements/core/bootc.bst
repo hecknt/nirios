@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: github:bootc-dev/bootc.git
   track: v*
-  ref: v1.14.1-0-gad45118a5b893b741cea20de0569b3d3ebf29f92
+  ref: v1.15.0-0-gd8785c6c380db9afee054d39b54e643b26054b73
 - kind: cargo2
   url: crates:crates
   ref:
@@ -81,10 +81,10 @@ sources:
     version: 0.21.7
     sha: 9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567
   - kind: git
-    commit: d4be4933e09796f355076ad6daa60d570e64cec8
+    commit: 33b4bccc89596fb7b95e3975388f13d0828b1960
     repo: github:bootc-dev/bcvk
     query:
-      rev: d4be4933e09796f355076ad6daa60d570e64cec8
+      rev: 33b4bccc89596fb7b95e3975388f13d0828b1960
     name: bcvk-qemu
     version: 0.1.0
   - kind: registry
@@ -216,8 +216,8 @@ sources:
     sha: a1d728cc89cf3aee9ff92b05e62b19ee65a02b5702cff7d5a377e32c6ae29d8d
   - kind: registry
     name: clap_mangen
-    version: 0.2.31
-    sha: 439ea63a92086df93893164221ad4f24142086d535b3a0957b9b9bea2dc86301
+    version: 0.3.0
+    sha: d82842b45bf9f6a3be090dd860095ac30728042c08e0d6261ca7259b5d850f07
   - kind: registry
     name: color-eyre
     version: 0.6.5
@@ -660,8 +660,8 @@ sources:
     sha: 09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2
   - kind: registry
     name: libc
-    version: 0.2.180
-    sha: bcc35a38544a891a5f7c865aca548a982ccb3b8650a5b06d0fd33a10283c56fc
+    version: 0.2.183
+    sha: b5b646652bf6661599e1da8901b3b9522896f01e736bad5f723fe7a3a27f899d
   - kind: registry
     name: liboverdrop
     version: 0.1.0
@@ -744,8 +744,8 @@ sources:
     sha: 71e2746dc3a24dd78b3cfcb7be93368c6de9963d30f43a6a73998a9cf4b17b46
   - kind: registry
     name: nix
-    version: 0.30.1
-    sha: 74523f3a35e05aba87a1d978330aef40f67b0304ac79c1c00b294c9830543db6
+    version: 0.31.2
+    sha: 5d6d0705320c1e6ba1d912b5e37cf18071b6c2e9b7fa8215a1e8a7651966f5d3
   - kind: registry
     name: nom
     version: 8.0.0
@@ -952,12 +952,12 @@ sources:
     sha: 7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58
   - kind: registry
     name: rexpect
-    version: 0.6.2
-    sha: 2c1bcd4ac488e9d2d726d147031cceff5cff6425011ff1914049739770fa4726
+    version: 0.7.0
+    sha: e459b12e442eb95f78b7e69bb2c3a64fc96f24d90dbc47fb028d94ffb26ce1e8
   - kind: registry
     name: roff
-    version: 0.2.2
-    sha: 88f8660c1ff60292143c98d08fc6e2f654d722db50410e3f3797d40baaf9d8f3
+    version: 1.1.1
+    sha: 323c417e1d9665a65b263ec744ba09030cfb277e9daa0b018a4ab62e57bc8189
   - kind: registry
     name: rustc-demangle
     version: 0.1.27
