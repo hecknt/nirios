@@ -31,6 +31,7 @@ depends:
   - gnome-build-meta.bst:core-deps/xdg-desktop-portal-gnome.bst
   - gnome-build-meta.bst:core-deps/xdg-desktop-portal-gtk.bst
   - gnome-build-meta.bst:core-deps/boltd.bst
+  - gnome-build-meta.bst:core/gnome-disk-utility.bst
   - gnome-build-meta.bst:core/gnome-keyring.bst
   - gnome-build-meta.bst:core/nautilus.bst
   - desktop/xdg-terminal-exec-nautilus.bst
