@@ -62,6 +62,7 @@ depends:
   - freedesktop-sdk.bst:components/git.bst
   - freedesktop-sdk.bst:components/unzip.bst
   - freedesktop-sdk.bst:components/rsync.bst
+  - freedesktop-sdk.bst:components/jq.bst
 
   - gnome-build-meta.bst:core-deps/power-profiles-daemon.bst
   - gnome-build-meta.bst:gnomeos-deps/distrobox.bst
