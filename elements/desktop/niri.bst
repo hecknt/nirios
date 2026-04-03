@@ -1374,7 +1374,7 @@ sources:
     sha: b7c388c1b5e93756d0c740965c41e8822f866621d41acbdf6336a6a168f8840c
   - kind: git
     commit: f1d0d2c43e843233119af3dcf76d619e1afff4ee
-    repo: https://github.com/Smithay/smithay.git
+    repo: github:Smithay/smithay.git
     name: smithay
     version: 0.7.0
   - kind: registry
@@ -1383,7 +1383,7 @@ sources:
     sha: 3457dea1f0eb631b4034d61d4d8c32074caa6cd1ab2d59f2327bd8461e2c0016
   - kind: git
     commit: f1d0d2c43e843233119af3dcf76d619e1afff4ee
-    repo: https://github.com/Smithay/smithay.git
+    repo: github:Smithay/smithay.git
     name: smithay-drm-extras
     version: 0.1.0
   - kind: registry
