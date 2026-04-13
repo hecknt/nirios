@@ -49,7 +49,6 @@ build-depends:
 - freedesktop-sdk.bst:components/gcc.bst
 - freedesktop-sdk.bst:components/git.bst
 - freedesktop-sdk.bst:components/cmake.bst
-- freedesktop-sdk.bst:components/extra-cmake-modules.bst
 - freedesktop-sdk.bst:components/patch.bst
 - freedesktop-sdk.bst:components/vulkan-headers.bst
 - freedesktop-sdk.bst:components/glslang.bst
@@ -94,7 +93,6 @@ depends:
 - freedesktop-sdk.bst:components/hwdata.bst
 - deps/libxres.bst
 - deps/luajit.bst
-# luajit
 
 config:
   configure-commands:
