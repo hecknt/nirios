@@ -12,11 +12,11 @@ sources:
   base-dir: "usr/bin"
   (?):
   - arch == "aarch64":
-      url: github_files:twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_arm64.apk
-      ref: 28c98e4fbfd6ed9885df71fa2bb2a3606621409d6d3abbfd369e5367da5c27ea
+      url: github_files:twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_arm64.apk
+      ref: 265bd9f565306957aaac43a19493237a6d36461c75bc4f69e1d4be42f82104ef
   - arch == "x86_64":
-      url: github_files:twpayne/chezmoi/releases/download/v2.70.0/chezmoi_2.70.0_linux_amd64.apk
-      ref: 834a16457f243b6d89920153eafedd5c3d5211cb318c9b6622279b5da6ec2391
+      url: github_files:twpayne/chezmoi/releases/download/v2.70.1/chezmoi_2.70.1_linux_amd64.apk
+      ref: 2688f8cdc7c9bb941d1e166816d71580f55cea60f286acef647b184874997720
 
 build-depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
