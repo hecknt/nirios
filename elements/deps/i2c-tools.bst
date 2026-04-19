@@ -34,7 +34,7 @@ config:
     install -Dm0644 "i2c-tools.sysusers" "%{install-root}%{indep-libdir}/sysusers.d/i2c-tools.conf"
     install -Dm0644 "45-i2c-tools.rules" -t "%{install-root}%{indep-libdir}/udev/rules.d"
     install -Dm0644 "i2c-tools.conf" -t "%{install-root}%{indep-libdir}/modules-load.d"
-    make EXTRA="eeprog" PREFIX="%{install-root}%{prefix}" sbindir="%{install-root}%{bindir}" install
+    make EXTRA="eeprog" PREFIX="%{install-root}%{prefix}" sbindir="%{install-root}%{bindir}" libdir="%{install-root}%{libdir}" install
 
     pushd py-smbus
     python -m installer --destdir="%{install-root}" dist/*.whl
