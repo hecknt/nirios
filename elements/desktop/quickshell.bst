@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: outfoxxed:quickshell/quickshell
   track: master
-  ref: v0.2.0-73-g158db16b931d04b43ec84748ee49390ea9f7c3f8
+  ref: v0.2.0-138-g9a54119893bdd30fec628063322bc726f96afc1f
 
 build-depends:
 - freedesktop-sdk.bst:public-stacks/buildsystem-cmake.bst
@@ -13,10 +13,9 @@ build-depends:
 - freedesktop-sdk.bst:components/dummy-gbm.bst
 - freedesktop-sdk.bst:components/linux-pam.bst
 - freedesktop-sdk.bst:components/pkg-config.bst
+- freedesktop-sdk.bst:components/vulkan-headers.bst
 - freedesktop-sdk.bst:components/wayland-protocols.bst
 - deps/cli11.bst
-# FIXME: uncomment this when updating past v0.2.0-74. currently, v0.2.0-74 breaks building entirely, i don't know why
-# - freedesktop-sdk.bst:components/vulkan-headers.bst
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
@@ -26,6 +25,7 @@ depends:
 - freedesktop-sdk.bst:vm/mesa-default.bst
 - freedesktop-sdk.bst:components/mesa-headers.bst
 - freedesktop-sdk.bst:extensions/mesa/mesa.bst
+- deps/cpptrace.bst
 - deps/jemalloc.bst
 - deps/qt6-qtwayland.bst
 
@@ -35,5 +35,5 @@ variables:
     -DCMAKE_BUILD_TYPE=Release
     -DDISTRIBUTOR='Zirconium'
     -DDISTRIBUTOR_DEBUGINFO_AVAILABLE=YES
-    -DCRASH_REPORTER=OFF
+    -DCRASH_HANDLER=ON
     -DINSTALL_QML_PREFIX=%{lib}/qt6/qml
