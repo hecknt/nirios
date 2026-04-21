@@ -4,7 +4,6 @@ kind: stack
 depends:
   - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
   - freedesktop-sdk.bst:components/util-linux-full.bst
-  - core/linux.bst
   - freedesktop-sdk.bst:components/locales.bst
   - freedesktop-sdk.bst:components/linux-firmware.bst
   - freedesktop-sdk.bst:components/sof-firmware.bst

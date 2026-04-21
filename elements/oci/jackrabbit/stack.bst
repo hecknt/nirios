@@ -1,9 +1,9 @@
 kind: stack
 
 depends:
-  - stacks/zirconium.bst
-  - core/linux.bst
-  - core/initramfs.bst
+  - stacks/jackrabbit.bst
+  - gamerslop/linux-ogc.bst
+  - gamerslop/initramfs.bst
 
 public:
   bst:
@@ -34,3 +34,5 @@ public:
       - ln -s var/srv /srv
 
       - touch /etc/machine-id
+
+      - echo 'import "/usr/share/zirconium/just/67-gamerslop.just"' >> /usr/share/zirconium/just/00-start.just
