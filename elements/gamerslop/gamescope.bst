@@ -89,7 +89,7 @@ depends:
 - freedesktop-sdk.bst:components/xorg-util-macros.bst
 - gnome-build-meta.bst:core-deps/xorg-lib-xmu.bst
 - freedesktop-sdk.bst:components/spirv-headers.bst
-- freedesktop-sdk.bst:components/hwdata.bst
+- freedesktop-sdk.bst:components/pciutils.bst
 - deps/libxres.bst
 - deps/luajit.bst
 
