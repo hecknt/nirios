@@ -31,6 +31,6 @@ index 227020845..c99c224f8 100644
  - kind: git_repo
    url: github:flatpak/flatpak.git
 -  track: 1.1[02468]*
--  ref: 1.16.3-0-gb76f2533c72d65e20bfbc6ef0fb2f6ae9939013d
+-  ref: 1.16.6-0-ge761a8885453c217a931281092a641ebbdd0a0c6
 +  track: 1.1[13579]*
 +  ref: 1.17.6-0-g9b21874f1a175a9b7c79175a221fa043e202ca73
