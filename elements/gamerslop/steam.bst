@@ -12,7 +12,7 @@ runtime-depends:
 
 sources:
 - kind: tar
-  url: https://repo.steampowered.com/steam/archive/stable/steam_%{steam_version}.tar.gz
+  url: steampowered:steam/archive/stable/steam_%{steam_version}.tar.gz
   ref: 7f2d374a2fb413ced5b8125151456219d918a255872b4bb77016cbccf38bb7f1
 # The steam_version variable must be updated manually.
 variables:

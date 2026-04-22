@@ -1,0 +1,39 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index ae79619..e498ad7 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -648,7 +648,8 @@ dependencies = [
+ [[package]]
+ name = "libryzenadj"
+ version = "0.15.0"
+-source = "git+https://gitlab.com/shadowapex/libryzenadj-rs.git#f672540499dacc585c009149c7c5b036720c110e"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "44b8721b8aeee2714ed4e2fa91978153d4ed5a69c7e6188dc8d12ecdde13d35c"
+ dependencies = [
+  "errno",
+  "libryzenadj-sys",
+@@ -659,7 +660,8 @@ dependencies = [
+ [[package]]
+ name = "libryzenadj-sys"
+ version = "0.15.0"
+-source = "git+https://gitlab.com/shadowapex/libryzenadj-rs.git#f672540499dacc585c009149c7c5b036720c110e"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "82e83b1342fdb7a8b4eaea3bc0b25f3b3a1663e59a9dfb11b794cc7d0652a3f3"
+ dependencies = [
+  "bindgen",
+  "cmake",
+diff --git a/Cargo.toml b/Cargo.toml
+index 56220d1..5e7bbd9 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -28,9 +28,7 @@ xdg = "3.0.0"
+ toml = "0.8.23"
+ serde = { version = "1.0.219", features = ["derive"] }
+ udev = { version = "0.9.3", features = ["send", "sync"] }
+-
+-[target.'cfg(target_arch = "x86_64")'.dependencies]
+-libryzenadj = { git = "https://gitlab.com/shadowapex/libryzenadj-rs.git" }
++libryzenadj = { version = "0.15.0" }
+ 
+ [profile.release]
+ debug = false

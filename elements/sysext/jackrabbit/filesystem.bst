@@ -1,7 +1,7 @@
 kind: compose
 
 build-depends:
-- sysext/steam/deps.bst
+- sysext/jackrabbit/deps.bst
 
 config:
   exclude:

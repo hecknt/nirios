@@ -1,4 +1,3 @@
-# This action is partially taken from eos-build-meta: https://github.com/endlessm/eos-build-meta/blob/8949bcd0edbd49fe41153e5fb3a23f3016aa61a6/.github/workflows/build.yml
 name: Build container image
 
 on:
@@ -17,260 +16,35 @@ env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
   DEFAULT_TAG: "latest"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 600 # 10 hours
+  build-hawaii:
+    name: Build Hawaii Bootc Image
+    uses: ./.github/workflows/reusable-build-bootc.yml
+    secrets: inherit
     permissions:
       contents: read
       packages: write
       id-token: write
+    with:
+      image-name: "zirconium-hawaii"
+      element: "oci/zirconium/image.bst"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-
-      - name: Configure BuildStream
-        env:
-          CASD_CLIENT_CERT: ${{ vars.CASD_CLIENT_CERT }}
-          CASD_CLIENT_KEY: ${{ secrets.CASD_CLIENT_KEY }}
-        run: |
-          mkdir -p ~/.config
-          cat > ~/.config/buildstream.conf << EOF
-          # BuildStream user configuration
-          scheduler:
-            fetchers: 12
-            builders: 2
-            network-retries: 3
-
-          build:
-            max-jobs: 4
-
-          logging:
-            key-length: 0
-            verbose: true
-            error-lines: 20
-            message-lines: 20
-            debug: false
-            element-format: |
-              %{state: >12} %{full-key} %{name} %{workspace-dirs}
-            message-format: |
-              [%{elapsed}][%{key}][%{element}] %{action} %{message}
-          EOF
-
-          if [[ -n "$CASD_CLIENT_CERT" ]] && [[ -n "$CASD_CLIENT_KEY" ]]; then
-
-            # Setup certificate for pushing to the cache
-            mkdir -p ~/.config/hawaii
-            echo "$CASD_CLIENT_CERT" > ~/.config/hawaii/client.crt
-            echo "$CASD_CLIENT_KEY" >  ~/.config/hawaii/client.key
-
-            cat >>  ~/.config/buildstream.conf <<'EOF'
-          artifacts:
-            servers:
-            - url: https://cache.projectbluefin.io:11002
-              push: true
-              connection-config:
-                keepalive-time: 60
-                retry-limit: 5
-                retry-delay: 1000
-                request-timeout: 180
-              auth:
-                client-key: ~/.config/hawaii/client.key
-                client-cert: ~/.config/hawaii/client.crt
-
-          source-caches:
-            servers:
-            - url: https://cache.projectbluefin.io:11002
-              push: true
-              connection-config:
-                keepalive-time: 60
-                retry-limit: 5
-                retry-delay: 1000
-                request-timeout: 180
-              auth:
-                client-key: ~/.config/hawaii/client.key
-                client-cert: ~/.config/hawaii/client.crt
-
-          cache:
-            storage-service:
-              url: https://cache.projectbluefin.io:11002
-              connection-config:
-                keepalive-time: 60
-                retry-limit: 5
-                retry-delay: 1000
-                request-timeout: 180
-              auth:
-                client-key: ~/.config/hawaii/client.key
-                client-cert: ~/.config/hawaii/client.crt
-
-          remote-execution:
-            execution-service:
-              url: https://cache.projectbluefin.io:11002
-              connection-config:
-                keepalive-time: 60
-                retry-limit: 5
-                retry-delay: 1000
-                request-timeout: 180
-              auth:
-                client-key: ~/.config/hawaii/client.key
-                client-cert: ~/.config/hawaii/client.crt
-            action-cache-service:
-              url: https://cache.projectbluefin.io:11002
-              connection-config:
-                keepalive-time: 60
-                retry-limit: 5
-                retry-delay: 1000
-                request-timeout: 180
-              auth:
-                client-key: ~/.config/hawaii/client.key
-                client-cert: ~/.config/hawaii/client.crt
-          EOF
-
-          fi
-
-          cat ~/.config/buildstream.conf
-
-      - name: Install BuildStream and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            python3-pip python3-venv bubblewrap \
-            lzip xz-utils bzip2 gzip \
-            git wget curl \
-            ostree \
-            just
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install -r ./utils/requirements.txt
-
-      - name: Free disk space
-        uses: hastd/free-disk-space@78ec0490f953d89f024c95d0c293e6307ceac02e # v0.1.1
-
-      - name: Enable unprivileged userns
-        run: |
-          source venv/bin/activate
-          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-
-      # FIXME: remove this, replace it with something that pulls a specific key
-      - name: Generate necessary keys
-        run: |
-          just generate-keys
-
-      - name: Print disk usage before image build
-        run: |
-          df -h
-
-      - name: Buildstream build
-        run: |
-          source venv/bin/activate
-          bst build oci/zirconium/image.bst
-
-      - name: Print disk usage after image build
-        run: |
-          df -h
-          du -sh $HOME/.cache/buildstream
-
-      - name: Export Initial OCI Image
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          source venv/bin/activate
-          bst artifact checkout --tar - oci/zirconium/image.bst | podman load
-
-      # Delete casd token 
-      - name: Delete token
-        if: always()
-        run: rm -f ~/.config/hawaii/client.key
-
-        # This generates a timestamp like what is defined on the ArtifactHub documentation
-        # E.G: 2022-02-08T15:38:15Z'
-        # https://artifacthub.io/docs/topics/repositories/container-images/
-        # https://linux.die.net/man/1/date
-      - name: Get current date
-        id: date
-        run: echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" | tee "${GITHUB_OUTPUT}"
-
-      - name: Image Metadata
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
-        id: metadata
-        with:
-          tags: |
-            type=raw,value=${{ env.DEFAULT_TAG }}
-            type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-            type=raw,value={{date 'YYYYMMDD'}}
-            type=ref,event=pr
-            type=sha,enable=${{ github.event_name == 'pull_request' }}
-          labels: |
-            containers.bootc=1
-            io.artifacthub.package.deprecated=false
-            io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
-            io.artifacthub.package.license=MIT
-            io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
-            io.artifacthub.package.prerelease=false
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
-            org.opencontainers.image.created=${{ steps.date.outputs.date }}
-            org.opencontainers.image.description=${{ env.IMAGE_DESC }}
-            org.opencontainers.image.documentation=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
-            org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/blob/${{ github.sha }}/Containerfile
-            org.opencontainers.image.title=${{ env.IMAGE_NAME }}
-            org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
-            org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-          sep-tags: " "
-          sep-annotations: " "
-
-      - name: Build final OCI Image
-        env:
-          LABELS: ${{ steps.metadata.outputs.labels }}
-          TAGS: ${{ steps.metadata.outputs.tags }}
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        run: |
-          set -x
-
-          BUILD_ARGS=("--squash-all")
-          for tag in $TAGS; do
-            BUILD_ARGS+=("--tag" "$IMAGE_REGISTRY/$IMAGE_NAME:$tag")
-          done
-
-          while IFS= read -r label; do
-            BUILD_ARGS+=("--label" "$label")
-          done <<< "$LABELS"
-
-          podman build "${BUILD_ARGS[@]}" .
-
-      - name: Login to GitHub Container Registry
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LOGIN_USER: ${{ github.actor }}
-        run: |
-          echo "${GITHUB_TOKEN}" | podman login -u "${LOGIN_USER}" --password-stdin "ghcr.io"
-          echo "${GITHUB_TOKEN}" | docker login -u "${LOGIN_USER}" --password-stdin "ghcr.io" # For cosign
-
-      - name: Push to GHCR
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        id: push
-        env:
-          TAGS: ${{ steps.metadata.outputs.tags }}
-          MAX_RETRIES: 3
-        run: |
-          set -x
-          for i in $(seq "${MAX_RETRIES}"); do
-            for TAG in $TAGS; do
-              podman push "${IMAGE_REGISTRY}/${IMAGE_NAME}:$TAG" || sleep $((5 * i))
-            done
-          done
-
-      - name: Install Cosign
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
-
-      - name: Sign Image
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        env:
-          COSIGN_EXPERIMENTAL: false
-          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
-        run: |
-          for tag in ${{ steps.metadata.outputs.tags }}; do
-            cosign sign -y --new-bundle-format=false --use-signing-config=false --key env://COSIGN_PRIVATE_KEY "${IMAGE_REGISTRY}/${IMAGE_NAME}:$tag"
-          done
+  # Run this build AFTER build-hawaii. build-hawaii will cache all of the base packages.
+  build-hawaii-jackrabbit:
+    name: Build Hawaii Jackrabbit Bootc Image
+    uses: ./.github/workflows/reusable-build-bootc.yml
+    needs: build-hawaii
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      image-name: "zirconium-hawaii-jackrabbit"
+      element: "oci/jackrabbit/image.bst"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}

@@ -7,13 +7,13 @@ build-depends:
   - freedesktop-sdk.bst:components/erofs-utils.bst
   - freedesktop-sdk.bst:vm/prepare-image.bst
   - oci/zirconium/init-scripts.bst
-  - sysext/steam/init-scripts.bst
+  - sysext/jackrabbit/init-scripts.bst
   - filename: oci/zirconium/filesystem.bst
     config:
       location: /sysroot
-  - filename: sysext/steam/filesystem.bst
+  - filename: sysext/jackrabbit/filesystem.bst
     config:
-      location: /sysroot-steam
+      location: /sysroot-jackrabbit
 
 sources:
 - kind: local
@@ -42,7 +42,7 @@ config:
   build-commands:
     - mkdir fakecap
     - cp -a /sysroot sysroot
-    - cp -a /sysroot-steam sysroot-steam
+    - cp -a /sysroot-jackrabbit sysroot-jackrabbit
     - |
       prepare-image.sh \
         --sysroot sysroot \
@@ -51,30 +51,37 @@ config:
         --noroot --noboot --nodepmod >/dev/null
     - |
       prepare-image.sh \
-        --sysroot sysroot-steam \
-        --initscripts /initial_scripts-steam \
+        --sysroot sysroot-jackrabbit \
+        --initscripts /initial_scripts-jackrabbit \
         --seed "%{sysroot-seed}" \
         --noroot --noboot --nodepmod >/dev/null
 
     - |
-      mkdir -p sysroot-steam/usr/lib/extension-release.d
+      cd sysroot
+      cp -a --parents usr/share/zirconium/just/00-start.just ../sysroot-jackrabbit
+      echo 'import "/usr/share/zirconium/just/67-gamerslop.just"' >> ../sysroot-jackrabbit/usr/share/zirconium/just/00-start.just
 
-      cat <<EOF >sysroot-steam/usr/lib/extension-release.d/extension-release.steam
+    - rm /sysroot-jackrabbit/
+
+    - |
+      mkdir -p sysroot-jackrabbit/usr/lib/extension-release.d
+
+      cat <<EOF >sysroot-jackrabbit/usr/lib/extension-release.d/extension-release.jackrabbit
       ID="zirconium-hawaii"
       VERSION_ID="%{freedesktop-sdk-flatpak-branch}"
       EOF
 
     - |
       mkdir -p output
-      python ./make-layer.py sysroot/usr sysroot-steam/usr output/usr
+      python ./make-layer.py sysroot/usr sysroot-jackrabbit/usr output/usr
 
     - |
       mkdir -p tmp
 
     - |
       TMPDIR='%{build-root}/tmp' \
-      mkfs.erofs ${EROFS_OPTIONS} ${EROFS_WORKERS} steam-%{systemd-arch}.raw output
+      mkfs.erofs ${EROFS_OPTIONS} ${EROFS_WORKERS} jackrabbit-%{systemd-arch}.raw output
 
   install-commands:
     - |
-      mv steam-%{systemd-arch}.raw %{install-root}
+      mv jackrabbit-%{systemd-arch}.raw %{install-root}

@@ -1,7 +1,7 @@
 kind: filter
 
 build-depends:
-- sysext/steam/lib32.bst
+- sysext/jackrabbit/lib32.bst
 
 config:
   include:

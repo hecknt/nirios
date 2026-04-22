@@ -55,6 +55,8 @@ aliases:
   invisible-mirror-archives: https://invisible-mirror.net/archives/
   golang-proxy: https://proxy.golang.org/
   kojipkgs-fedora: https://kojipkgs.fedoraproject.org/
+  xorg-archive: https://www.x.org/archive/
+  steampowered: https://repo.steampowered.com/
 
   # git aliases go here
   codeberg: https://codeberg.org/
@@ -80,3 +82,5 @@ aliases:
   sourcehut: https://git.sr.ht/
   opencode: https://opencode.net/
   kde: https://invent.kde.org/
+  steamos-gitlab: https://gitlab.steamos.cloud/
+  sigrok: git://sigrok.org/
