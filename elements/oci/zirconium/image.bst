@@ -50,5 +50,5 @@ config:
             'org.opencontainers.image.url': 'https://github.com/zirconium-dev/zirconium-hawaii/'
             'containers.bootc': '1'
         index-annotations:
-          'org.opencontainers.image.ref.name': 'ghcr.io/zirconium-dev/zirconium-hawaii:latest'
+          'org.opencontainers.image.ref.name': 'localhost/zirconium-hawaii-input:latest'
       EOF
