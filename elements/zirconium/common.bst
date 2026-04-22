@@ -11,12 +11,11 @@ sources:
 - kind: git_repo
   url: github:zirconium-dev/zirconium.git
   track: main
-  ref: 44f4d0ecd0d5af1a1be336b2a5696cabf1d77bac
+  ref: 478b442e0a682c3ef20b0e4c782654d684268733
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 - freedesktop-sdk.bst:components/containers-common.bst
-- zirconium/projectbluefin-common.bst
 - cli/hyfetch.bst
 - cli/gum.bst
 - cli/fzf.bst
