@@ -16,5 +16,8 @@ config:
     # fuck you gnomeos, i want nmtui!!!!!!
     core-deps/NetworkManager.bst: freedesktop-sdk.bst:components/networkmanager.bst
 
+    # replace power-profiles-daemon with tuned everywhere
+    core-deps/power-profiles-daemon.bst: core/tuned.bst
+
     plugins/buildstream-plugins.bst: plugins/buildstream-plugins.bst
     plugins/buildstream-plugins-community.bst: plugins/buildstream-plugins-community.bst

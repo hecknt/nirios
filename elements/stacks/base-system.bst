@@ -63,7 +63,7 @@ depends:
   - freedesktop-sdk.bst:components/rsync.bst
   - freedesktop-sdk.bst:components/jq.bst
 
-  - gnome-build-meta.bst:core-deps/power-profiles-daemon.bst
+  - core/tuned.bst
   - gnome-build-meta.bst:gnomeos-deps/distrobox.bst
   - gnome-build-meta.bst:gnomeos-deps/toolbox.bst
   - gnome-build-meta.bst:gnomeos-deps/just.bst
