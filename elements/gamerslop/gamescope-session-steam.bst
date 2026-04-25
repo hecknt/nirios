@@ -27,7 +27,6 @@ config:
     install -Dm0755 -t "%{install-root}%{datadir}/gamescope-session-plus/sessions.d" "usr/share/gamescope-session-plus/sessions.d/steam"
     install -Dm0644 -t "%{install-root}%{datadir}/polkit-1/actions" "usr/share/polkit-1/actions/org.chimeraos.update.policy"
 
-    install -Dm0644 -t "%{install-root}%{datadir}/wayland-sessions" "usr/share/wayland-sessions/gamescope-session-steam.desktop"
     install -Dm0644 -t "%{install-root}%{datadir}/wayland-sessions" "usr/share/wayland-sessions/gamescope-session.desktop"
   - |
     %{install-extra}
