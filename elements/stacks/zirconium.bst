@@ -2,9 +2,9 @@ kind: stack
 
 depends:
   - stacks/base-system.bst
+  - cli/brew.bst
   - stacks/firewalld.bst
   - stacks/bootc.bst
-  - stacks/homebrew.bst
   - stacks/ffmpeg.bst
   - stacks/gstreamer.bst
   - stacks/desktop.bst

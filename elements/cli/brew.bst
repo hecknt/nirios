@@ -1,10 +1,10 @@
 kind: manual
 
 sources:
-- kind: git_repo
-  url: github:ublue-os/brew.git
-  track: main
-  ref: a34659d6bd756f0a54557f4de061a4ed5c3e4bd5
+- kind: docker
+  url: ghcr:ublue-os/brew
+  track: latest
+  ref: ab758cf15c0ae7a09fc2fc10e6a3e91e76bb0c569bde7628ee51126dc214df56
 
 depends:
 - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
