@@ -27,6 +27,9 @@ build-depends:
 - freedesktop-sdk.bst:components/pahole.bst
 - freedesktop-sdk.bst:components/python3.bst
 - freedesktop-sdk.bst:components/rsync.bst
+- freedesktop-sdk.bst:components/rust.bst
+- freedesktop-sdk.bst:components/rust-bindgen.bst
+- freedesktop-sdk.bst:components/rust-src.bst
 - freedesktop-sdk.bst:components/util-linux.bst
 - freedesktop-sdk.bst:components/zstd.bst
 # - filename: components/linux-module-cert.bst
