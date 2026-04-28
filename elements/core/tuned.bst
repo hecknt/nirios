@@ -46,3 +46,11 @@ config:
   # power-profiles-daemon compat
   - |
     make DESTDIR="%{install-root}" SBINDIR="%{bindir}" install-ppd
+
+  # remove unnecessary gui apps
+  - |
+    rm -v "%{install-root}%{bindir}"/tuned-gui
+    rm -rv "%{install-root}%{indep-libdir}"/python*/site-packages/tuned/gtk
+    rm -rv "%{install-root}%{datadir}"/tuned/ui
+    rm -v "%{install-root}%{datadir}"/icons/hicolor/scalable/apps/tuned.svg
+    rm -v "%{install-root}%{datadir}"/applications/tuned-gui.desktop
