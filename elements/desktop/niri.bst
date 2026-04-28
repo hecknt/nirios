@@ -7,6 +7,8 @@ sources:
   ref: v26.04-0-g8ed0da44d974c32c6877d2f4630c314da0717ecb
 - kind: cargo2
   url: crates:crates
+  git-mirrors:
+    https://github.com/: "github:"
   ref:
   - kind: registry
     name: accesskit

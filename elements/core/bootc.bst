@@ -7,6 +7,8 @@ sources:
   ref: v1.15.1-0-gbd93a1e5e9475642fe0d0084454e4111ee29fa14
 - kind: cargo2
   url: crates:crates
+  git-mirrors:
+    https://github.com/: "github:"
   ref:
   - kind: registry
     name: addr2line

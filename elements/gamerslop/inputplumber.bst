@@ -7,6 +7,8 @@ sources:
   ref: v0.76.1-0-g34ac6030311c9b7abeeb16efa0aaac2961ae9e7c
 - kind: cargo2
   url: crates:crates
+  git-mirrors:
+    https://github.com/: "github:"
   ref:
   - kind: registry
     name: adler2
@@ -1418,7 +1420,6 @@ sources:
     name: zvariant_utils
     version: 3.2.1
     sha: c6949d142f89f6916deca2232cf26a8afacf2b9fdc35ce766105e104478be599
-
 build-depends:
 - freedesktop-sdk.bst:public-stacks/buildsystem-make.bst
 - freedesktop-sdk.bst:components/pkg-config.bst
@@ -1441,6 +1442,6 @@ environment-nocache:
 variables:
   make-args: >-
     -j"${MAXJOBS}" build
-    
+
   make-install-args: >-
     PREFIX="%{install-root}/%{prefix}" NO_RELOAD=true install

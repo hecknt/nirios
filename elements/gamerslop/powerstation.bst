@@ -13,6 +13,8 @@ sources:
 
 - kind: cargo2
   url: crates:crates
+  git-mirrors:
+    https://gitlab.com/: "gitlab:"
   ref:
   - kind: registry
     name: addr2line
@@ -795,7 +797,6 @@ sources:
     name: zvariant_utils
     version: 3.2.0
     sha: e16edfee43e5d7b553b77872d99bc36afdda75c223ca7ad5e3fbecd82ca5fc34
-
 build-depends:
 - freedesktop-sdk.bst:public-stacks/buildsystem-make.bst
 - freedesktop-sdk.bst:components/pkg-config.bst
