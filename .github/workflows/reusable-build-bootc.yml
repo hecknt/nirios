@@ -48,10 +48,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - name: Configure BuildStream
-        env:
-          CASD_CLIENT_CERT: ${{ vars.CASD_CLIENT_CERT }}
-          CASD_CLIENT_KEY: ${{ secrets.CASD_CLIENT_KEY }}
+      - name: Configure BuildStream (no push)
+        if: ! inputs.publish
         run: |
           mkdir -p ~/.config
           cat > ~/.config/buildstream.conf << EOF
@@ -76,6 +74,7 @@ jobs:
           CASD_CLIENT_CERT: ${{ vars.CASD_CLIENT_CERT }}
           CASD_CLIENT_KEY: ${{ secrets.CASD_CLIENT_KEY }}
         run: |
+          mkdir -p ~/.config
           if [[ -n "$CASD_CLIENT_CERT" ]] && [[ -n "$CASD_CLIENT_KEY" ]]; then
 
             # Setup certificate for pushing to the cache
@@ -83,7 +82,22 @@ jobs:
             echo "$CASD_CLIENT_CERT" > ~/.config/hawaii/client.crt
             echo "$CASD_CLIENT_KEY" >  ~/.config/hawaii/client.key
 
-            cat >>  ~/.config/buildstream.conf <<'EOF'
+          cat > ~/.config/buildstream.conf << EOF
+          # BuildStream user configuration
+          scheduler:
+            fetchers: 24
+            builders: 4
+            network-retries: 3
+
+          logging:
+            verbose: true
+            message-format: '[%{wallclock}][%{elapsed}][%{key}][%{element}] %{action} %{message}'
+            error-lines: 80
+
+          build:
+            max-jobs: 32
+            retry-failed: true
+
           artifacts:
             servers:
             - url: https://cache.projectbluefin.io:11002
