@@ -57,23 +57,17 @@ jobs:
           cat > ~/.config/buildstream.conf << EOF
           # BuildStream user configuration
           scheduler:
-            fetchers: 12
-            builders: 2
+            fetchers: 24
+            builders: 4
             network-retries: 3
 
-          build:
-            max-jobs: 4
-
           logging:
-            key-length: 0
             verbose: true
-            error-lines: 20
-            message-lines: 20
-            debug: false
-            element-format: |
-              %{state: >12} %{full-key} %{name} %{workspace-dirs}
-            message-format: |
-              [%{elapsed}][%{key}][%{element}] %{action} %{message}
+            message-format: '[%{wallclock}][%{elapsed}][%{key}][%{element}] %{action} %{message}'
+            error-lines: 80
+
+          build:
+            retry-failed: true
           EOF
 
       - name: Configure BuildStream to push to artifact servers
