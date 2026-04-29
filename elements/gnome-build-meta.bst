@@ -5,8 +5,6 @@ sources:
   url: gnome:gnome-build-meta.git
   track: gnome-50
   ref: 50.1-6-g5c1fbbc571da5a7450c578e32180db991aea0728
-- kind: patch_queue
-  path: patches/gnome-build-meta
 
 config:
   overrides:
