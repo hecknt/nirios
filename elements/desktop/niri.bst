@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: github:niri-wm/niri.git
   track: main
-  ref: v26.04-6-g26100096e843e72004fc29224286e216891be182
+  ref: v26.04-8-gdd1c3bcb9f1ef416df33ffa22d1d9bcee1398e7d
 - kind: cargo2
   url: crates:crates
   git-mirrors:
