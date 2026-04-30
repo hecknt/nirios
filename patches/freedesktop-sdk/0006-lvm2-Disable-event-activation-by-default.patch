@@ -1,7 +1,7 @@
-From 9c9adbf3445d11875ff293834183638d58292d78 Mon Sep 17 00:00:00 2001
+From 2297e281698216d74db5e0b78594259637a21729 Mon Sep 17 00:00:00 2001
 From: Valentin David <me@valentindavid.com>
 Date: Sat, 24 Jan 2026 12:13:27 +0100
-Subject: [PATCH 08/11] lvm2: Disable event activation by default
+Subject: [PATCH 06/14] lvm2: Disable event activation by default
 
 Because lvm2 does not have a distro wide configuration in /usr and all
 is in /etc, configuring it is not compatible with systemd-sysupdate
@@ -26,7 +26,14 @@ diff --git a/elements/components/lvm2-base.bst b/elements/components/lvm2-base.b
 index 5f289a56a..5b24218eb 100644
 --- a/elements/components/lvm2-base.bst
 +++ b/elements/components/lvm2-base.bst
-@@ -22,6 +22,7 @@ variables:
+@@ -15,20 +15,21 @@ variables:
+   conf-local: >-
+     --enable-dmeventd
+     --enable-cmdlib
+     --enable-pkgconfig
+     --enable-udev_sync
+     --enable-udev_rules
+     --with-confdir=%{sysconfdir}
      --with-staticdir=%{sbindir}
      --with-usrlibdir=%{libdir}
      --with-usrsbindir=%{sbindir}
@@ -34,6 +41,13 @@ index 5f289a56a..5b24218eb 100644
  
  config:
    configure-commands:
+     (<):
+     - |
+       rm configure
+ 
+ public:
+   bst:
+     split-rules:
 -- 
-2.53.0
+2.54.0
 

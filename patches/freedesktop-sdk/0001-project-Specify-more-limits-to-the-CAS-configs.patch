@@ -1,7 +1,7 @@
-From fbffabeed63b1d7ba4aa013ffcdb6adf6597e990 Mon Sep 17 00:00:00 2001
+From e42293be22470d4441dcc1e66cdb5e48d13f9f66 Mon Sep 17 00:00:00 2001
 From: Jordan Petridis <jpetridis@gnome.org>
 Date: Mon, 18 Aug 2025 01:06:36 +0100
-Subject: [PATCH 02/11] project: Specify more limits to the CAS configs
+Subject: [PATCH 01/14] project: Specify more limits to the CAS configs
 
 These are disabled by default due to backward compatibility
 so we need to explicitly set some values for timeouts and
@@ -17,7 +17,14 @@ diff --git a/project.conf b/project.conf
 index dd5de9059..9600a65fd 100644
 --- a/project.conf
 +++ b/project.conf
-@@ -156,11 +156,17 @@ artifacts:
+@@ -149,25 +149,31 @@ options:
+ 
+   prod_keys:
+     type: bool
+     description: Use production boot keys
+     default: False
+ 
+ artifacts:
  - url: https://cache.freedesktop-sdk.io:11001
    connection-config:
      keepalive-time: 60
@@ -35,6 +42,13 @@ index dd5de9059..9600a65fd 100644
  
  sandbox:
    build-arch: '%{target_arch}'
+ 
+ elements:
+   autotools:
+     (@): include/_private/autotools-conf.yml
+   cmake:
+     (@): include/_private/cmake-conf.yml
+   meson:
 -- 
-2.53.0
+2.54.0
 
