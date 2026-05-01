@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: github:notofonts/notofonts.github.io
   track: "noto-monthly-release-*"
-  ref: noto-monthly-release-2026.04.01-0-g132db3be0104de9ca0aac3c7b1dd33a8fd29ff39
+  ref: noto-monthly-release-2026.05.01-0-g66c4b351c58f99ace5a6265d329080d74b057909
 - kind: local
   path: files/noto
 

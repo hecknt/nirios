@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: github:bootc-dev/bootc.git
   track: v*
-  ref: v1.15.1-0-gbd93a1e5e9475642fe0d0084454e4111ee29fa14
+  ref: v1.15.2-0-g12faf08c26107eb1ed4f4050a6c09faae1200f71
 - kind: cargo2
   url: crates:crates
   git-mirrors:
@@ -147,8 +147,8 @@ sources:
     sha: 6fe962d42e07c22aec2618191c3683412735b7e6dcd7bab2eec811ab4697c58e
   - kind: registry
     name: cap-std-ext
-    version: 5.1.1
-    sha: 56f9d7cf114dea582f663f03f4c563d0fc5ca2c8fa4c496eb538d8f01981ea51
+    version: 5.1.2
+    sha: 6c6c5ac70c4465b47c3a322330f87c2df31e42ac527497d94dc1f1d1cb8989f9
   - kind: registry
     name: cap-tempfile
     version: 3.4.5
