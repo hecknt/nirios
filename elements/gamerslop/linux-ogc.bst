@@ -6,12 +6,12 @@ sources:
 - kind: git_repo
   url: github:OpenGamingCollective/linux.git
   track: "v*-ogc1"
-  ref: v6.19.11-ogc1-0-g5d91aaf45107656fcb4d4ccd754e01d99e9f94fd
+  ref: v6.19.14-ogc1-0-ga550de110771e6b682ef5fcbc610d718cb1e2327
 - kind: git_repo
   directory: ogc-kernel-packages
   url: github:OpenGamingCollective/kernel-packages.git
   track: "v*-ogc1"
-  ref: v6.19.11-ogc1-0-g5e2fd3d613c9b6095f4d9c2dbed99cde371fe428
+  ref: v6.19.14-ogc1-0-g5e2fd3d613c9b6095f4d9c2dbed99cde371fe428
 - kind: local
   path: files/linux/config-utils.sh
 - kind: local
