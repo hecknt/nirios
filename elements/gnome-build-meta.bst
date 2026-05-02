@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: gnome:gnome-build-meta.git
   track: gnome-50
-  ref: 50.1-8-g7cdf615635fd23771695aa717a00408ffab35aaf
+  ref: 50.1-10-gea1fe03562897772c19b38b4d6b366977b3efa0b
 
 config:
   overrides:
@@ -16,6 +16,3 @@ config:
 
     # replace power-profiles-daemon with tuned everywhere
     core-deps/power-profiles-daemon.bst: core/tuned.bst
-
-    plugins/buildstream-plugins.bst: plugins/buildstream-plugins.bst
-    plugins/buildstream-plugins-community.bst: plugins/buildstream-plugins-community.bst
