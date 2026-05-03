@@ -2,6 +2,19 @@
 
 auth       required     pam_securetty.so
 auth       requisite    pam_nologin.so
-auth       include      system-local-login
-account    include      system-local-login
-session    include      system-local-login
+auth       requisite    pam_nologin.so
+auth       include      system-auth
+
+account    required     pam_access.so
+account    required     pam_nologin.so
+account    include      system-auth
+
+session    optional     pam_loginuid.so
+session    optional     pam_keyinit.so       force revoke
+session    include      system-auth
+session    optional     pam_lastlog.so       silent
+session    optional     pam_motd.so
+session    optional     pam_mail.so          dir=/var/spool/mail standard quiet
+session    optional     pam_umask.so
+-session   optional     pam_systemd.so
+session    required     pam_env.so

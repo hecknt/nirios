@@ -13,7 +13,6 @@ depends:
   - desktop/iio-niri.bst
   - desktop/xdg-terminal-exec.bst
   - config/satty.bst
-  - config/pam/archlinux-pam-configs.bst
   - config/pam/greetd.bst
   - config/greetd/service.bst
   - config/greetd/dms.bst
