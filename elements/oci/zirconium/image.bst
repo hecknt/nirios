@@ -35,6 +35,15 @@ config:
       rm /layer/usr/share/factory/etc/issue
 
     - |
+      # Start with en_US.UTF-8 instead of C.UTF-8
+      rm /layer/usr/share/factory/etc/locale.conf
+
+    - |
+      # Neither of these line up with anything in /etc
+      rm /layer/usr/share/factory/etc/pam.d/other
+      rm /layer/usr/share/factory/etc/pam.d/system-auth
+
+    - |
       glib-compile-schemas /layer/usr/share/glib-2.0/schemas
 
     - |
