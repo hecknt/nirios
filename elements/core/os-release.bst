@@ -1,5 +1,9 @@
 kind: manual
 
+sources:
+- kind: local
+  path: files/os-release
+
 depends:
   - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
 
@@ -37,3 +41,14 @@ config:
       EOF
       mkdir -p %{install-root}%{sysconfdir}/
       ln -sf ../usr/lib/os-release %{install-root}%{sysconfdir}/os-release
+
+    - |
+      cat >"%{install-root}%{indep-libdir}/system-release" <<EOF
+      Freedesktop SDK release %{freedesktop-sdk-flatpak-branch} (Flatpak runtime)
+      EOF
+      mkdir -p %{install-root}%{sysconfdir}/
+      ln -sf ../usr/lib/system-release %{install-root}%{sysconfdir}/system-release
+
+    - |
+      install -Dm0644 issue -t %{install-root}%{indep-libdir}
+      ln -sf ../usr/lib/issue %{install-root}%{sysconfdir}/issue

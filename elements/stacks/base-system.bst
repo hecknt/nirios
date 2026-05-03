@@ -73,7 +73,6 @@ depends:
   - gnome-build-meta.bst:gnomeos-deps/zram-generator.bst
 
   - core/os-release.bst
-  - core/system-release.bst
   - config/systemd/zirconium.bst
   - config/bash-config.bst
   - config/polkit/networkmanager-wheel-nopasswd.bst

@@ -31,6 +31,10 @@ config:
       systemd-sysusers --root /layer
 
     - |
+      # We use our own issue in core/os-release.bst
+      rm /layer/usr/share/factory/etc/issue
+
+    - |
       glib-compile-schemas /layer/usr/share/glib-2.0/schemas
 
     - |
