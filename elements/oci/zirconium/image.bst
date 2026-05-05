@@ -44,6 +44,11 @@ config:
       rm /layer/usr/share/factory/etc/pam.d/system-auth
 
     - |
+      # A footgun.
+      # https://tim.siosm.fr/blog/2023/12/22/dont-change-defaut-login-shell/
+      rm /layer/usr/bin/chsh
+
+    - |
       glib-compile-schemas /layer/usr/share/glib-2.0/schemas
 
     - |
