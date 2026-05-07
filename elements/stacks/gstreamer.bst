@@ -8,3 +8,4 @@ depends:
   - freedesktop-sdk.bst:components/gstreamer-plugins-good.bst
   - freedesktop-sdk.bst:components/gstreamer-plugins-rs.bst
   - freedesktop-sdk.bst:components/gstreamer-plugins-ugly.bst
+  - gnome-build-meta.bst:core/gst-thumbnailers.bst
