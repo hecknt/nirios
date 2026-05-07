@@ -1,13 +1,12 @@
 kind: stack
 
 depends:
-  - stacks/base-system.bst
   - cli/brew.bst
-  - stacks/firewalld.bst
+  - stacks/base-system.bst
   - stacks/bootc.bst
-  - stacks/ffmpeg.bst
-  - stacks/gstreamer.bst
+  - stacks/codecs.bst
   - stacks/desktop.bst
+  - stacks/firewalld.bst
 
   # zirconium bullshit
   - zirconium/assets.bst
