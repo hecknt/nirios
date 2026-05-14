@@ -6,7 +6,7 @@ sources:
 - kind: git_repo
   url: github:OpenGamingCollective/linux.git
   track: "v*-ogc*"
-  ref: v6.19.14-ogc3-0-g8bd99a0c2099b1b4611ad2c4687c69ffa499f3f6
+  ref: v6.19.14-ogc4-0-g0ecb059a1fbed8dbfdcd5b50a5be8ddc426ea5fc
 - kind: git_repo
   directory: ogc-kernel-packages
   url: github:OpenGamingCollective/kernel-packages.git
