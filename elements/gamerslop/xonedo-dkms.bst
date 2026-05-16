@@ -10,6 +10,12 @@ build-depends:
 config:
   commands:
   - |
+    # install modprobe file and license file from xonedo.bst
+    install -Dm0644 "%{indep-libdir}/modprobe.d/xonedo.conf" "%{install-root}%{indep-libdir}/modprobe.d/xonedo.conf"
+    install -dm0755 "%{install-root}%{licensedir}/zirconium/xonedo"
+    cp -aT "%{licensedir}/zirconium/xonedo" "%{install-root}%{licensedir}/zirconium/xonedo"
+
+  - |
     kernel_modules_path=$(find "%{indep-libdir}/modules" -maxdepth 1 -type d | tail -n 1)
     kernel_version=$(basename ${kernel_modules_path})
 

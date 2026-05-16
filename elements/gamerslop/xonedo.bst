@@ -34,5 +34,7 @@ config:
 
     mkdir -p "%{install-root}%{prefix}/src/xonedo-${version}"
     cp -r auth bus driver transport Kbuild dkms.conf "%{install-root}%{prefix}/src/xonedo-${version}/"
+
+    install -Dm0644 install/modprobe.conf "%{install-root}%{indep-libdir}/modprobe.d/xonedo.conf"
   - |
     %{install-extra}
