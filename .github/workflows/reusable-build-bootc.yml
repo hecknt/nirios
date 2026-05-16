@@ -202,7 +202,7 @@ jobs:
         run: |
           df -h
 
-      - name: Buildstream build dependencies
+      - name: Buildstream build (dependencies)
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
         run: |
           source venv/bin/activate
@@ -210,7 +210,7 @@ jobs:
 
       # For some reason, it takes about 5-6x longer to build filesystem and runtime when using a remote-execution server.
       # This ensures that we don't use the remote-execution server for the specific elements that are slower to build.
-      - name: Configure BuildStream to not push to artifact servers
+      - name: Configure BuildStream to not use remote-execution server
         if: inputs.publish && steps.determine-if-need-for-build.outputs.run-build == 'true'
         env:
           CASD_CLIENT_CERT: ${{ vars.CASD_CLIENT_CERT }}
@@ -258,7 +258,7 @@ jobs:
                 client-cert: ~/.config/hawaii/client.crt
           EOF
 
-      - name: Buildstream build image
+      - name: Buildstream build (image)
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
         run: |
           source venv/bin/activate
