@@ -9,7 +9,7 @@ sources:
   url: github:AvengeMedia/DankMaterialShell.git
   # FIXME: unpin this when https://github.com/AvengeMedia/DankMaterialShell/issues/2445 is fixed
   # track: master
-  ref: v1.4.0-511-gc923c4332256de12196e4b91b28489fcfb461d2f
+  ref: v1.4.0-510-g9f2ae6241ed97f86ef9e7570fd528e3915a0cb84
 - kind: local
   path: files/dankmaterialshell
 
