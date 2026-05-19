@@ -6,12 +6,18 @@ sources:
 - kind: git_repo
   url: github:OpenGamingCollective/linux.git
   track: "v*-ogc*"
-  ref: v6.19.14-ogc5-0-gfbbdb0ad71a15c183054cdadefc1cbf63bf89295
+  ref: v7.0.9-ogc3-0-gdcad54d2480699ac5515a7372a106224d9106acc
 - kind: git_repo
   directory: ogc-kernel-packages
   url: github:OpenGamingCollective/kernel-packages.git
   track: "v*-ogc*"
-  ref: v6.19.14-ogc5-0-g817e6ddfb0377756e66260bdf968b46484971d27
+  ref: v7.0.9-ogc2-0-gea2f210400ffcd82994c05a482fa91f6efcddea5
+- kind: git_repo
+  directory: archlinux-kernel-config
+  url: archlinux_gitlab:archlinux/packaging/packages/linux
+  # manually update this track to the version of the linux kernel that ogc is using
+  track: 7.0.9*
+  ref: 7.0.9.arch1-1-0-g9dc647453e526bda4a145e7f33217ce9ad92e0b8
 - kind: local
   path: files/linux/config-utils.sh
 - kind: local
@@ -75,8 +81,21 @@ config:
     rm -rf .git
 
   - |
-    cp ogc-kernel-packages/arch/config .config
+    # put the variables that we need to unset into a file usable by fdSDK's config-utils.sh
+    for f in $(grep -Evh "^[[:blank:]]*#|^[[:blank:]]*$" ogc-kernel-packages/config/{ogc,arch}.config.unset); do
+      echo remove $f >> ogc-config.sh
+    done
+
+  - |
+    # merge Arch Linux's default config with ogc's config set
+    cp archlinux-kernel-config/config.x86_64 .config
+    for f in ogc arch; do
+      scripts/kconfig/merge_config.sh .config ogc-kernel-packages/config/${f}.config.set
+    done
+
+  - |
     . ./config-utils.sh
+    . ./ogc-config.sh
     . ./gamerslop-config.sh
 
   - |
