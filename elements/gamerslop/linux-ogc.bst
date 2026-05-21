@@ -11,7 +11,7 @@ sources:
   directory: ogc-kernel-packages
   url: github:OpenGamingCollective/kernel-packages.git
   track: "v*-ogc*"
-  ref: v7.0.9-ogc2-0-gea2f210400ffcd82994c05a482fa91f6efcddea5
+  ref: v7.0.9-ogc3-0-ga3d9fc18d4ca707d80148301a12073ebca8c2858
 - kind: git_repo
   directory: archlinux-kernel-config
   url: archlinux_gitlab:archlinux/packaging/packages/linux
