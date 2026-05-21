@@ -1,4 +1,4 @@
-From 3406fca5fce1561094bc394fb949dbeb5996ce2e Mon Sep 17 00:00:00 2001
+From 9fb78e6083d84e7512d45cf04a71d9b35d33d51c Mon Sep 17 00:00:00 2001
 From: Jordan Petridis <jpetridis@gnome.org>
 Date: Mon, 18 Aug 2025 01:06:36 +0100
 Subject: [PATCH 1/9] project: Specify more limits to the CAS configs

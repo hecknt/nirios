@@ -1,7 +1,7 @@
-From d7c30b13796a328049706d62241dfbf2edd80aa2 Mon Sep 17 00:00:00 2001
+From ef058b495201a3e29fd9f89b252b475a86e0ec2a Mon Sep 17 00:00:00 2001
 From: Valentin David <me@valentindavid.com>
 Date: Sun, 26 Oct 2025 11:03:32 +0100
-Subject: [PATCH 4/9] openssh: Use /etc/ssh as sysconfdir
+Subject: [PATCH 3/9] openssh: Use /etc/ssh as sysconfdir
 
 All other distros use that. And there are expectations from systemd
 for it to be configured so.

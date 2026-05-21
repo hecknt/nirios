@@ -3,8 +3,7 @@ kind: manual
 sources:
 - kind: git_repo
   url: github:sched-ext/scx-loader.git
-  # FIXME: set track back to "v*" after fdSDK upgrades to have rustc 1.95.0 (so after fdSDK 25.08.12)
-  track: v1.1.0
+  track: v*
   ref: v1.1.0-0-g1e475504316b4a588d1f3634b2e40a5859067744
 - kind: cargo2
   url: crates:crates

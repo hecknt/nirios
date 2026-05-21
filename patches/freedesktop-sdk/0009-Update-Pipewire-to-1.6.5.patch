@@ -1,17 +1,17 @@
-From 776fb10df9928814588584b8c0befe718f95374a Mon Sep 17 00:00:00 2001
-From: Valentin David <me@valentindavid.com>
-Date: Fri, 17 Apr 2026 10:46:15 +0100
-Subject: [PATCH 8/9] Update Pipewire to 1.6.1
+From 93657e4a9eb97bd9a76c2efec2cd7b0d941ecc4f Mon Sep 17 00:00:00 2001
+From: Jordan Petridis <jpetridis@gnome.org>
+Date: Thu, 21 May 2026 23:30:12 +0300
+Subject: [PATCH 9/9] Update Pipewire to 1.6.5
 
 ---
- elements/components/pipewire-base.bst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ elements/components/pipewire-base.bst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/elements/components/pipewire-base.bst b/elements/components/pipewire-base.bst
-index f73a623c9..a38e15d02 100644
+index a38e15d02..e5b14429c 100644
 --- a/elements/components/pipewire-base.bst
 +++ b/elements/components/pipewire-base.bst
-@@ -139,11 +139,11 @@ public:
+@@ -139,11 +139,12 @@ public:
        - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node-factory.so.debug'
        - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node.so.debug'
        - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-zeroconf-discover.so.debug'
@@ -22,8 +22,9 @@ index f73a623c9..a38e15d02 100644
  sources:
  - kind: git_repo
    url: freedesktop:PipeWire/pipewire.git
--  ref: 1.6.0-0-g700cea78dbe7564131d51b21a7795e2567ee048a
-+  ref: 1.6.1-0-gb7341d068947225fcdf62d39277606e8516d7f52
+-  ref: 1.6.1-0-gb7341d068947225fcdf62d39277606e8516d7f52
++  track: "*.*.*"
++  ref: 1.6.5-0-g55848f4260a2d2302f9f6bd304d82616976ef9af
 -- 
 2.54.0
 
