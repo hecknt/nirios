@@ -25,6 +25,10 @@ on:
         description: "Image element to build"
         required: true
         type: string
+      track-element:
+        description: "Element to determine whether image needs to be built"
+        required: true
+        type: string
     secrets:
       SIGNING_SECRET:
         description: "The private key used to sign the image"
@@ -51,6 +55,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Setup Just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4
+
+      - name: Set Image version
+        run: |
+          just generate-image-version
 
       - name: Configure BuildStream (no push)
         run: |
@@ -185,7 +196,7 @@ jobs:
         id: determine-if-need-for-build
         run: |
           source venv/bin/activate
-          bst artifact show ${{ inputs.image-element }} | grep "available" || echo "run-build=true" >> $GITHUB_OUTPUT
+          bst artifact show ${{ inputs.track-element }} | grep "available" || echo "run-build=true" >> $GITHUB_OUTPUT
 
       - name: Free disk space
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
