@@ -2,10 +2,10 @@ name: Build container image
 
 on:
   push:
-    branches: [main]
+    branches: [edge]
     paths-ignore: ["**/README.md"]
   pull_request:
-    branches: [main]
+    branches: [edge]
   workflow_dispatch:
 
 env:
@@ -14,7 +14,7 @@ env:
   IMAGE_LOGO_URL: "https://avatars.githubusercontent.com/u/237492973?s=400&v=4"
   IMAGE_NAME: "${{ github.event.repository.name }}"
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
-  DEFAULT_TAG: "latest"
+  DEFAULT_TAG: "edge"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -33,7 +33,8 @@ jobs:
       image-name: "zirconium-hawaii"
       element: "oci/zirconium/stack.bst"
       image-element: "oci/zirconium/image.bst"
-      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+      default-tag: "edge"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/edge', github.event.repository.default_branch) }}
 
   # Run this build AFTER build-hawaii. build-hawaii will cache all of the base packages.
   build-hawaii-jackrabbit:
@@ -49,4 +50,5 @@ jobs:
       image-name: "zirconium-hawaii-jackrabbit"
       element: "oci/jackrabbit/stack.bst"
       image-element: "oci/jackrabbit/image.bst"
-      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+      default-tag: "edge"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/edge', github.event.repository.default_branch) }}
