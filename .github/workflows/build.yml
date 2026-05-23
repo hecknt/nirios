@@ -51,6 +51,6 @@ jobs:
       image-name: "zirconium-hawaii-jackrabbit"
       element: "oci/jackrabbit/stack.bst"
       image-element: "oci/jackrabbit/image.bst"
-      track-element: "oci/zirconium/filesystem.bst"
+      track-element: "oci/jackrabbit/filesystem.bst"
       default-tag: "edge"
       publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/edge', github.event.repository.default_branch) }}
