@@ -1,0 +1,5 @@
+# Non interactive login shell should not load .bashrc
+# Non bash shells should not load .bashrc
+if [ "${PS1-}" ] && [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ]; then
+  . "$HOME/.bashrc"
+fi

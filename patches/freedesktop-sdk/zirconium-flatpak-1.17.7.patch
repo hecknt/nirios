@@ -1,0 +1,36 @@
+diff --git a/elements/components/flatpak-minimal.bst b/elements/components/flatpak-minimal.bst
+index 536b8627c..ea074072e 100644
+--- a/elements/components/flatpak-minimal.bst
++++ b/elements/components/flatpak-minimal.bst
+@@ -29,7 +29,6 @@ variables:
+     -Dsystem_helper=disabled
+     -Dxauth=disabled
+     -Dsystem_bubblewrap=bwrap
+-    -Dhttp_backend=curl
+     -Ddconf=disabled
+     -Dmalcontent=disabled
+     -Dselinux_module=disabled
+diff --git a/elements/components/flatpak.bst b/elements/components/flatpak.bst
+index 9989a2a9e..de592d5b8 100644
+--- a/elements/components/flatpak.bst
++++ b/elements/components/flatpak.bst
+@@ -35,7 +35,6 @@ variables:
+   meson-local: >-
+     -Dgtkdoc=disabled
+     -Dsystem_bubblewrap=bwrap
+-    -Dhttp_backend=curl
+     -Ddconf=disabled
+     -Dmalcontent=disabled
+     -Dselinux_module=disabled
+diff --git a/elements/include/flatpak.yml b/elements/include/flatpak.yml
+index b2620c34b..e957d49fd 100644
+--- a/elements/include/flatpak.yml
++++ b/elements/include/flatpak.yml
+@@ -1,5 +1,5 @@
+ sources:
+ - kind: git_repo
+   url: github:flatpak/flatpak.git
+-  track: 1.1[02468]*
+-  ref: 1.16.6-0-ge761a8885453c217a931281092a641ebbdd0a0c6
++  track: 1.1[13579]*
++  ref: 1.17.7-0-gb4c53a4cfffd5dd471589249e35be6ab9e08b6a5

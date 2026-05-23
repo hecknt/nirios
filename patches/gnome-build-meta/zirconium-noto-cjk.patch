@@ -1,0 +1,39 @@
+diff --git a/elements/gnomeos-deps/noto-cjk.bst b/elements/gnomeos-deps/noto-cjk.bst
+index 5ca130efe..bb426efd9 100644
+--- a/elements/gnomeos-deps/noto-cjk.bst
++++ b/elements/gnomeos-deps/noto-cjk.bst
+@@ -7,17 +7,17 @@ build-depends:
+ 
+ sources:
+ - kind: zip
+-  url: 
+-    github_files:notofonts/noto-cjk/releases/download/Sans2.004/03_NotoSansCJK-OTC.zip
++  url:
++    github_files:notofonts/noto-cjk/releases/download/Sans2.004/01_NotoSansCJK-OTF-VF.zip
+   base-dir: ''
+   directory: sans
+-  ref: 528f4e1b25ff3badb0321b38d015d954c4c0de926c7830ef50e4a1948f6a3eed
++  ref: d5e33aebad9f8a0c0896a4a29199ef85ca966134db164426c74e83e6f13c43cd
+ - kind: zip
+-  url: 
+-    github_files:notofonts/noto-cjk/releases/download/Serif2.001/04_NotoSerifCJKOTC.zip
++  url:
++    github_files:notofonts/noto-cjk/releases/download/Serif2.003/02_NotoSerifCJK-OTF-VF.zip
+   base-dir: ''
+   directory: serif
+-  ref: 2f0630f88752d50b11a427bdd71f20f7178219e647c56cbaf36c032dbe1ed9d0
++  ref: 7898cfb54156cc0d8a2f2c00d5645c573ff367d03d29085bb495966d99d2529e
+ - kind: local
+   path: files/noto-cjk/generate-config.sh
+ 
+@@ -30,8 +30,8 @@ config:
+     ./generate-config.sh >65-noto-cjk.conf
+ 
+   install-commands:
+-  - install -Dm644 -t '%{install-root}%{datadir}/fonts/noto' sans/NotoSansCJK-{Bold,Regular}.ttc
+-  - install -Dm644 -t '%{install-root}%{datadir}/fonts/noto' serif/OTC/NotoSerifCJK-{Bold,Regular}.ttc
++  - install -Dm644 -t '%{install-root}%{datadir}/fonts/noto' sans/Variable/OTC/NotoSansCJK-VF.otf.ttc
++  - install -Dm644 -t '%{install-root}%{datadir}/fonts/noto' serif/Variable/OTC/NotoSerifCJK-VF.otf.ttc
+   - |
+     confdir="$(pkg-config --variable=confdir fontconfig)"
+     install -Dm644 -t "%{install-root}${confdir}/conf.available" 65-noto-cjk.conf

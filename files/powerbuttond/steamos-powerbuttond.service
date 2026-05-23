@@ -1,0 +1,10 @@
+[Unit]
+Description=Power Button daemon for SteamOS
+
+[Service]
+ExecStart=/usr/lib/hwsupport/steamos-powerbuttond
+Restart=on-failure
+Slice=session.slice
+
+[Install]
+WantedBy=default.target

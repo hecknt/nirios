@@ -1,0 +1,31 @@
+# Sourced from https://github.com/endlessm/eos-build-meta
+# Python dependencies required to build EOS7 (OSTree stage).
+
+buildstream >= 2.5.0
+
+# There is an API break in Click 8.3.0 that causes breakage in BuildStream 2.5.0.
+# As of 2025-09-23, we are awaiting a new BuildStream release adapting to the new
+# API. Meanwhile we force a compatible version of Click.
+click == 8.2.1
+
+# Dulwich is required by the `git_repo` source plugin from
+# buildstream-plugins-community.
+#
+# The upstream project is known to break API even in patch releases so we
+# must always pin a specific version.
+dulwich == 0.24.0
+
+# Required by eos-sb-signer element plugin, used when option `signed_boot` is
+# set to "endless"
+#
+# The `pypy13` package on PyPI is a temporary fork of `pypg` with
+# necessary modernizations as documented at:
+# <https://pypi.org/project/PGPy13/>
+pgpy13
+
+# Requests is required by various non-core BuildStream plugins.
+requests
+
+# tomlkit is required by the cargo2 source plugin from
+# buildstream-plugins-community.
+tomlkit

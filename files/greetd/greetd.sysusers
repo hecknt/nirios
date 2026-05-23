@@ -1,0 +1,3 @@
+g greeter 767
+u greeter 767 "greetd greeter user" - /bin/bash
+m greeter video

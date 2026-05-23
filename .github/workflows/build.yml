@@ -1,0 +1,52 @@
+name: Build container image
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["**/README.md"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  IMAGE_DESC: "Opinionated niri + bootc image"
+  IMAGE_KEYWORDS: "bootc,niri,freedesktop-sdk"
+  IMAGE_LOGO_URL: "https://avatars.githubusercontent.com/u/237492973?s=400&v=4"
+  IMAGE_NAME: "${{ github.event.repository.name }}"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
+  DEFAULT_TAG: "latest"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build-hawaii:
+    name: Build Hawaii Bootc Image
+    uses: ./.github/workflows/reusable-build-bootc.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      image-name: "zirconium-hawaii"
+      element: "oci/zirconium/stack.bst"
+      image-element: "oci/zirconium/image.bst"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+
+  # Run this build AFTER build-hawaii. build-hawaii will cache all of the base packages.
+  build-hawaii-jackrabbit:
+    name: Build Hawaii Jackrabbit Bootc Image
+    uses: ./.github/workflows/reusable-build-bootc.yml
+    needs: build-hawaii
+    secrets: inherit
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    with:
+      image-name: "zirconium-hawaii-jackrabbit"
+      element: "oci/jackrabbit/stack.bst"
+      image-element: "oci/jackrabbit/image.bst"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}

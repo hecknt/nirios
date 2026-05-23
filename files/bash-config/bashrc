@@ -1,0 +1,21 @@
+alias ls='ls --color=auto'
+
+# Non-interactive login shells do not set PS1. So we need to make sure
+# to set it in interactive non-login shells from the same session.
+export PS1='[\u@\h \W]\$ '
+
+if ! shopt -q login_shell ; then
+  for i in /etc/profile.d/*.sh; do
+    if [ -r "${i}" ]; then
+      if [ "${-#*i}" != "$-" ]; then
+        . "${i}"
+      else
+        . "${i}" >/dev/null
+      fi
+    fi
+  done
+  unset i
+fi
+export PATH="${HOME}/.local/bin:${PATH}"
+
+source /usr/share/zirconium/shell/pure.bash

@@ -1,0 +1,12 @@
+diff --git a/elements/extensions/vulkaninfo/vulkan-tools.bst b/elements/extensions/vulkaninfo/vulkan-tools.bst
+index b948b692e..ac6fe546d 100644
+--- a/elements/extensions/vulkaninfo/vulkan-tools.bst
++++ b/elements/extensions/vulkaninfo/vulkan-tools.bst
+@@ -1,7 +1,6 @@
+ kind: cmake
+ 
+ (@):
+-- elements/extensions/include/app.yml
+ - elements/include/vulkan-stack.yml
+ 
+ build-depends:
