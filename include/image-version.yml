@@ -1,0 +1,5 @@
+# l for local
+# Gets updated in Justfile in CI via (git log -1 --format=%cd --date=format:%Y%m%d%H%M)
+image-version: 'l.1'
+# git rev-parse HEAD
+commit: 'unknown'

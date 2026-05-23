@@ -9,6 +9,9 @@ build-depends:
   - filename: oci/zirconium/filesystem.bst
     config:
       location: /layer
+  - filename: oci/os-release.bst
+    config:
+      location: /layer
 
 environment:
   LD_PRELOAD: /usr/libexec/fakecap/fakecap.so
