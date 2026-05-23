@@ -2,7 +2,7 @@ kind: stack
 
 depends:
   - stacks/jackrabbit.bst
-  - gamerslop/linux-ogc.bst
+  - core/linux-ogc.bst
   - core/initramfs.bst
   - gamerslop/xonedo-dkms.bst
   - gamerslop/xonedo-firmware.bst
