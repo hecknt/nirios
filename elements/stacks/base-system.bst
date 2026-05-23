@@ -59,6 +59,7 @@ depends:
   - freedesktop-sdk.bst:components/git.bst
   - freedesktop-sdk.bst:components/rsync.bst
   - freedesktop-sdk.bst:components/jq.bst
+  - gnome-build-meta.bst:gnomeos-deps/ld-config.bst
 
   - core/tuned.bst
   - gnome-build-meta.bst:gnomeos-deps/distrobox.bst
