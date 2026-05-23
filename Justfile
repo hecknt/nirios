@@ -46,8 +46,8 @@ checkout-container $element="oci/zirconium/image.bst" $file="oci.tar":
     set -x
     bst artifact checkout --tar ${file} ${element}
 
-build-containerfile $image_name=image_name:
-    sudo podman build --squash-all -t "${image_name}:latest" .
+build-containerfile $image_name=image_name $image_tag=image_tag:
+    sudo podman build --squash-all -t "${image_name}:${image_tag}" .
 
 bootc *ARGS:
     sudo podman run \

@@ -12,10 +12,11 @@ variables:
 
 environment:
   NAME: "Zirconium Hawaii"
+  CODENAME: "Hawaii"
   HOME_URL: "https://zirconium.gay"
   DOCUMENTATION_URL: "https://github.com/zirconium-dev/zirconium-hawaii"
   SUPPORT_URL: "https://github.com/zirconium-dev/zirconium-hawaii/issues"
-  ID: "zirconium-hawaii"
+  ID: "zirconium"
   VERSION: "%{freedesktop-sdk-flatpak-branch}"
 
 config:
@@ -30,7 +31,7 @@ config:
       BASE_OS_NAME="Freedesktop SDK ${VERSION}"
       ID="${ID}"
       ID_LIKE="org.freedesktop.platform"
-      VERSION_CODENAME="Hawaii"
+      VERSION_CODENAME="${CODENAME}"
       CPE_NAME="cpe:/o:zirconium-dev:zirconium-hawaii"
       HOME_URL="${HOME_URL}"
       SUPPORT_URL="${SUPPORT_URL}"
