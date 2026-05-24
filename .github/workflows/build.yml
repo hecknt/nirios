@@ -33,7 +33,9 @@ jobs:
       image-name: "zirconium-hawaii"
       element: "oci/zirconium/stack.bst"
       image-element: "oci/zirconium/image.bst"
-      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+      track-element: "oci/zirconium/filesystem.bst"
+      default-tag: "latest"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/main', github.event.repository.default_branch) }}
 
   # Run this build AFTER build-hawaii. build-hawaii will cache all of the base packages.
   build-hawaii-jackrabbit:
@@ -49,4 +51,6 @@ jobs:
       image-name: "zirconium-hawaii-jackrabbit"
       element: "oci/jackrabbit/stack.bst"
       image-element: "oci/jackrabbit/image.bst"
-      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+      track-element: "oci/jackrabbit/filesystem.bst"
+      default-tag: "latest"
+      publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/main', github.event.repository.default_branch) }}

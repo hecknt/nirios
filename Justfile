@@ -34,6 +34,19 @@ generate-keys $vendor=vendor:
     done
     cp files/boot-keys/linux-module-cert.crt files/boot-keys/modules/linux-module-cert.crt
 
+generate-image-version:
+    #!/usr/bin/env bash
+    set -xeu
+
+    # IMAGE_VERSION=(branch).(date of last commit)
+    IMAGE_VERSION=$(git rev-parse --abbrev-ref HEAD).$(git log -1 --format=%cd --date=format:%Y%m%d%H%M)
+    COMMIT=$(git rev-parse HEAD)
+
+    cat > include/image-version.yml <<EOF
+    image-version: ${IMAGE_VERSION}
+    commit: ${COMMIT}
+    EOF
+
 build *ARGS:
     #!/usr/bin/env bash
     set -eu

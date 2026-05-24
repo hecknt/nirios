@@ -4,6 +4,7 @@ build-depends:
   - freedesktop-sdk.bst:components/fakecap.bst
   - stacks/zirconium.bst
   - freedesktop-sdk.bst:vm/prepare-image.bst
+  - core/os-release.bst
   - gamerslop/linux-ogc.bst
   - core/bootc.bst
 

@@ -9,6 +9,9 @@ build-depends:
   - filename: oci/zirconium/filesystem.bst
     config:
       location: /layer
+  - filename: oci/os-release.bst
+    config:
+      location: /layer
 
 environment:
   LD_PRELOAD: /usr/libexec/fakecap/fakecap.so
@@ -33,6 +36,7 @@ config:
     - |
       # We use our own issue in core/os-release.bst
       rm /layer/usr/share/factory/etc/issue
+      cp /layer/etc/issue /layer/usr/share/factory/etc/issue
 
     - |
       # Start with en_US.UTF-8 instead of C.UTF-8

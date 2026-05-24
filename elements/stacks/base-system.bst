@@ -70,7 +70,6 @@ depends:
   - gnome-build-meta.bst:gnomeos-deps/hidraw-udev.bst
   - gnome-build-meta.bst:gnomeos-deps/zram-generator.bst
 
-  - core/os-release.bst
   - config/systemd/zirconium.bst
   - config/polkit/networkmanager-wheel-nopasswd.bst
   - cli/lsb-release.bst

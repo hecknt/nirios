@@ -1,3 +1,5 @@
+# Base os-release element that is used for DKMS modules and the initramfs.
+# This is to prevent unnecessary rebuilds of elements such as `oci/zirconium/filesystem.bst`. The initramfs does not need IMAGE_VERSION information, and neither does any DKMS module.
 kind: manual
 
 sources:
