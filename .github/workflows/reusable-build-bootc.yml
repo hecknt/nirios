@@ -301,15 +301,26 @@ jobs:
         id: date
         run: echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" | tee "${GITHUB_OUTPUT}"
 
+      - name: Get buildstream metadata
+        id: bstmetadata
+        run: |
+          set -xeuo pipefail
+          image_version="$(yq .image-version include/image-version.yml)"
+          image_version="${image_version#*$"."}"
+
+          echo "image_version=${image_version}" >> "${GITHUB_OUTPUT}"
+          echo "branch=$(yq .variables.branch project.conf)" >> "${GITHUB_OUTPUT}"
+
       - name: Image Metadata
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
         id: metadata
         with:
           tags: |
-            type=raw,value=${{ env.DEFAULT_TAG }}
-            type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-            type=raw,value={{date 'YYYYMMDD'}}
+            type=raw,value=${{ env.DEFAULT_TAG }},enable=${{ env.DEFAULT_TAG == 'latest' }}
+            type=raw,value=${{ steps.bstmetadata.outputs.branch }}
+            type=raw,value=${{ env.DEFAULT_TAG }}.{{ steps.bstmetadata.outputs.image_version }},enable=${{ env.DEFAULT_TAG == 'latest' }}
+            type=raw,value=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstmetadata.outputs.image_version }}
             type=ref,event=pr
             type=sha,enable=${{ github.event_name == 'pull_request' }}
           labels: |
@@ -327,7 +338,7 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
+            org.opencontainers.image.version=${{ steps.bstmetadata.output.branch }}.{{ steps.bstmetadata.outputs.image_version }}
           sep-tags: " "
           sep-annotations: " "
 

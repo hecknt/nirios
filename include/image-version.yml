@@ -1,5 +1,2 @@
-# l for local
-# Gets updated in Justfile in CI via (git log -1 --format=%cd --date=format:%Y%m%d%H%M)
-image-version: 'l.1'
-# git rev-parse HEAD
-commit: 'unknown'
+image-version: '%{branch}.202605232106'
+commit: '492abc375a774d89ade35e6358e25dafaf386424'

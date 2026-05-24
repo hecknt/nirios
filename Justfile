@@ -38,13 +38,14 @@ generate-image-version:
     #!/usr/bin/env bash
     set -xeu
 
-    # IMAGE_VERSION=(branch).(date of last commit)
-    IMAGE_VERSION=$(git rev-parse --abbrev-ref HEAD).$(git log -1 --format=%cd --date=format:%Y%m%d%H%M)
+    # git command prints the date
+    IMAGE_VERSION=$(git log -1 --format=%cd --date=format:%Y%m%d%H%M)
+    # git command prints the current commit hash
     COMMIT=$(git rev-parse HEAD)
 
     cat > include/image-version.yml <<EOF
-    image-version: ${IMAGE_VERSION}
-    commit: ${COMMIT}
+    image-version: '%{branch}.${IMAGE_VERSION}'
+    commit: '${COMMIT}'
     EOF
 
 build *ARGS:
