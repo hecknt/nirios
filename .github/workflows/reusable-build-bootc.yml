@@ -306,9 +306,8 @@ jobs:
         run: |
           set -xeuo pipefail
           version="$(yq .image-version include/image-version.yml)"
-          version="${version#*$"."}"
 
-          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          echo "version=${version#*$'.'}" >> "${GITHUB_OUTPUT}"
           echo "branch=$(yq .variables.branch project.conf)" >> "${GITHUB_OUTPUT}"
 
       - name: Image Metadata
@@ -338,7 +337,7 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ steps.bstmetadata.output.branch }}.{{ steps.bstmetadata.outputs.version }}
+            org.opencontainers.image.version=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstmetadata.outputs.version }}
           sep-tags: " "
           sep-annotations: " "
 
