@@ -198,6 +198,55 @@ jobs:
           source venv/bin/activate
           bst artifact show ${{ inputs.track-element }} | grep "available" || echo "run-build=true" >> $GITHUB_OUTPUT
 
+      # This generates a timestamp like what is defined on the ArtifactHub documentation
+      # E.G: 2022-02-08T15:38:15Z'
+      # https://artifacthub.io/docs/topics/repositories/container-images/
+      # https://linux.die.net/man/1/date
+      - name: Get current date
+        if: steps.determine-if-need-for-build.outputs.run-build == 'true'
+        id: date
+        run: echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" | tee "${GITHUB_OUTPUT}"
+
+      - name: Get buildstream metadata
+        id: bstmetadata
+        run: |
+          set -xeuo pipefail
+          version="$(yq .image-version include/image-version.yml)"
+
+          echo "version=${version#*$'.'}" >> "${GITHUB_OUTPUT}"
+          echo "branch=$(yq .variables.branch project.conf)" >> "${GITHUB_OUTPUT}"
+
+      - name: Image Metadata
+        if: steps.determine-if-need-for-build.outputs.run-build == 'true'
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
+        id: metadata
+        with:
+          tags: |
+            type=raw,value=${{ env.DEFAULT_TAG }},enable=${{ env.DEFAULT_TAG == 'latest' }}
+            type=raw,value=${{ steps.bstmetadata.outputs.branch }}
+            type=raw,value=${{ env.DEFAULT_TAG }}.${{ steps.bstmetadata.outputs.version }},enable=${{ env.DEFAULT_TAG == 'latest' }}
+            type=raw,value=${{ steps.bstmetadata.outputs.branch }}.${{ steps.bstmetadata.outputs.version }}
+            type=ref,event=pr
+            type=sha,enable=${{ github.event_name == 'pull_request' }}
+          labels: |
+            containers.bootc=1
+            io.artifacthub.package.deprecated=false
+            io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
+            io.artifacthub.package.license=MIT
+            io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
+            io.artifacthub.package.prerelease=false
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
+            org.opencontainers.image.created=${{ steps.date.outputs.date }}
+            org.opencontainers.image.description=${{ env.IMAGE_DESC }}
+            org.opencontainers.image.documentation=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
+            org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/blob/${{ github.sha }}/Containerfile
+            org.opencontainers.image.title=${{ env.IMAGE_NAME }}
+            org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.version=${{ steps.bstmetadata.outputs.branch }}.${{ steps.bstmetadata.outputs.version }}
+          sep-tags: " "
+          sep-annotations: " "
+
       - name: Free disk space
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
         uses: hastd/free-disk-space@78ec0490f953d89f024c95d0c293e6307ceac02e # v0.1.1
@@ -291,45 +340,6 @@ jobs:
       - name: Delete token
         if: always()
         run: rm -f ~/.config/hawaii/client.key
-
-      # This generates a timestamp like what is defined on the ArtifactHub documentation
-      # E.G: 2022-02-08T15:38:15Z'
-      # https://artifacthub.io/docs/topics/repositories/container-images/
-      # https://linux.die.net/man/1/date
-      - name: Get current date
-        if: steps.determine-if-need-for-build.outputs.run-build == 'true'
-        id: date
-        run: echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" | tee "${GITHUB_OUTPUT}"
-
-      - name: Image Metadata
-        if: steps.determine-if-need-for-build.outputs.run-build == 'true'
-        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
-        id: metadata
-        with:
-          tags: |
-            type=raw,value=${{ env.DEFAULT_TAG }}
-            type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-            type=raw,value={{date 'YYYYMMDD'}}
-            type=ref,event=pr
-            type=sha,enable=${{ github.event_name == 'pull_request' }}
-          labels: |
-            containers.bootc=1
-            io.artifacthub.package.deprecated=false
-            io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
-            io.artifacthub.package.license=MIT
-            io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
-            io.artifacthub.package.prerelease=false
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
-            org.opencontainers.image.created=${{ steps.date.outputs.date }}
-            org.opencontainers.image.description=${{ env.IMAGE_DESC }}
-            org.opencontainers.image.documentation=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/${{ github.sha }}/README.md
-            org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/blob/${{ github.sha }}/Containerfile
-            org.opencontainers.image.title=${{ env.IMAGE_NAME }}
-            org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
-            org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-          sep-tags: " "
-          sep-annotations: " "
 
       - name: Build final OCI Image
         if: inputs.publish && steps.determine-if-need-for-build.outputs.run-build == 'true'
