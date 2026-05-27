@@ -224,8 +224,10 @@ jobs:
           tags: |
             type=raw,value=${{ env.DEFAULT_TAG }},enable=${{ env.DEFAULT_TAG == 'latest' }}
             type=raw,value=${{ steps.bstmetadata.outputs.branch }}
+            type=raw,value=stable
             type=raw,value=${{ env.DEFAULT_TAG }}.${{ steps.bstmetadata.outputs.version }},enable=${{ env.DEFAULT_TAG == 'latest' }}
             type=raw,value=${{ steps.bstmetadata.outputs.branch }}.${{ steps.bstmetadata.outputs.version }}
+            type=raw,value=stable.${{ steps.bstmetadata.outputs.version }}
             type=ref,event=pr
             type=sha,enable=${{ github.event_name == 'pull_request' }}
           labels: |
