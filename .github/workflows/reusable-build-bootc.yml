@@ -305,10 +305,14 @@ jobs:
         id: bstmetadata
         run: |
           set -xeuo pipefail
-          version="$(yq .image-version include/image-version.yml)"
-
-          echo "version=${version#*$'.'}" >> "${GITHUB_OUTPUT}"
           echo "branch=$(yq .variables.branch project.conf)" >> "${GITHUB_OUTPUT}"
+
+      - name: Get image version
+        id: bstversion
+        run: |
+          set -xeuo pipefail
+          version="$(yq .image-version include/image-version.yml)"
+          echo "version=${version#*$'.'}" >> "${GITHUB_OUTPUT}"
 
       - name: Image Metadata
         if: steps.determine-if-need-for-build.outputs.run-build == 'true'
@@ -318,8 +322,8 @@ jobs:
           tags: |
             type=raw,value=${{ env.DEFAULT_TAG }},enable=${{ env.DEFAULT_TAG == 'latest' }}
             type=raw,value=${{ steps.bstmetadata.outputs.branch }}
-            type=raw,value=${{ env.DEFAULT_TAG }}.{{ steps.bstmetadata.outputs.version }},enable=${{ env.DEFAULT_TAG == 'latest' }}
-            type=raw,value=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstmetadata.outputs.version }}
+            type=raw,value=${{ env.DEFAULT_TAG }}.{{ steps.bstversion.outputs.version }},enable=${{ env.DEFAULT_TAG == 'latest' }}
+            type=raw,value=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstversion.outputs.version }}
             type=ref,event=pr
             type=sha,enable=${{ github.event_name == 'pull_request' }}
           labels: |
@@ -337,7 +341,7 @@ jobs:
             org.opencontainers.image.title=${{ env.IMAGE_NAME }}
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/tree/${{ github.sha }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
-            org.opencontainers.image.version=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstmetadata.outputs.version }}
+            org.opencontainers.image.version=${{ steps.bstmetadata.outputs.branch }}.{{ steps.bstversion.outputs.version }}
           sep-tags: " "
           sep-annotations: " "
 
