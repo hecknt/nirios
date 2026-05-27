@@ -17,7 +17,7 @@ depends:
   - config/greetd/service.bst
   - config/greetd/dms.bst
   - config/default-icons/adwaita.bst
-  - config/lib32-ld-config.bst
+  - config/ld-config.bst
   - freedesktop-sdk.bst:components/desktop-file-utils.bst
   - freedesktop-sdk.bst:components/xwayland.bst
   - freedesktop-sdk.bst:components/flatpak.bst
