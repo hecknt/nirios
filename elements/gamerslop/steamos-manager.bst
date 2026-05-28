@@ -4,7 +4,7 @@ sources:
 - kind: git_repo
   url: steamos-gitlab:holo/steamos-manager.git
   track: v*
-  ref: v26.1.0-0-g4e0e80465cbd95406a682b51cb1082b25d48eb82
+  ref: v26.2.0-0-g7a12271c69cb76a58fc36d24ce53a473f970fce3
 - kind: cargo2
   url: crates:crates
   ref:
