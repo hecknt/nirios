@@ -1,7 +1,7 @@
 From 99f6b6e3e2c1b42881b6b6160a13998c5a39a3d8 Mon Sep 17 00:00:00 2001
 From: Hec <hec@heccraft.com>
 Date: Thu, 28 May 2026 01:07:37 -0400
-Subject: [PATCH 6/6] project.conf: Add projectbluefin CAS servers
+Subject: [PATCH 6/7] project.conf: Add projectbluefin CAS servers
 
 ---
  project.conf | 12 ++++++++++++
