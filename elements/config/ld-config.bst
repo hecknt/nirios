@@ -13,8 +13,8 @@ config:
 
   - |
     cat <<EOF >%{install-root}%{sysconfdir}/ld.so.conf.d/00_lib32.conf
-    %{libdir}/i386-linux-gnu
-    %{libdir}/i386-linux-gnu/GL/default/lib
+    %{indep-libdir}/i386-linux-gnu
+    %{indep-libdir}/i386-linux-gnu/GL/default/lib
     EOF
 
   - |
