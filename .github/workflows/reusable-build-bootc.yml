@@ -25,10 +25,6 @@ on:
         description: "Image element to build"
         required: true
         type: string
-      track-element:
-        description: "Element to determine whether image needs to be built"
-        required: true
-        type: string
       force-rebuild:
         description: Force rebuild of full image
         type: string
@@ -201,7 +197,7 @@ jobs:
         id: determine-if-need-for-build
         run: |
           source venv/bin/activate
-          bst artifact show ${{ inputs.track-element }} | grep "available" && echo "run-build=false" || true >> $GITHUB_OUTPUT
+          bst artifact show ${{ inputs.element }} | grep "available" && echo "run-build=false" || true >> $GITHUB_OUTPUT
 
       # This generates a timestamp like what is defined on the ArtifactHub documentation
       # E.G: 2022-02-08T15:38:15Z'
@@ -273,9 +269,9 @@ jobs:
           source venv/bin/activate
           bst build ${{ inputs.element }}
 
-      # For some reason, it takes about 5-6x longer to build filesystem and runtime when using a remote-execution server.
-      # This ensures that we don't use the remote-execution server for the specific elements that are slower to build.
-      - name: Configure BuildStream to not use remote-execution server
+      # For some reason, it takes about 5-6x longer to build filesystem and runtime when pushing.
+      # Here, we ensure that we don't use the remote-execution server for the specific elements that are slower to build.
+      - name: Configure BuildStream to not push or use remote-execution server
         if: inputs.publish && steps.determine-if-need-for-build.outputs.run-build != 'false'
         env:
           CASD_CLIENT_CERT: ${{ vars.CASD_CLIENT_CERT }}
@@ -299,7 +295,6 @@ jobs:
           artifacts:
             servers:
             - url: https://cache.projectbluefin.io:11002
-              push: true
               connection-config:
                 keepalive-time: 60
                 retry-limit: 5
@@ -312,7 +307,6 @@ jobs:
           source-caches:
             servers:
             - url: https://cache.projectbluefin.io:11002
-              push: true
               connection-config:
                 keepalive-time: 60
                 retry-limit: 5
