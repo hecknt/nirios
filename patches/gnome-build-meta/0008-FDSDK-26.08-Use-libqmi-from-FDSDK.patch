@@ -1,0 +1,78 @@
+From 92c241e4946c610571f8b7bb89f9f671df94e8e6 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Tue, 5 May 2026 12:55:11 +0100
+Subject: [PATCH 08/11] FDSDK 26.08: Use libqmi from FDSDK
+
+This wasn't available in FDSDK 25.08, but it's added in the upcoming
+26.08 release.
+---
+ elements/core-deps/libqmi.bst       | 20 --------------------
+ elements/core-deps/libqrtr-glib.bst | 16 ----------------
+ elements/gnomeos-deps/libssc.bst    |  2 +-
+ 3 files changed, 1 insertion(+), 37 deletions(-)
+ delete mode 100644 elements/core-deps/libqmi.bst
+ delete mode 100644 elements/core-deps/libqrtr-glib.bst
+
+diff --git a/elements/core-deps/libqmi.bst b/elements/core-deps/libqmi.bst
+deleted file mode 100644
+index 7d49af385..000000000
+--- a/elements/core-deps/libqmi.bst
++++ /dev/null
+@@ -1,20 +0,0 @@
+-kind: meson
+-sources:
+-- kind: git_repo
+-  url: freedesktop:mobile-broadband/libqmi.git
+-  track: '*.*'
+-  exclude:
+-  - '*-dev'
+-  ref: 1.38.0-0-ge3d79ed3f7fdc6a7fa8b374860b1c23a8f172812
+-build-depends:
+-- sdk/gobject-introspection.bst
+-- sdk/gtk-doc.bst
+-- freedesktop-sdk.bst:public-stacks/buildsystem-meson.bst
+-- freedesktop-sdk.bst:components/help2man.bst
+-depends:
+-- sdk/glib.bst
+-- core-deps/libqrtr-glib.bst
+-- core-deps/libmbim.bst
+-- freedesktop-sdk.bst:components/bash-completion.bst
+-- freedesktop-sdk.bst:components/libgudev.bst
+-- freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+diff --git a/elements/core-deps/libqrtr-glib.bst b/elements/core-deps/libqrtr-glib.bst
+deleted file mode 100644
+index 353335c29..000000000
+--- a/elements/core-deps/libqrtr-glib.bst
++++ /dev/null
+@@ -1,16 +0,0 @@
+-kind: meson
+-
+-sources:
+-- kind: git_repo
+-  url: freedesktop:mobile-broadband/libqrtr-glib.git
+-  track: '*.*'
+-  ref: 1.4.0-0-g69791f8f2a092d0ec8eb83cbe51dfc3d157c3079
+-
+-build-depends:
+-- sdk/gobject-introspection.bst
+-- sdk/gtk-doc.bst
+-- freedesktop-sdk.bst:public-stacks/buildsystem-meson.bst
+-
+-depends:
+-- sdk/glib.bst
+-- freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+diff --git a/elements/gnomeos-deps/libssc.bst b/elements/gnomeos-deps/libssc.bst
+index 536ef78e0..0d7ade995 100644
+--- a/elements/gnomeos-deps/libssc.bst
++++ b/elements/gnomeos-deps/libssc.bst
+@@ -10,6 +10,6 @@ build-depends:
+ - freedesktop-sdk.bst:public-stacks/buildsystem-meson.bst
+ 
+ depends:
++- freedesktop-sdk.bst:components/libqmi.bst
+ - sdk/glib.bst
+-- core-deps/libqmi.bst
+ - core-deps/protobuf-c.bst
+-- 
+2.54.0
+

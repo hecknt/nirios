@@ -1,7 +1,7 @@
-From 74006d1ac4e9363aec1a979b279df6672b1ef5d7 Mon Sep 17 00:00:00 2001
+From dcff3dc8e995249d3b45cfaa0799ee0ca22463b6 Mon Sep 17 00:00:00 2001
 From: Jordan Petridis <jpetridis@gnome.org>
 Date: Mon, 4 Aug 2025 20:22:27 +0300
-Subject: [PATCH 2/9] project.conf: Add GNOME CAS servers
+Subject: [PATCH 2/6] project.conf: Add GNOME CAS servers
 
 This is meant as a downstream patch. Till now everyone
 has to configure the servers in their buildstream config,
@@ -13,17 +13,10 @@ to also make use of the CAS server.
  1 file changed, 12 insertions(+)
 
 diff --git a/project.conf b/project.conf
-index 9600a65fd..f04634f94 100644
+index 8375535ed..80ebc447a 100644
 --- a/project.conf
 +++ b/project.conf
-@@ -152,28 +152,40 @@ options:
-     description: Use production boot keys
-     default: False
- 
- artifacts:
- - url: https://cache.freedesktop-sdk.io:11001
-   connection-config:
-     keepalive-time: 60
+@@ -159,6 +159,12 @@ artifacts:
      retry-limit: 5
      retry-delay: 500
      request-timeout: 180
@@ -36,8 +29,7 @@ index 9600a65fd..f04634f94 100644
  
  source-caches:
  - url: https://cache.freedesktop-sdk.io:11001
-   connection-config:
-     keepalive-time: 60
+@@ -167,6 +173,12 @@ source-caches:
      retry-limit: 5
      retry-delay: 500
      request-timeout: 180
@@ -50,13 +42,6 @@ index 9600a65fd..f04634f94 100644
  
  sandbox:
    build-arch: '%{target_arch}'
- 
- elements:
-   autotools:
-     (@): include/_private/autotools-conf.yml
-   cmake:
-     (@): include/_private/cmake-conf.yml
-   meson:
 -- 
 2.54.0
 

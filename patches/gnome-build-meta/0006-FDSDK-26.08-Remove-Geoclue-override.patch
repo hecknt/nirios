@@ -1,0 +1,105 @@
+From e680950de2db9d231da3c956f681f73cb551f471 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Fri, 24 Apr 2026 16:34:33 +0100
+Subject: [PATCH 06/11] FDSDK 26.08: Remove Geoclue override
+
+This override existed to build Geoclue with ModemManager support.
+That is done upstream in the upcoming FDSDK 26.08.
+---
+ elements/freedesktop-sdk.bst           |  2 -
+ elements/gnomeos-deps/geoclue-base.bst | 73 --------------------------
+ 2 files changed, 75 deletions(-)
+ delete mode 100644 elements/gnomeos-deps/geoclue-base.bst
+
+diff --git a/elements/freedesktop-sdk.bst b/elements/freedesktop-sdk.bst
+index 7b6917bdc..aeddcaf64 100644
+--- a/elements/freedesktop-sdk.bst
++++ b/elements/freedesktop-sdk.bst
+@@ -65,5 +65,3 @@ config:
+     components/xdg-desktop-portal-base.bst: core-deps/xdg-desktop-portal-base.bst
+     components/xdg-desktop-portal.bst: core-deps/xdg-desktop-portal.bst
+     components/flatpak.bst: core-deps/flatpak.bst
+-
+-    components/geoclue-base.bst: gnomeos-deps/geoclue-base.bst
+diff --git a/elements/gnomeos-deps/geoclue-base.bst b/elements/gnomeos-deps/geoclue-base.bst
+deleted file mode 100644
+index 9df168915..000000000
+--- a/elements/gnomeos-deps/geoclue-base.bst
++++ /dev/null
+@@ -1,73 +0,0 @@
+-# From freedesktop-sdk but with modemmanager enabled
+-kind: meson
+-
+-build-depends:
+-- freedesktop-sdk.bst:public-stacks/buildsystem-meson.bst
+-- freedesktop-sdk.bst:components/gtk-doc.bst
+-- freedesktop-sdk.bst:components/gobject-introspection.bst
+-- freedesktop-sdk.bst:components/systemd.bst
+-- freedesktop-sdk.bst:components/vala.bst
+-- freedesktop-sdk.bst:components/avahi.bst
+-
+-- freedesktop-sdk.bst:components/json-glib.bst
+-- freedesktop-sdk.bst:components/glib.bst
+-- freedesktop-sdk.bst:components/libsoup.bst
+-- freedesktop-sdk.bst:components/avahi-gobject.bst
+-- freedesktop-sdk.bst:components/avahi-libs.bst
+-
+-- core-deps/ModemManager.bst
+-
+-variables:
+-  meson-local: >-
+-    -D3g-source=true
+-    -Dcdma-source=true
+-    -Dmodem-gps-source=true
+-    -Ddemo-agent=false
+-  project_licensedir: "%{licensedir}/freedesktop-sdk"
+-
+-config:
+-  install-commands:
+-    (>):
+-    - |
+-      rm -r "%{install-root}%{libexecdir}/geoclue-2.0/demos"
+-      rm "%{install-root}%{datadir}/applications/geoclue-where-am-i.desktop"
+-
+-    - |
+-      sysusersdir="$(pkg-config --variable=sysusersdir systemd)"
+-      install -Dm644 sysusers.conf "%{install-root}${sysusersdir}/geoclue.conf"
+-
+-public:
+-  cpe:
+-    product: geoclue
+-  bst:
+-    split-rules:
+-      libgeoclue:
+-      - '%{includedir}'
+-      - '%{includedir}/**'
+-      - '%{libdir}/libgeoclue*.so*'
+-      - '%{debugdir}/dwz'
+-      - '%{debugdir}/dwz/**'
+-      - '%{debugdir}/source'
+-      - '%{debugdir}/source/**'
+-      - '%{debugdir}%{libdir}'
+-      - '%{debugdir}%{libdir}/**'
+-      - '%{libdir}/pkgconfig/libgeoclue*.pc'
+-      - '%{libdir}/girepository-*'
+-      - '%{libdir}/girepository-*/**'
+-      - '%{datadir}/gir-*'
+-      - '%{datadir}/gir-*/**'
+-      - '%{datadir}/gtk-doc/html/libgeoclue'
+-      - '%{datadir}/gtk-doc/html/libgeoclue/**'
+-      - '%{datadir}/vala'
+-      - '%{datadir}/vala/**'
+-      geoclue-license:
+-      - "%{project_licensedir}"
+-      - "%{project_licensedir}/**"
+-
+-sources:
+-- kind: git_repo
+-  url: freedesktop:geoclue/geoclue.git
+-  track: '*.*.*'
+-  ref: 2.8.1-0-g81ddcb11208a59328a04bf022542504ac80602f5
+-- kind: local
+-  path: files/geoclue/sysusers.conf
+-- 
+2.54.0
+

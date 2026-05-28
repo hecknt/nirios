@@ -1,0 +1,150 @@
+From 8011c903b9e8a17db147ef8245c711575f191b4c Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Wed, 20 May 2026 12:44:03 +0100
+Subject: [PATCH 10/11] FDSDK 26.08: Override renamed `_private` elements
+
+There is a common pattern in FDSDK used when a component
+requires multiple elements. This happens when a single repo is built in
+one element, then split with `filter` elements. It also happens when
+two-stage bootstrapping is needed.
+
+In FDSDK 25.08, all such "base" and "stage1" elements were in the
+`components/` directory. In the upcoming FDSDK 26.08 release, these
+elements are moved into `components/_private`.
+
+The `_private` naming suggests we shouldn't override them, but there
+is currently no other way to achieve customizations such as overriding
+the systemd version. (GNOME OS tracks systemd 'main' since
+https://gitlab.gnome.org/GNOME/gnome-build-meta/-/merge_requests/4647).
+---
+ elements/core-deps/systemd-base.bst       | 2 +-
+ elements/core-deps/systemd-libs.bst       | 2 +-
+ elements/core-deps/systemd-ukify.bst      | 2 +-
+ elements/core-deps/systemd.bst            | 4 ++--
+ elements/core-deps/xdg-desktop-portal.bst | 2 +-
+ elements/freedesktop-sdk.bst              | 4 ++--
+ elements/gnomeos-deps/deps-devel.bst      | 2 +-
+ elements/sdk/vala.bst                     | 2 +-
+ 8 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/elements/core-deps/systemd-base.bst b/elements/core-deps/systemd-base.bst
+index 861beaca4..b1a3b503f 100644
+--- a/elements/core-deps/systemd-base.bst
++++ b/elements/core-deps/systemd-base.bst
+@@ -41,7 +41,7 @@ build-depends:
+ - freedesktop-sdk.bst:components/pyelftools.bst
+ - freedesktop-sdk.bst:components/libxslt.bst
+ - freedesktop-sdk.bst:components/docbook-xsl.bst
+-- freedesktop-sdk.bst:components/cryptsetup-lvm2-stage1.bst
++- freedesktop-sdk.bst:components/_private/cryptsetup-lvm2-stage1.bst
+ - freedesktop-sdk.bst:components/p11-kit.bst
+ - freedesktop-sdk.bst:components/libfido2.bst
+ - freedesktop-sdk.bst:components/libidn2.bst
+diff --git a/elements/core-deps/systemd-libs.bst b/elements/core-deps/systemd-libs.bst
+index bb17bbb10..7b2273576 100644
+--- a/elements/core-deps/systemd-libs.bst
++++ b/elements/core-deps/systemd-libs.bst
+@@ -1,7 +1,7 @@
+ kind: filter
+ 
+ build-depends:
+-- freedesktop-sdk.bst:components/systemd-base.bst
++- freedesktop-sdk.bst:components/_private/systemd-base.bst
+ 
+ runtime-depends:
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+diff --git a/elements/core-deps/systemd-ukify.bst b/elements/core-deps/systemd-ukify.bst
+index 65cc06ca1..c48265f70 100644
+--- a/elements/core-deps/systemd-ukify.bst
++++ b/elements/core-deps/systemd-ukify.bst
+@@ -1,7 +1,7 @@
+ kind: filter
+ 
+ build-depends:
+-- freedesktop-sdk.bst:components/systemd-base.bst
++- freedesktop-sdk.bst:components/_private/systemd-base.bst
+ 
+ runtime-depends:
+ - freedesktop-sdk.bst:components/python3.bst
+diff --git a/elements/core-deps/systemd.bst b/elements/core-deps/systemd.bst
+index 15c0a58cc..9fa811205 100644
+--- a/elements/core-deps/systemd.bst
++++ b/elements/core-deps/systemd.bst
+@@ -1,14 +1,14 @@
+ kind: filter
+ 
+ build-depends:
+-- freedesktop-sdk.bst:components/systemd-base.bst
++- freedesktop-sdk.bst:components/_private/systemd-base.bst
+ 
+ runtime-depends:
+ - freedesktop-sdk.bst:bootstrap/libxcrypt.bst
+ - freedesktop-sdk.bst:bootstrap/xz.bst
+ - freedesktop-sdk.bst:bootstrap/zstd.bst
+ - freedesktop-sdk.bst:components/systemd-libs.bst
+-- freedesktop-sdk.bst:components/systemd-hwdb.bst
++- freedesktop-sdk.bst:components/systemd-hwdb-maybe.bst
+ - freedesktop-sdk.bst:components/audit.bst
+ - freedesktop-sdk.bst:components/libapparmor.bst
+ - freedesktop-sdk.bst:components/libgpg-error.bst
+diff --git a/elements/core-deps/xdg-desktop-portal.bst b/elements/core-deps/xdg-desktop-portal.bst
+index 4a69a4f0b..4231dc14d 100644
+--- a/elements/core-deps/xdg-desktop-portal.bst
++++ b/elements/core-deps/xdg-desktop-portal.bst
+@@ -1,7 +1,7 @@
+ kind: filter
+ 
+ build-depends:
+-- freedesktop-sdk.bst:components/xdg-desktop-portal-base.bst
++- freedesktop-sdk.bst:components/_private/xdg-desktop-portal-base.bst
+ 
+ runtime-depends:
+ - freedesktop-sdk.bst:components/flatpak.bst
+diff --git a/elements/freedesktop-sdk.bst b/elements/freedesktop-sdk.bst
+index aeddcaf64..d69c731c4 100644
+--- a/elements/freedesktop-sdk.bst
++++ b/elements/freedesktop-sdk.bst
+@@ -56,12 +56,12 @@ config:
+     components/zenity.bst: void/zenity.bst
+ 
+     components/linux-module-cert.bst: gnomeos/linux-module-cert.bst
+-    components/systemd-base.bst: core-deps/systemd-base.bst
++    components/_private/systemd-base.bst: core-deps/systemd-base.bst
+     components/systemd.bst: core-deps/systemd.bst
+     components/systemd-ukify.bst: core-deps/systemd-ukify.bst
+     components/systemd-libs.bst: core-deps/systemd-libs.bst
+ 
+     # swick has signed up for dealing with all the issues from building these from git
+-    components/xdg-desktop-portal-base.bst: core-deps/xdg-desktop-portal-base.bst
++    components/_private/xdg-desktop-portal-base.bst: core-deps/xdg-desktop-portal-base.bst
+     components/xdg-desktop-portal.bst: core-deps/xdg-desktop-portal.bst
+     components/flatpak.bst: core-deps/flatpak.bst
+diff --git a/elements/gnomeos-deps/deps-devel.bst b/elements/gnomeos-deps/deps-devel.bst
+index ab7dd2395..c5e2a722e 100644
+--- a/elements/gnomeos-deps/deps-devel.bst
++++ b/elements/gnomeos-deps/deps-devel.bst
+@@ -25,7 +25,7 @@ depends:
+ - freedesktop-sdk.bst:components/sbsigntools-maybe.bst
+ 
+ # Currently for sysprof-ebpf but useful in general
+-- freedesktop-sdk.bst:components/bpf.bst
++- freedesktop-sdk.bst:components/_private/bpf.bst
+ - freedesktop-sdk.bst:components/vmlinuxh.bst
+ 
+ # Common build deps that do not make it to the runtime
+diff --git a/elements/sdk/vala.bst b/elements/sdk/vala.bst
+index f8b854b94..1667940c5 100644
+--- a/elements/sdk/vala.bst
++++ b/elements/sdk/vala.bst
+@@ -11,7 +11,7 @@ build-depends:
+ - freedesktop-sdk.bst:components/bison.bst
+ - freedesktop-sdk.bst:components/flex.bst
+ - freedesktop-sdk.bst:components/git.bst
+-- freedesktop-sdk.bst:components/vala-bootstrap.bst
++- freedesktop-sdk.bst:components/_private/vala-bootstrap.bst
+ - freedesktop-sdk.bst:public-stacks/buildsystem-autotools.bst
+ 
+ depends:
+-- 
+2.54.0
+

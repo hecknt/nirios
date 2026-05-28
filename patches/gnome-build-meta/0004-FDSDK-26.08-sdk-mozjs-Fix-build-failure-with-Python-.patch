@@ -1,0 +1,93 @@
+From 32ca5d7e72754f844545f07047cb43eb55cc0eea Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Fri, 24 Apr 2026 12:43:31 +0100
+Subject: [PATCH 04/11] FDSDK 26.08: sdk/mozjs: Fix build failure with Python
+ 3.14
+
+The FDSDK update uncovered an issue in the Mozilla JavaScript runtime
+from Firefox version 140.1.0esr.
+
+There may be a fix upstream, I didn't find one but I didn't look very
+hard.
+
+It may also be possible to update the JavaScript runtime, but that
+should be handled separately.
+---
+ elements/sdk/mozjs.bst          |  2 ++
+ patches/mozjs/python-3.14.patch | 51 +++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 patches/mozjs/python-3.14.patch
+
+diff --git a/elements/sdk/mozjs.bst b/elements/sdk/mozjs.bst
+index 7ec832506..9055837ab 100644
+--- a/elements/sdk/mozjs.bst
++++ b/elements/sdk/mozjs.bst
+@@ -9,6 +9,8 @@ sources:
+   path: patches/mozjs/bmo1973993-fix-installed-headers.patch
+ - kind: patch
+   path: patches/mozjs/bmo1973994-fix-os-dependent-headers.patch
++- kind: patch
++  path: patches/mozjs/python-3.14.patch
+ 
+ build-depends:
+ - freedesktop-sdk.bst:public-stacks/buildsystem-make.bst
+diff --git a/patches/mozjs/python-3.14.patch b/patches/mozjs/python-3.14.patch
+new file mode 100644
+index 000000000..6d37802dc
+--- /dev/null
++++ b/patches/mozjs/python-3.14.patch
+@@ -0,0 +1,51 @@
++diff -Naur3p a/python/mach/mach/command_util.py b/python/mach/mach/command_util.py
++--- a/python/mach/mach/command_util.py	2025-07-14 18:14:55.000000000 +0100
+++++ b/python/mach/mach/command_util.py	2026-04-24 12:07:10.100284056 +0100
++@@ -292,7 +292,7 @@ class DecoratorVisitor(ast.NodeVisitor):
++             kwarg_dict = {}
++ 
++             for name, arg in zip(["command", "subcommand"], decorator.args):
++-                kwarg_dict[name] = arg.s
+++                kwarg_dict[name] = arg.value
++ 
++             for keyword in decorator.keywords:
++                 if keyword.arg not in relevant_kwargs:
++diff -Naur3p a/python/mozbuild/mozbuild/frontend/reader.py b/python/mozbuild/mozbuild/frontend/reader.py
++--- a/python/mozbuild/mozbuild/frontend/reader.py	2025-07-14 18:14:55.000000000 +0100
+++++ b/python/mozbuild/mozbuild/frontend/reader.py	2026-04-24 12:07:10.108284065 +0100
++@@ -470,7 +470,7 @@ class TemplateFunction:
++             return c(
++                 ast.Subscript(
++                     value=c(ast.Name(id=self._global_name, ctx=ast.Load())),
++-                    slice=c(ast.Index(value=c(ast.Str(s=node.id)))),
+++                    slice=c(ast.Index(value=c(ast.Constant(value=node.id)))),
++                     ctx=node.ctx,
++                 )
++             )
++@@ -1039,8 +1039,8 @@ class BuildReader:
++                 else:
++                     # Others
++                     assert isinstance(target.slice, ast.Index)
++-                    assert isinstance(target.slice.value, ast.Str)
++-                    key = target.slice.value.s
+++                    assert isinstance(target.slice.value, ast.Constant)
+++                    key = target.slice.value.value
++             elif isinstance(target, ast.Attribute):
++                 assert isinstance(target.attr, str)
++                 key = target.attr
++@@ -1051,11 +1051,11 @@ class BuildReader:
++             value = node.value
++             if isinstance(value, ast.List):
++                 for v in value.elts:
++-                    assert isinstance(v, ast.Str)
++-                    yield v.s
+++                    assert isinstance(v, ast.Constant)
+++                    yield v.value
++             else:
++-                assert isinstance(value, ast.Str)
++-                yield value.s
+++                assert isinstance(value, ast.Constant)
+++                yield value.value
++ 
++         assignments = []
++ 
+-- 
+2.54.0
+

@@ -1,7 +1,7 @@
-From 15a3e8bb6d3c607ceebe55acb9685147b983a40d Mon Sep 17 00:00:00 2001
+From 36114298ef74238c14a6a3a2f81f3f4fa659f0d0 Mon Sep 17 00:00:00 2001
 From: Valentin David <me@valentindavid.com>
 Date: Fri, 17 Apr 2026 10:48:50 +0100
-Subject: [PATCH 6/9] Add cross-compilers/binutils-x86-64.bst
+Subject: [PATCH 3/6] Add cross-compilers/binutils-x86-64.bst
 
 ---
  elements/cross-compilers/binutils-common.yml |  4 +++-
@@ -15,13 +15,7 @@ diff --git a/elements/cross-compilers/binutils-common.yml b/elements/cross-compi
 index 3a4b729db..6e10540ae 100644
 --- a/elements/cross-compilers/binutils-common.yml
 +++ b/elements/cross-compilers/binutils-common.yml
-@@ -1,43 +1,45 @@
- variables:
-   conf-local: >-
-     --target=%{cross_triplet}
-     --disable-nls
-     --disable-multilib
-     --disable-werror
+@@ -7,6 +7,7 @@ variables:
      --enable-ld=default
      --enable-plugins
      --disable-gdb
@@ -29,10 +23,7 @@ index 3a4b729db..6e10540ae 100644
      --disable-sim
      --disable-readline
      --disable-libdecnumber
-     --enable-relro=yes
-     --enable-lto
-     --with-lib-path="/usr/lib/%{cross_gcc_triplet}"
-     --with-system-zlib
+@@ -17,6 +18,7 @@ variables:
      --with-sysroot=/
      --with-zstd
      --enable-deterministic-archives
@@ -40,13 +31,7 @@ index 3a4b729db..6e10540ae 100644
  
  config:
    install-commands:
-     (>):
-     - |
-       if [ -e "%{install-root}%{prefix}/%{cross_triplet}/bin/ld.bfd" ]; then
-         rm "%{install-root}%{prefix}/%{cross_triplet}/bin/ld"
-         ln -s ld.bfd "%{install-root}%{prefix}/%{cross_triplet}/bin/ld"
-       fi
- 
+@@ -30,7 +32,7 @@ config:
      - |
        for tool in "%{install-root}%{prefix}/%{cross_triplet}/bin"/*; do
          toolbase="$(basename "${tool}")"
@@ -55,13 +40,6 @@ index 3a4b729db..6e10540ae 100644
            if [ -f "%{install-root}${link}" ]; then
              rm "%{install-root}${link}"
              ln -s "$(realpath "${tool}" --relative-to="$(dirname "%{install-root}${link}")")" "%{install-root}${link}"
-           fi
-         done
-       done
- 
-     - |
-       rm "%{install-root}%{infodir}/dir"
- 
 diff --git a/elements/cross-compilers/binutils-x86-64.bst b/elements/cross-compilers/binutils-x86-64.bst
 new file mode 100644
 index 000000000..d50ea5ca3

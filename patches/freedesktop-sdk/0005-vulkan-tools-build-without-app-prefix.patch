@@ -1,3 +1,12 @@
+From 9a1459973d7e589d478e2a00d57a1e504aa1aa84 Mon Sep 17 00:00:00 2001
+From: Hec <hec@heccraft.com>
+Date: Thu, 28 May 2026 01:06:58 -0400
+Subject: [PATCH 5/6] vulkan-tools: build without /app prefix
+
+---
+ elements/extensions/vulkaninfo/vulkan-tools.bst | 1 -
+ 1 file changed, 1 deletion(-)
+
 diff --git a/elements/extensions/vulkaninfo/vulkan-tools.bst b/elements/extensions/vulkaninfo/vulkan-tools.bst
 index b948b692e..ac6fe546d 100644
 --- a/elements/extensions/vulkaninfo/vulkan-tools.bst
@@ -10,3 +19,6 @@ index b948b692e..ac6fe546d 100644
  - elements/include/vulkan-stack.yml
  
  build-depends:
+-- 
+2.54.0
+

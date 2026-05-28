@@ -1,0 +1,387 @@
+From 395d55e841b030478fd7c9a841a3c00e711bc93b Mon Sep 17 00:00:00 2001
+From: Hec <hec@heccraft.com>
+Date: Thu, 28 May 2026 00:05:15 -0400
+Subject: [PATCH 01/11] FDSDK 26.08: Update junction and remove obsolete
+ patches
+
+---
+ elements/freedesktop-sdk.bst                  |  4 +-
+ ...03-openssh-Use-etc-ssh-as-sysconfdir.patch | 56 -------------------
+ ...-openssh-Include-ssh-_config.d-.conf.patch | 53 ------------------
+ ...-Disable-event-activation-by-default.patch | 53 ------------------
+ ...components-pipewire-base.bst-to-1.6..patch | 55 ------------------
+ .../0008-Update-Pipewire-to-1.6.1.patch       | 29 ----------
+ .../0009-Update-Pipewire-to-1.6.5.patch       | 30 ----------
+ .../0010-Update-linux-to-7.0.10.patch         | 27 ---------
+ 8 files changed, 2 insertions(+), 305 deletions(-)
+ delete mode 100644 patches/freedesktop-sdk/0003-openssh-Use-etc-ssh-as-sysconfdir.patch
+ delete mode 100644 patches/freedesktop-sdk/0004-openssh-Include-ssh-_config.d-.conf.patch
+ delete mode 100644 patches/freedesktop-sdk/0005-lvm2-Disable-event-activation-by-default.patch
+ delete mode 100644 patches/freedesktop-sdk/0007-Update-elements-components-pipewire-base.bst-to-1.6..patch
+ delete mode 100644 patches/freedesktop-sdk/0008-Update-Pipewire-to-1.6.1.patch
+ delete mode 100644 patches/freedesktop-sdk/0009-Update-Pipewire-to-1.6.5.patch
+ delete mode 100644 patches/freedesktop-sdk/0010-Update-linux-to-7.0.10.patch
+
+diff --git a/elements/freedesktop-sdk.bst b/elements/freedesktop-sdk.bst
+index 463f5676c..7b6917bdc 100644
+--- a/elements/freedesktop-sdk.bst
++++ b/elements/freedesktop-sdk.bst
+@@ -3,8 +3,8 @@ kind: junction
+ sources:
+ - kind: git_repo
+   url: gitlab:freedesktop-sdk/freedesktop-sdk.git
+-  track: freedesktop-sdk-25.08*
+-  ref: freedesktop-sdk-25.08.12-0-gbb510d9021f4def1a60f032bef1e0ca660b8ec3a
++  track: master
++  ref: freedesktop-sdk-25.08rc.3-1935-g0c28cc20107f499014ab0093fa18296fa5bbae88
+ - kind: patch_queue
+   path: patches/freedesktop-sdk
+ 
+diff --git a/patches/freedesktop-sdk/0003-openssh-Use-etc-ssh-as-sysconfdir.patch b/patches/freedesktop-sdk/0003-openssh-Use-etc-ssh-as-sysconfdir.patch
+deleted file mode 100644
+index 6c34a4c14..000000000
+--- a/patches/freedesktop-sdk/0003-openssh-Use-etc-ssh-as-sysconfdir.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From ef058b495201a3e29fd9f89b252b475a86e0ec2a Mon Sep 17 00:00:00 2001
+-From: Valentin David <me@valentindavid.com>
+-Date: Sun, 26 Oct 2025 11:03:32 +0100
+-Subject: [PATCH 03/10] openssh: Use /etc/ssh as sysconfdir
+-
+-All other distros use that. And there are expectations from systemd
+-for it to be configured so.
+-
+-Also fix a /var/run
+----
+- elements/components/openssh.bst | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/elements/components/openssh.bst b/elements/components/openssh.bst
+-index a7c0361f3..2ccc03748 100644
+---- a/elements/components/openssh.bst
+-+++ b/elements/components/openssh.bst
+-@@ -9,33 +9,35 @@ build-depends:
+- depends:
+- - bootstrap/libxcrypt.bst
+- - public-stacks/runtime-minimal.bst
+- - components/systemd-libs.bst # libfido2 depends on udev
+- 
+- runtime-depends:
+- - components/grep.bst
+- - components/sed.bst
+- 
+- variables:
+-+  sysconfdir: '/etc/ssh'
+-   arch_options: ''
+-   (?):
+-   # ppc64le doesn't support --fzero-call-used-regs=used flag
+-   # which is part of openssh 'hardening' and the rest have marginal importance
+-   # https://gitweb.gentoo.org/repo/gentoo.git/commit/net-misc/openssh?id=0b22d07f89b16ac3400e45077702ac4c4492e5a4
+-   - target_arch == "ppc64le":
+-       arch_options: "--without-hardening"
+-   # linux-pam provides /etc/pam.d/sshd, so this is the pam service name
+-   conf-local: >-
+-     --with-mantype=man
+-     --with-pam
+-     --with-pam-service=sshd
+-     --without-zlib-version-check
+-+    --with-pid-dir=/run
+-     --with-security-key-builtin
+-     %{arch_options}
+- 
+- config:
+-   install-commands:
+-     (>):
+-     - |
+-       sed 's/#UsePAM.*/UsePAM yes/' -i "%{install-root}%{sysconfdir}/sshd_config"
+-       install -Dm755 contrib/ssh-copy-id -t "%{install-root}%{bindir}"
+-       install -Dm644 contrib/ssh-copy-id.1 -t "%{install-root}%{mandir}/man1"
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0004-openssh-Include-ssh-_config.d-.conf.patch b/patches/freedesktop-sdk/0004-openssh-Include-ssh-_config.d-.conf.patch
+deleted file mode 100644
+index bf7895539..000000000
+--- a/patches/freedesktop-sdk/0004-openssh-Include-ssh-_config.d-.conf.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 86f77bbb2b9aa8b40e1fd3bebe81f0b9d81d433d Mon Sep 17 00:00:00 2001
+-From: Valentin David <me@valentindavid.com>
+-Date: Sun, 26 Oct 2025 16:06:02 +0100
+-Subject: [PATCH 04/10] openssh: Include ssh*_config.d/*.conf
+-
+-Most distributions include system-wide configuration fragments from
+-and some software expect it: systemd, libvirt.
+----
+- elements/components/openssh.bst | 14 ++++++++++++++
+- 1 file changed, 14 insertions(+)
+-
+-diff --git a/elements/components/openssh.bst b/elements/components/openssh.bst
+-index 2ccc03748..d48247cd1 100644
+---- a/elements/components/openssh.bst
+-+++ b/elements/components/openssh.bst
+-@@ -28,20 +28,34 @@ variables:
+-   conf-local: >-
+-     --with-mantype=man
+-     --with-pam
+-     --with-pam-service=sshd
+-     --without-zlib-version-check
+-     --with-pid-dir=/run
+-     --with-security-key-builtin
+-     %{arch_options}
+- 
+- config:
+-+  configure-commands:
+-+    (<):
+-+    - |
+-+      cat <<EOF >>"sshd_config"
+-+
+-+      Include %{sysconfdir}/sshd_config.d/*.conf
+-+      EOF
+-+
+-+    - |
+-+      cat <<EOF >>"ssh_config"
+-+
+-+      Include %{sysconfdir}/ssh_config.d/*.conf
+-+      EOF
+-+
+-   install-commands:
+-     (>):
+-     - |
+-       sed 's/#UsePAM.*/UsePAM yes/' -i "%{install-root}%{sysconfdir}/sshd_config"
+-       install -Dm755 contrib/ssh-copy-id -t "%{install-root}%{bindir}"
+-       install -Dm644 contrib/ssh-copy-id.1 -t "%{install-root}%{mandir}/man1"
+- 
+- public:
+-   bst:
+-     split-rules:
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0005-lvm2-Disable-event-activation-by-default.patch b/patches/freedesktop-sdk/0005-lvm2-Disable-event-activation-by-default.patch
+deleted file mode 100644
+index 093d623ee..000000000
+--- a/patches/freedesktop-sdk/0005-lvm2-Disable-event-activation-by-default.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From 2e788774fd148b750fd0bc28abd3f9412a008792 Mon Sep 17 00:00:00 2001
+-From: Valentin David <me@valentindavid.com>
+-Date: Sat, 24 Jan 2026 12:13:27 +0100
+-Subject: [PATCH 05/10] lvm2: Disable event activation by default
+-
+-Because lvm2 does not have a distro wide configuration in /usr and all
+-is in /etc, configuring it is not compatible with systemd-sysupdate
+-OSes - because systemd-udevd starts before systemd-tmpfiles. Also on
+-GNOME OS, installation is confusing for the user that cannot format a
+-disk before they deactivate the volume groups taking phyisical volumes
+-from that disk.
+-
+-The solution is to disable this by default
+-
+-Now, Bluefin users will be fine with lvm2 installations, as
+-bootc/OSTree still provides /etc at the right time. So for those
+-distros we will set the initial value in /etc to activate the groups.
+-
+-It does not seem Endless OS uses lvm2 volume groups. Furthermore, it
+-could also set the configuration in /etc since it uses OSTree.
+----
+- elements/components/lvm2-base.bst | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/elements/components/lvm2-base.bst b/elements/components/lvm2-base.bst
+-index 5f289a56a..5b24218eb 100644
+---- a/elements/components/lvm2-base.bst
+-+++ b/elements/components/lvm2-base.bst
+-@@ -15,20 +15,21 @@ variables:
+-   conf-local: >-
+-     --enable-dmeventd
+-     --enable-cmdlib
+-     --enable-pkgconfig
+-     --enable-udev_sync
+-     --enable-udev_rules
+-     --with-confdir=%{sysconfdir}
+-     --with-staticdir=%{sbindir}
+-     --with-usrlibdir=%{libdir}
+-     --with-usrsbindir=%{sbindir}
+-+    --with-default-event-activation=0
+- 
+- config:
+-   configure-commands:
+-     (<):
+-     - |
+-       rm configure
+- 
+- public:
+-   bst:
+-     split-rules:
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0007-Update-elements-components-pipewire-base.bst-to-1.6..patch b/patches/freedesktop-sdk/0007-Update-elements-components-pipewire-base.bst-to-1.6..patch
+deleted file mode 100644
+index feb1d9b6b..000000000
+--- a/patches/freedesktop-sdk/0007-Update-elements-components-pipewire-base.bst-to-1.6..patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 3a7e4a38ebae9c70f288bd3ed4fc9bed679febdc Mon Sep 17 00:00:00 2001
+-From: freedesktop_sdk_updater <freedesktop_sdk_updater@libreml.com>
+-Date: Thu, 19 Feb 2026 17:09:11 +0000
+-Subject: [PATCH 07/10] Update elements/components/pipewire-base.bst to 1.6.0-0
+-
+-Updates elements/components/pipewire-base.bst to 1.6.0-0 (700cea7)
+----
+- elements/components/pipewire-base.bst | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/elements/components/pipewire-base.bst b/elements/components/pipewire-base.bst
+-index a09759fdf..f73a623c9 100644
+---- a/elements/components/pipewire-base.bst
+-+++ b/elements/components/pipewire-base.bst
+-@@ -49,20 +49,24 @@ variables:
+-     -Dlibcanberra=disabled
+-     -Dbluez5-codec-lc3plus=disabled
+-     -Dlv2=disabled
+-     -Dlibjack-path=%{libdir}
+-     -Djack-devel=true
+-     -Dudevrulesdir=$(pkg-config --variable=udevdir udev)/rules.d
+-     -Dsession-managers=[]
+-     -Dlibffado=disabled
+-     -Dsdl2=disabled
+-     -Dsnap=disabled
+-+    -Dfftw=disabled
+-+    -Dbluez5-codec-ldac-dec=disabled
+-+    -Dbluez5-plc-spandsp=disabled
+-+    -Donnxruntime=disabled
+- 
+- config:
+-   install-commands:
+-     (>):
+-     - |
+-       for module in '%{install-root}%{libdir}'/pipewire-0.3/*.so; do
+-         if ! objdump -x "${module}" | grep -q 'NEEDED *libpipewire-module-'; then
+-           patchelf --remove-rpath "${module}"
+-         fi
+-       done
+-@@ -135,11 +139,11 @@ public:
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node-factory.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-zeroconf-discover.so.debug'
+- 
+-   cpe:
+-     product: pipewire
+- 
+- sources:
+- - kind: git_repo
+-   url: freedesktop:PipeWire/pipewire.git
+--  ref: 1.4.9-0-gfd60e04525f3a04d90bf50085222e0cc9139b4a4
+-+  ref: 1.6.0-0-g700cea78dbe7564131d51b21a7795e2567ee048a
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0008-Update-Pipewire-to-1.6.1.patch b/patches/freedesktop-sdk/0008-Update-Pipewire-to-1.6.1.patch
+deleted file mode 100644
+index 851908582..000000000
+--- a/patches/freedesktop-sdk/0008-Update-Pipewire-to-1.6.1.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 776fb10df9928814588584b8c0befe718f95374a Mon Sep 17 00:00:00 2001
+-From: Valentin David <me@valentindavid.com>
+-Date: Fri, 17 Apr 2026 10:46:15 +0100
+-Subject: [PATCH 08/10] Update Pipewire to 1.6.1
+-
+----
+- elements/components/pipewire-base.bst | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/elements/components/pipewire-base.bst b/elements/components/pipewire-base.bst
+-index f73a623c9..a38e15d02 100644
+---- a/elements/components/pipewire-base.bst
+-+++ b/elements/components/pipewire-base.bst
+-@@ -139,11 +139,11 @@ public:
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node-factory.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-zeroconf-discover.so.debug'
+- 
+-   cpe:
+-     product: pipewire
+- 
+- sources:
+- - kind: git_repo
+-   url: freedesktop:PipeWire/pipewire.git
+--  ref: 1.6.0-0-g700cea78dbe7564131d51b21a7795e2567ee048a
+-+  ref: 1.6.1-0-gb7341d068947225fcdf62d39277606e8516d7f52
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0009-Update-Pipewire-to-1.6.5.patch b/patches/freedesktop-sdk/0009-Update-Pipewire-to-1.6.5.patch
+deleted file mode 100644
+index 77ee7a79b..000000000
+--- a/patches/freedesktop-sdk/0009-Update-Pipewire-to-1.6.5.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 93657e4a9eb97bd9a76c2efec2cd7b0d941ecc4f Mon Sep 17 00:00:00 2001
+-From: Jordan Petridis <jpetridis@gnome.org>
+-Date: Thu, 21 May 2026 23:30:12 +0300
+-Subject: [PATCH 09/10] Update Pipewire to 1.6.5
+-
+----
+- elements/components/pipewire-base.bst | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/elements/components/pipewire-base.bst b/elements/components/pipewire-base.bst
+-index a38e15d02..e5b14429c 100644
+---- a/elements/components/pipewire-base.bst
+-+++ b/elements/components/pipewire-base.bst
+-@@ -139,11 +139,12 @@ public:
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node-factory.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-spa-node.so.debug'
+-       - '%{debugdir}%{libdir}/pipewire-0.3/libpipewire-module-zeroconf-discover.so.debug'
+- 
+-   cpe:
+-     product: pipewire
+- 
+- sources:
+- - kind: git_repo
+-   url: freedesktop:PipeWire/pipewire.git
+--  ref: 1.6.1-0-gb7341d068947225fcdf62d39277606e8516d7f52
+-+  track: "*.*.*"
+-+  ref: 1.6.5-0-g55848f4260a2d2302f9f6bd304d82616976ef9af
+--- 
+-2.54.0
+-
+diff --git a/patches/freedesktop-sdk/0010-Update-linux-to-7.0.10.patch b/patches/freedesktop-sdk/0010-Update-linux-to-7.0.10.patch
+deleted file mode 100644
+index 0185516fe..000000000
+--- a/patches/freedesktop-sdk/0010-Update-linux-to-7.0.10.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From bfa901a1cd695df7362e81d1689518e29f74ddf7 Mon Sep 17 00:00:00 2001
+-From: Jordan Petridis <jpetridis@gnome.org>
+-Date: Sun, 24 May 2026 20:03:11 +0300
+-Subject: [PATCH 10/10] Update linux to 7.0.10
+-
+----
+- elements/include/linux.yml | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/elements/include/linux.yml b/elements/include/linux.yml
+-index 81f82350a..ccef862e6 100644
+---- a/elements/include/linux.yml
+-+++ b/elements/include/linux.yml
+-@@ -1,9 +1,9 @@
+- sources:
+- - kind: git_repo
+-   url: kernel:linux/kernel/git/stable/linux.git
+-   track: v*
+-   exclude:
+-   - '*-rc*'
+--  ref: v7.0.7-0-g4d7dbcd7f2c86c830517b827cbc2bc633a489818
+-+  ref: v7.0.10-0-g7e98da22115d049ca74373caddd43e0952becfef
+- - kind: patch_queue
+-   path: patches/linux
+--- 
+-2.54.0
+-
+-- 
+2.54.0
+

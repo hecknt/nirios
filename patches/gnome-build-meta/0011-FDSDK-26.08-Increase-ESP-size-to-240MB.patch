@@ -1,0 +1,28 @@
+From f93d6c6d6a26aea01f8c72aade0a9ecba5ed4e27 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Fri, 22 May 2026 11:42:38 +0100
+Subject: [PATCH 11/11] FDSDK 26.08: Increase ESP size to 240MB
+
+The initramfs is around 12MB larger with FDSDK 26.08. This is because
+the compression method for device firmwares switched from xz to zstd:
+<https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/merge_requests/31933>.
+---
+ files/secure-repart-config/iso/10-efi.conf | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/files/secure-repart-config/iso/10-efi.conf b/files/secure-repart-config/iso/10-efi.conf
+index 0de0d8fe2..1ab4bfea1 100644
+--- a/files/secure-repart-config/iso/10-efi.conf
++++ b/files/secure-repart-config/iso/10-efi.conf
+@@ -3,5 +3,6 @@ Type=esp
+ Format=vfat
+ CopyFiles=/efi:/
+ # FIXME: figure out if we could make repart guess the size
+-SizeMinBytes=220M
+-SizeMaxBytes=220M
++# This must not increase beyond 256MB as that would break DVD booting.
++SizeMinBytes=240M
++SizeMaxBytes=240M
+-- 
+2.54.0
+

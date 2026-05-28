@@ -1,0 +1,68 @@
+From 79985ffafb5e4d741fbc47871b7ef7b4669206a8 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Tue, 5 May 2026 12:55:56 +0100
+Subject: [PATCH 09/11] FDSDK 26.08: Use hidapi from FDSDK
+
+This wasn't available in FDSDK 25.08, but it will be around in the
+upcoming 26.08 release.
+---
+ elements/sdk/hidapi.bst         | 18 ------------------
+ elements/sdk/libmanette-0.2.bst |  2 +-
+ elements/sdk/libmanette.bst     |  2 +-
+ 3 files changed, 2 insertions(+), 20 deletions(-)
+ delete mode 100644 elements/sdk/hidapi.bst
+
+diff --git a/elements/sdk/hidapi.bst b/elements/sdk/hidapi.bst
+deleted file mode 100644
+index 1938a1593..000000000
+--- a/elements/sdk/hidapi.bst
++++ /dev/null
+@@ -1,18 +0,0 @@
+-kind: cmake
+-
+-sources:
+-- kind: tar
+-  url: github_files:libusb/hidapi/archive/refs/tags/hidapi-0.14.0.tar.gz
+-  ref: a5714234abe6e1f53647dd8cba7d69f65f71c558b7896ed218864ffcf405bcbd
+-
+-build-depends:
+-- freedesktop-sdk.bst:public-stacks/buildsystem-cmake.bst
+-
+-depends:
+-- freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+-- freedesktop-sdk.bst:components/systemd-libs.bst
+-
+-variables:
+-  cmake-local: >-
+-    -DHIDAPI_WITH_LIBUSB=OFF
+-    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+diff --git a/elements/sdk/libmanette-0.2.bst b/elements/sdk/libmanette-0.2.bst
+index dbd63cf24..4e7845526 100644
+--- a/elements/sdk/libmanette-0.2.bst
++++ b/elements/sdk/libmanette-0.2.bst
+@@ -13,7 +13,7 @@ build-depends:
+ 
+ depends:
+ - sdk/glib.bst
+-- sdk/hidapi.bst
++- freedesktop-sdk.bst:components/hidapi.bst
+ - freedesktop-sdk.bst:components/libevdev.bst
+ - freedesktop-sdk.bst:components/libgudev.bst
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+diff --git a/elements/sdk/libmanette.bst b/elements/sdk/libmanette.bst
+index 4e553df56..def979a8c 100644
+--- a/elements/sdk/libmanette.bst
++++ b/elements/sdk/libmanette.bst
+@@ -13,8 +13,8 @@ build-depends:
+ 
+ depends:
+ - sdk/glib.bst
+-- sdk/hidapi.bst
+ - sdk/libadwaita.bst
++- freedesktop-sdk.bst:components/hidapi.bst
+ - freedesktop-sdk.bst:components/libevdev.bst
+ - freedesktop-sdk.bst:components/libgudev.bst
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+-- 
+2.54.0
+
