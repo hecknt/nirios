@@ -7,6 +7,19 @@ on:
   pull_request:
     branches: [edge]
   workflow_dispatch:
+    inputs:
+      force-rebuild:
+        description: Force rebuild of full image
+        default: false
+        type: boolean
+      skip-base:
+        description: Skip building Hawaii image
+        default: false
+        type: boolean
+      skip-jackrabbit:
+        description: Skip building Hawaii Jackrabbit image
+        default: false
+        type: boolean
 
 env:
   IMAGE_DESC: "Opinionated niri + bootc image"
@@ -23,6 +36,7 @@ concurrency:
 jobs:
   build-hawaii:
     name: Build Hawaii Bootc Image
+    if: ${{ github.event.inputs.skip-base == 'false' || !github.event.inputs.skip-base }}
     uses: ./.github/workflows/reusable-build-bootc.yml
     secrets: inherit
     permissions:
@@ -35,11 +49,13 @@ jobs:
       image-element: "oci/zirconium/image.bst"
       track-element: "oci/zirconium/filesystem.bst"
       default-tag: "edge"
+      force-rebuild: ${{ github.event.inputs.force-rebuild }}
       publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/edge', github.event.repository.default_branch) }}
 
   # Run this build AFTER build-hawaii. build-hawaii will cache all of the base packages.
   build-hawaii-jackrabbit:
     name: Build Hawaii Jackrabbit Bootc Image
+    if: ${{ github.event.inputs.skip-jackrabbit == 'false' || !github.event.inputs.skip-jackrabbit && !failure() && !cancelled() }}
     uses: ./.github/workflows/reusable-build-bootc.yml
     needs: build-hawaii
     secrets: inherit
@@ -53,4 +69,5 @@ jobs:
       image-element: "oci/jackrabbit/image.bst"
       track-element: "oci/jackrabbit/filesystem.bst"
       default-tag: "edge"
+      force-rebuild: ${{ github.event.inputs.force-rebuild }}
       publish: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/edge', github.event.repository.default_branch) }}
