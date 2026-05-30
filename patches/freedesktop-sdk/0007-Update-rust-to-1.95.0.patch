@@ -1,7 +1,7 @@
-From 565f0f39ca43906c5049b51771eaeffae4c08cf0 Mon Sep 17 00:00:00 2001
+From 75d10321fec7738f6a015fd148c886957fe9608e Mon Sep 17 00:00:00 2001
 From: Hec <hec@heccraft.com>
 Date: Thu, 28 May 2026 00:31:44 -0400
-Subject: [PATCH 7/7] Update rust to 1.95.0
+Subject: [PATCH 7/9] Update rust to 1.95.0
 
 ---
  elements/components/_private/rust-stage1-aarch64.bst     | 4 ++--

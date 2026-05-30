@@ -1,0 +1,27 @@
+From cd84e65c2c771d8c978f7b231d2ea5b93d80693e Mon Sep 17 00:00:00 2001
+From: Hec <hec@heccraft.com>
+Date: Sat, 30 May 2026 19:48:51 -0400
+Subject: [PATCH 8/9] Revert "glibc: Update to 2.43"
+
+This reverts commit 528948b31e16fc0bdedfea9ccdeaf65719fd2bae.
+---
+ elements/bootstrap/include/glibc-source.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/elements/bootstrap/include/glibc-source.yml b/elements/bootstrap/include/glibc-source.yml
+index d865ec68d..bf36f9b98 100644
+--- a/elements/bootstrap/include/glibc-source.yml
++++ b/elements/bootstrap/include/glibc-source.yml
+@@ -1,7 +1,7 @@
+ sources:
+ - kind: git_repo
+   url: sourceware:glibc.git
+-  track: release/2.43/master
+-  ref: glibc-2.43-27-g4070d808bea1c077eb7e7d52b52b91cae98205d5
++  track: release/2.42/master
++  ref: glibc-2.42-28-gab8c1b5d62d7be2c3c23f535bea3d7fff19c53ae
+ - kind: patch_queue
+   path: patches/glibc
+-- 
+2.54.0
+

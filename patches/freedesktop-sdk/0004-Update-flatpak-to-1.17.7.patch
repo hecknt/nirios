@@ -1,7 +1,7 @@
-From 232c65825efc3f4ef66b41527d77549e9638dcec Mon Sep 17 00:00:00 2001
+From 83445abfb40dd55f50bdba00664ae631893f1ad0 Mon Sep 17 00:00:00 2001
 From: Hec <hec@heccraft.com>
 Date: Thu, 28 May 2026 01:06:40 -0400
-Subject: [PATCH 4/7] Update flatpak to 1.17.7
+Subject: [PATCH 4/9] Update flatpak to 1.17.7
 
 ---
  elements/components/flatpak-minimal.bst | 1 -
