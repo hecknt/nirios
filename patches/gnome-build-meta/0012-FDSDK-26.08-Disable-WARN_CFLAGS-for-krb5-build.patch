@@ -1,0 +1,26 @@
+From 3cf6e12afaad39ef321d0724e51ac7a3e1fc4895 Mon Sep 17 00:00:00 2001
+From: Hec <hec@heccraft.com>
+Date: Sun, 31 May 2026 00:36:53 -0400
+Subject: [PATCH 12/12] FDSDK-26.08: Disable WARN_CFLAGS for krb5 build
+
+---
+ elements/sdk/krb5.bst | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/elements/sdk/krb5.bst b/elements/sdk/krb5.bst
+index 373c2aca7..ab7982881 100644
+--- a/elements/sdk/krb5.bst
++++ b/elements/sdk/krb5.bst
+@@ -15,6 +15,9 @@ depends:
+ - freedesktop-sdk.bst:components/openssl.bst
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+ 
++environment:
++  WARN_CFLAGS: ""
++
+ variables:
+   command-subdir: src
+ 
+-- 
+2.54.0
+

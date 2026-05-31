@@ -3,9 +3,8 @@ kind: junction
 sources:
 - kind: git_repo
   url: gitlab:freedesktop-sdk/freedesktop-sdk.git
-  # FIXME: unpin from this commit when build works with glibc 2.43 again
-  # track: master
-  ref: e948fce1d884971a690fb00b1eb932ea55e43c99
+  track: master
+  ref: freedesktop-sdk-25.08rc.3-1961-gffdd74e1fd4d2b030c813712e59fcb4fd771e06d
 - kind: patch_queue
   path: patches/freedesktop-sdk
 

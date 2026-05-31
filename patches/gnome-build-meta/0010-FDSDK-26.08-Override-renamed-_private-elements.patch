@@ -1,7 +1,7 @@
 From 8011c903b9e8a17db147ef8245c711575f191b4c Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Wed, 20 May 2026 12:44:03 +0100
-Subject: [PATCH 10/11] FDSDK 26.08: Override renamed `_private` elements
+Subject: [PATCH 10/12] FDSDK 26.08: Override renamed `_private` elements
 
 There is a common pattern in FDSDK used when a component
 requires multiple elements. This happens when a single repo is built in

@@ -1,7 +1,7 @@
 From 395d55e841b030478fd7c9a841a3c00e711bc93b Mon Sep 17 00:00:00 2001
 From: Hec <hec@heccraft.com>
 Date: Thu, 28 May 2026 00:05:15 -0400
-Subject: [PATCH 01/11] FDSDK 26.08: Update junction and remove obsolete
+Subject: [PATCH 01/12] FDSDK 26.08: Update junction and remove obsolete
  patches
 
 ---

@@ -1,7 +1,7 @@
 From 632ea60a29465b21b1f09a7580563d186682cb3e Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Wed, 20 May 2026 12:44:29 +0100
-Subject: [PATCH 02/11] FDSDK 26.08: Add python3-six
+Subject: [PATCH 02/12] FDSDK 26.08: Add python3-six
 
 This element was included in FDSDK 25.08, but in the upcoming 26.08
 release it was removed as nothing used it any more. One component in
