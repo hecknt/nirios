@@ -1,7 +1,7 @@
-From ae78c4c5f9c420209e3e34e5d2dd494ffbc337a2 Mon Sep 17 00:00:00 2001
+From 38a65d330cf2a03b0b54b7b23578e9ee70a9cacf Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Tue, 5 May 2026 12:53:16 +0100
-Subject: [PATCH 07/12] FDSDK 26.08: Use ModemManager from FDSDK
+Subject: [PATCH 07/16] FDSDK 26.08: Use ModemManager from FDSDK
 
 ModemManager was not part of FDSDK 25.08, but it is available in the
 upcoming 26.08 release.

@@ -1,0 +1,184 @@
+From 668e1b5d382d2d619d3977e954a51554856522cc Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Tue, 26 May 2026 15:22:49 +0100
+Subject: [PATCH 12/16] FDSDK 26.08: Patch Spice to fix a compile warning/error
+
+This error is presumably only detected with the C++ compiler in FDSDK
+26.08.
+---
+ elements/core-deps/spice.bst                  |  2 +
+ .../0000-test-display-base-initializer.patch  | 97 +++++++++++++++++++
+ patches/spice/0001-test-gst-initializer.patch | 44 +++++++++
+ 3 files changed, 143 insertions(+)
+ create mode 100644 patches/spice/0000-test-display-base-initializer.patch
+ create mode 100644 patches/spice/0001-test-gst-initializer.patch
+
+diff --git a/elements/core-deps/spice.bst b/elements/core-deps/spice.bst
+index 4085edb56..d7ad36914 100644
+--- a/elements/core-deps/spice.bst
++++ b/elements/core-deps/spice.bst
+@@ -21,6 +21,8 @@ sources:
+   directory: subprojects/spice-common/common/recorder
+   path: make-it-quick
+   ref: 7a3a86be7c3fa184bcda6882173bd8ab776ad662
++- kind: patch_queue
++  path: patches/spice
+ build-depends:
+ - core-deps/python-pyparsing.bst
+ - core-deps/spice-protocol.bst
+diff --git a/patches/spice/0000-test-display-base-initializer.patch b/patches/spice/0000-test-display-base-initializer.patch
+new file mode 100644
+index 000000000..7b52dffdb
+--- /dev/null
++++ b/patches/spice/0000-test-display-base-initializer.patch
+@@ -0,0 +1,97 @@
++From a68319bd340d40e5d9ded7de5aa73cec6d30ed65 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
++Date: Mon, 9 Feb 2026 16:52:13 +0400
++Subject: [PATCH] test-display-base: Fix C++ designated initializer for
++ anonymous union
++
++C++ does not allow designated initializers to refer to members of
++anonymous unions. The QXLInterface struct contains an anonymous union
++with attached_worker/attache_worker, and the original code used
++`{ .attached_worker = attached_worker }` which mixed a non-designated
++clause (the outer braces without a field name) with designated clauses
++for the other struct members, producing:
++
++  error: either all initializer clauses should be designated or none
++  of them should be
++
++Simply removing the braces (`.attached_worker = attached_worker`) does
++not help either, because C++ compilers do not recognize anonymous union
++members as valid designators at the enclosing struct level.
++
++Work around this by using an immediately-invoked lambda: the designated
++initializer list skips the anonymous union (which gets zero-initialized),
++and the lambda assigns `attached_worker` explicitly before returning
++the fully initialized struct.
++
++Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
++---
++ server/tests/test-display-base.cpp | 54 ++++++++++++++++--------------
++ 1 file changed, 29 insertions(+), 25 deletions(-)
++
++diff --git a/server/tests/test-display-base.cpp b/server/tests/test-display-base.cpp
++index b220b7fe..d5de8d9f 100644
++--- a/server/tests/test-display-base.cpp
+++++ b/server/tests/test-display-base.cpp
++@@ -799,31 +799,35 @@ static void set_client_capabilities(QXLInstance *qin,
++     }
++ }
++ 
++-static QXLInterface display_sif = {
++-    .base = {
++-        .type = SPICE_INTERFACE_QXL,
++-        .description = "test",
++-        .major_version = SPICE_INTERFACE_QXL_MAJOR,
++-        .minor_version = SPICE_INTERFACE_QXL_MINOR
++-    },
++-    { .attached_worker = attached_worker },
++-    .set_compression_level = set_compression_level,
++-    .set_mm_time = nullptr,
++-    .get_init_info = get_init_info,
++-
++-    /* the callbacks below are called from spice server thread context */
++-    .get_command = get_command,
++-    .req_cmd_notification = req_cmd_notification,
++-    .release_resource = release_resource,
++-    .get_cursor_command = get_cursor_command,
++-    .req_cursor_notification = req_cursor_notification,
++-    .notify_update = notify_update,
++-    .flush_resources = flush_resources,
++-    .async_complete = nullptr,
++-    .update_area_complete = nullptr,
++-    .set_client_capabilities = set_client_capabilities,
++-    .client_monitors_config = client_monitors_config,
++-};
+++static QXLInterface display_sif = []() {
+++    QXLInterface sif = {
+++        .base = {
+++            .type = SPICE_INTERFACE_QXL,
+++            .description = "test",
+++            .major_version = SPICE_INTERFACE_QXL_MAJOR,
+++            .minor_version = SPICE_INTERFACE_QXL_MINOR
+++        },
+++        /* anonymous union member can't use designated initializer in C++ */
+++        .set_compression_level = set_compression_level,
+++        .set_mm_time = nullptr,
+++        .get_init_info = get_init_info,
+++
+++        /* the callbacks below are called from spice server thread context */
+++        .get_command = get_command,
+++        .req_cmd_notification = req_cmd_notification,
+++        .release_resource = release_resource,
+++        .get_cursor_command = get_cursor_command,
+++        .req_cursor_notification = req_cursor_notification,
+++        .notify_update = notify_update,
+++        .flush_resources = flush_resources,
+++        .async_complete = nullptr,
+++        .update_area_complete = nullptr,
+++        .set_client_capabilities = set_client_capabilities,
+++        .client_monitors_config = client_monitors_config,
+++    };
+++    sif.attached_worker = attached_worker;
+++    return sif;
+++}();
++ 
++ /* interface for tests */
++ void test_add_display_interface(Test* test)
++-- 
++
+diff --git a/patches/spice/0001-test-gst-initializer.patch b/patches/spice/0001-test-gst-initializer.patch
+new file mode 100644
+index 000000000..dc84e22b0
+--- /dev/null
++++ b/patches/spice/0001-test-gst-initializer.patch
+@@ -0,0 +1,44 @@
++From a904cd86430aa555a50730e9389e210637a546c1 Mon Sep 17 00:00:00 2001
++From: Frediano Ziglio <freddy77@gmail.com>
++Date: Thu, 29 Jan 2026 08:28:16 +0000
++Subject: [PATCH] test-gst: Fix compilation error
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Specifically:
++
++../server/tests/test-gst.cpp: In function ‘TestPipeline* create_pipeline(const char*, SampleProc, void*)’:
++../server/tests/test-gst.cpp:566:41: error: either all initializer clauses should be designated or none of them should be
++  566 |         { NULL, NULL, new_sample, NULL, ._gst_reserved={NULL} };
++      |                                         ^
++
++This fixes https://gitlab.freedesktop.org/spice/spice/-/issues/96.
++
++Signed-off-by: Frediano Ziglio <freddy77@gmail.com>
++---
++ server/tests/test-gst.cpp | 9 ++-------
++ 1 file changed, 2 insertions(+), 7 deletions(-)
++
++diff --git a/server/tests/test-gst.cpp b/server/tests/test-gst.cpp
++index 5d920d7d..19ad879b 100644
++--- a/server/tests/test-gst.cpp
+++++ b/server/tests/test-gst.cpp
++@@ -561,13 +561,8 @@ create_pipeline(const char *desc, SampleProc sample_proc, void *param)
++         return NULL;
++     }
++ 
++-    static const GstAppSinkCallbacks appsink_cbs_template =
++-#if GST_CHECK_VERSION(1, 20, 0)
++-        { NULL, NULL, new_sample, NULL, ._gst_reserved={NULL} };
++-#else
++-        { NULL, NULL, new_sample, ._gst_reserved={NULL} };
++-#endif
++-    GstAppSinkCallbacks appsink_cbs = appsink_cbs_template;
+++    GstAppSinkCallbacks appsink_cbs{};
+++    appsink_cbs.new_sample = new_sample;
++     gst_app_sink_set_callbacks(pipeline->appsink, &appsink_cbs, pipeline, NULL);
++ 
++     GstBus *bus = gst_element_get_bus(pipeline->gst_pipeline);
++-- 
++
+-- 
+2.54.0
+

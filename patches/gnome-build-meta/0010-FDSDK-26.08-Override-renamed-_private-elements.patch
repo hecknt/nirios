@@ -1,7 +1,7 @@
-From 8011c903b9e8a17db147ef8245c711575f191b4c Mon Sep 17 00:00:00 2001
+From ec385a1c860e6ca0202d03450224927a0d38e69d Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Wed, 20 May 2026 12:44:03 +0100
-Subject: [PATCH 10/12] FDSDK 26.08: Override renamed `_private` elements
+Subject: [PATCH 10/16] FDSDK 26.08: Override renamed `_private` elements
 
 There is a common pattern in FDSDK used when a component
 requires multiple elements. This happens when a single repo is built in
@@ -101,7 +101,7 @@ index 4a69a4f0b..4231dc14d 100644
  runtime-depends:
  - freedesktop-sdk.bst:components/flatpak.bst
 diff --git a/elements/freedesktop-sdk.bst b/elements/freedesktop-sdk.bst
-index aeddcaf64..d69c731c4 100644
+index 11e039edb..64d4de82d 100644
 --- a/elements/freedesktop-sdk.bst
 +++ b/elements/freedesktop-sdk.bst
 @@ -56,12 +56,12 @@ config:

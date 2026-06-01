@@ -1,0 +1,26 @@
+From d6e973543d6cc1a219fcf327e8075de16349ece7 Mon Sep 17 00:00:00 2001
+From: Hec <hec@heccraft.com>
+Date: Mon, 1 Jun 2026 14:24:20 -0400
+Subject: [PATCH 16/16] FDSDK 26.08: use components/python3-pyelftools.bst
+ instead
+
+---
+ elements/core-deps/systemd-base.bst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elements/core-deps/systemd-base.bst b/elements/core-deps/systemd-base.bst
+index b1a3b503f..5622b670f 100644
+--- a/elements/core-deps/systemd-base.bst
++++ b/elements/core-deps/systemd-base.bst
+@@ -38,7 +38,7 @@ build-depends:
+ - freedesktop-sdk.bst:components/libarchive.bst
+ - freedesktop-sdk.bst:components/linux-pam.bst
+ - freedesktop-sdk.bst:components/kmod.bst
+-- freedesktop-sdk.bst:components/pyelftools.bst
++- freedesktop-sdk.bst:components/python3-pyelftools.bst
+ - freedesktop-sdk.bst:components/libxslt.bst
+ - freedesktop-sdk.bst:components/docbook-xsl.bst
+ - freedesktop-sdk.bst:components/_private/cryptsetup-lvm2-stage1.bst
+-- 
+2.54.0
+

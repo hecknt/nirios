@@ -1,9 +1,10 @@
-From 395d55e841b030478fd7c9a841a3c00e711bc93b Mon Sep 17 00:00:00 2001
-From: Hec <hec@heccraft.com>
-Date: Thu, 28 May 2026 00:05:15 -0400
-Subject: [PATCH 01/12] FDSDK 26.08: Update junction and remove obsolete
+From 8ae2bfcb0985a16a2bcf4f406248c39cdf2fd474 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Wed, 20 May 2026 11:45:34 +0100
+Subject: [PATCH 01/16] FDSDK 26.08: Update junction and remove obsolete
  patches
 
+Remove patches that are applied upstream in FDSDK master
 ---
  elements/freedesktop-sdk.bst                  |  4 +-
  ...03-openssh-Use-etc-ssh-as-sysconfdir.patch | 56 -------------------
@@ -23,7 +24,7 @@ Subject: [PATCH 01/12] FDSDK 26.08: Update junction and remove obsolete
  delete mode 100644 patches/freedesktop-sdk/0010-Update-linux-to-7.0.10.patch
 
 diff --git a/elements/freedesktop-sdk.bst b/elements/freedesktop-sdk.bst
-index 463f5676c..7b6917bdc 100644
+index 463f5676c..ca5ceefbc 100644
 --- a/elements/freedesktop-sdk.bst
 +++ b/elements/freedesktop-sdk.bst
 @@ -3,8 +3,8 @@ kind: junction
@@ -33,7 +34,7 @@ index 463f5676c..7b6917bdc 100644
 -  track: freedesktop-sdk-25.08*
 -  ref: freedesktop-sdk-25.08.12-0-gbb510d9021f4def1a60f032bef1e0ca660b8ec3a
 +  track: master
-+  ref: freedesktop-sdk-25.08rc.3-1935-g0c28cc20107f499014ab0093fa18296fa5bbae88
++  ref: freedesktop-sdk-25.08rc.3-1971-ge23bdf31a3d7686ac58c6a79d286f79ec4264266
  - kind: patch_queue
    path: patches/freedesktop-sdk
  

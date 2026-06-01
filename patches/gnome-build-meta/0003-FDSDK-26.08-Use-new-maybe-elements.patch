@@ -1,7 +1,7 @@
-From 2b2c47d2bcbf1c227daa653b4b8b463e39f865fd Mon Sep 17 00:00:00 2001
+From 32375264c7b5301e9a23d473de14f9fd944eea71 Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Wed, 20 May 2026 12:44:32 +0100
-Subject: [PATCH 03/12] FDSDK 26.08: Use new `-maybe` elements
+Subject: [PATCH 03/16] FDSDK 26.08: Use new `-maybe` elements
 
 FDSDK 26.08 introduces support for some new architectures where not all
 of the components can be built. The workaround for that is to add
@@ -60,7 +60,7 @@ index 7238b3a5b..ab7dd2395 100644
  # Currently for sysprof-ebpf but useful in general
  - freedesktop-sdk.bst:components/bpf.bst
 diff --git a/elements/gnomeos-deps/deps.bst b/elements/gnomeos-deps/deps.bst
-index a6687f479..fc84f0701 100644
+index ab9731c5b..627b5363b 100644
 --- a/elements/gnomeos-deps/deps.bst
 +++ b/elements/gnomeos-deps/deps.bst
 @@ -94,7 +94,7 @@ depends:

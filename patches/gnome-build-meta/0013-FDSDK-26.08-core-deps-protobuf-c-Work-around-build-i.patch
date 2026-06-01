@@ -1,0 +1,38 @@
+From d5607f81cedcf8895c8a583f7b7b957af82e1ef7 Mon Sep 17 00:00:00 2001
+From: Sam Thursfield <sam.thursfield@codethink.co.uk>
+Date: Tue, 26 May 2026 15:42:57 +0100
+Subject: [PATCH 13/16] FDSDK 26.08: core-deps/protobuf-c: Work around build
+ issue
+
+---
+ elements/core-deps/protobuf-c.bst | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/elements/core-deps/protobuf-c.bst b/elements/core-deps/protobuf-c.bst
+index 7ecbcab7c..f9522025b 100644
+--- a/elements/core-deps/protobuf-c.bst
++++ b/elements/core-deps/protobuf-c.bst
+@@ -15,6 +15,20 @@ depends:
+ - freedesktop-sdk.bst:public-stacks/runtime-minimal.bst
+ - freedesktop-sdk.bst:components/protobuf.bst
+ 
++environment:
++  # Work around an issue in protobuf-c's configure.ac:
++  #
++  #   * Recent versions of the abseil library use C++20 language features
++  #   * protobuf-c/configure.ac calls AX_CXX_COMPILE_STDCXX(17, ...) which opts
++  #     into C++17 only
++  #   * This leads to a configure error that says "Missing required protobuf
++  #     header", but is actually because compile errors in the abseil headers.
++  #   * Patching protobuf-c to call AX_CXX_COMPILE_STDCXX(20, ...) fails
++  #     because the last stable autoconf-archive release doesn't support
++  #     C++20.
++  #
++  CXXFLAGS: "--std=c++20"
++
+ public:
+   bst:
+     split-rules:
+-- 
+2.54.0
+

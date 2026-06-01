@@ -1,7 +1,7 @@
-From f354a4510add771f5770ead1e94952434d09fb66 Mon Sep 17 00:00:00 2001
+From b083037fdd0dc2bdf5dc4724a1d9bd34f9d9ca61 Mon Sep 17 00:00:00 2001
 From: Sam Thursfield <sam.thursfield@codethink.co.uk>
 Date: Fri, 24 Apr 2026 13:08:51 +0100
-Subject: [PATCH 05/12] FDSDK 26.08: Fix Linux path
+Subject: [PATCH 05/16] FDSDK 26.08: Fix Linux path
 
 The Linux install path changed since FDSDK 25.08.
 ---
